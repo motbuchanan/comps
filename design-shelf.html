@@ -272,7 +272,7 @@
           <path d="M136 74 h28 v18 a14 14 0 0 1 -28 0 z" fill="#f2ead9"/>
           <path d="M164 79 q11 3 0 12" stroke="#f2ead9" stroke-width="3.4" fill="none"/>
           <path d="M142 64 q2 -8 8 -10 M152 64 q2 -8 8 -10" stroke="#e8a83b" stroke-width="2.6" fill="none"/>
-          <text x="150" y="120" font-size="8.5" fill="#f2ead9" text-anchor="middle" letter-spacing="1">COPPERLINE COFFEE CO.</text>
+          <text x="150" y="112" font-size="7" fill="#f2ead9" text-anchor="middle" letter-spacing="0.5" textLength="78" lengthAdjust="spacingAndGlyphs">COPPERLINE COFFEE CO.</text>
         </svg>
       </div>
       <div class="meta"><span class="price">$75</span><h3>Sticker / decal design</h3>
@@ -450,10 +450,10 @@ function mockLabel(b){
     + '<rect x="62" y="78" width="136" height="12" rx="6" fill="#b8b0a0"/>'
     + '<rect x="70" y="34" width="120" height="46" rx="8" fill="#e4dccc"/>'
     + '<rect x="70" y="26" width="120" height="12" rx="6" fill="#c4bba8"/>'
-    + '<rect x="88" y="40" width="84" height="32" rx="4" fill="'+b.c3+'" stroke="'+b.c1+'"/>'
-    + '<g transform="translate(104,56)"><circle r="9" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c1+'" transform="scale(0.55)"/></g>'
-    + '<text x="116" y="52" font-family="Georgia,serif" font-size="7.5" fill="'+b.c1+'">'+esc(b.short)+'</text>'
-    + '<text x="116" y="62" font-size="5.5" fill="#5c4d3d">BURRITO BOWL \u00B7 HEAT 2 MIN</text>'
+    + '<rect x="80" y="40" width="100" height="32" rx="4" fill="'+b.c3+'" stroke="'+b.c1+'"/>'
+    + '<g transform="translate(96,56)"><circle r="9" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c1+'" transform="scale(0.55)"/></g>'
+    + '<text x="110" y="52" font-family="Georgia,serif" font-size="7" fill="'+b.c1+'" textLength="62" lengthAdjust="spacingAndGlyphs">'+esc(b.short)+'</text>'
+    + '<text x="110" y="62" font-size="5" fill="#5c4d3d" textLength="58" lengthAdjust="spacingAndGlyphs">BURRITO BOWL \u00B7 12 MEALS</text>'
     + '</svg>';
 }
 function mockThanks(b){
@@ -496,7 +496,7 @@ var MOCKS = {
       + '<circle cx="130" cy="75" r="56" fill="#fdf9f1" stroke="#e0d3bd" stroke-width="2"/>'
       + '<circle cx="130" cy="75" r="47" fill="'+b.c1+'"/>'
       + '<g transform="translate(130,68)"><path d="'+b.icon+'" fill="'+b.c3+'" transform="scale(1.7)"/></g>'
-      + '<text x="130" y="108" font-size="7.5" fill="'+b.c2+'" text-anchor="middle" letter-spacing="2">'+esc(b.short.toUpperCase())+'</text>'
+      + '<text x="130" y="102" font-size="6.5" fill="'+b.c2+'" text-anchor="middle" letter-spacing="0.5" textLength="68" lengthAdjust="spacingAndGlyphs">'+esc(b.short.toUpperCase())+'</text>'
       + '</svg>';
   }, cap:"Sticker design \u00B7 <b>$75</b>" }
 };
@@ -521,7 +521,7 @@ host.innerHTML = h;
 </script>
 
 <footer>
-  Design work by Mot Buchanan · every brand on this page is fictional, created for this showcase.<br>shelf v2.2 · six brands<br>
+  Design work by Mot Buchanan · every brand on this page is fictional, created for this showcase.<br>shelf v2.3 · six brands<br>
   All pieces delivered as print-ready files you own. Two revision rounds included. You order printing directly, so there's never a middleman markup.
 </footer>
 
