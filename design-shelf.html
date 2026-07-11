@@ -349,24 +349,24 @@ function esc(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){
 
 /* Each brand: c1 dark, c2 accent, c3 cream, icon = small path drawn ~24x24 centered at 0,0 */
 var BRANDS = [
-  { name:"Iron Oak Lawn & Landscape", tag:"Mowing, beds, and stone \u00B7 Springfield Twp",
+  { name:"Iron Oak Lawn & Landscape", short:"Iron Oak", sub:"MOWING \u00B7 BEDS \u00B7 STONE", tag:"Mowing, beds, and stone \u00B7 Springfield Twp",
     c1:"#31421f", c2:"#7fa14f", c3:"#f2ead9", initial:"IO",
     icon:"M0 -11 C7 -6 8 2 1 3 L1 10 L-1 10 L-1 3 C-8 2 -7 -6 0 -11 Z",
     mocks:["magnet","sign","tee"] },
-  { name:"El Cardenal Tacos", tag:"Tacos de la calle \u00B7 truck & catering",
+  { name:"El Cardenal Tacos", short:"El Cardenal", sub:"TACOS DE LA CALLE", tag:"Tacos de la calle \u00B7 truck & catering",
     c1:"#8f1d1d", c2:"#e8a83b", c3:"#faf0dc", initial:"EC",
     icon:"M-9 3 Q-4 -8 3 -7 L1 -10 L7 -6 Q10 -4 8 0 Q4 8 -4 7 L-9 9 L-7 5 Z",
     menu:[["Tacos al pastor (3)","$9"],["Birria plate","$13"],["Elote","$5"],["Horchata","$4"]],
     mocks:["menu","punch","sticker"] },
-  { name:"Northpoint Strength", tag:"Personal training \u00B7 by appointment, Akron",
+  { name:"Northpoint Strength", short:"Northpoint", sub:"PERSONAL TRAINING", tag:"Personal training \u00B7 by appointment, Akron",
     c1:"#1d222b", c2:"#d94f30", c3:"#eef0f2", initial:"NS",
     icon:"M-10 -3 h3 v-3 h3 v3 h8 v-3 h3 v3 h3 v6 h-3 v3 h-3 v-3 h-8 v3 h-3 v-3 h-3 z",
     mocks:["card","phone","tee"] },
-  { name:"The Tidy Hound", tag:"Mobile dog grooming \u00B7 we come to you",
+  { name:"The Tidy Hound", short:"Tidy Hound", sub:"MOBILE DOG GROOMING", tag:"Mobile dog grooming \u00B7 we come to you",
     c1:"#2e6b66", c2:"#e8a83b", c3:"#f5efe2", initial:"TH",
     icon:"M0 2 Q5 -2 6 3 Q10 4 8 8 Q4 11 0 9 Q-4 11 -8 8 Q-10 4 -6 3 Q-5 -2 0 2 M-7 -4 A3 3 0 1 1 -7 -4.01 M7 -4 A3 3 0 1 1 7 -4.01 M-2.5 -8 A2.5 2.5 0 1 1 -2.5 -8.01 M2.5 -8 A2.5 2.5 0 1 1 2.5 -8.01",
     mocks:["magnet","punch","card"] },
-  { name:"Ladle & Home", tag:"A week of dinners, cooked and delivered in bulk",
+  { name:"Ladle & Home", short:"Ladle & Home", sub:"DINNERS, DELIVERED", tag:"A week of dinners, cooked and delivered in bulk",
     c1:"#6e3f2c", c2:"#e0a13c", c3:"#f6ecdb", initial:"LH",
     icon:"M-10 -1 h20 Q10 9 0 9 Q-10 9 -10 -1 Z M-3 -4 q-2 -4 1 -6 M3 -4 q-2 -4 1 -6",
     mocks:["label","phone","thanks"] }
@@ -386,16 +386,16 @@ function mockMagnet(b){
     + '<circle cx="52" cy="134" r="14" fill="#22282e"/><circle cx="212" cy="134" r="14" fill="#22282e"/>'
     + '<rect x="98" y="46" width="142" height="58" rx="9" fill="'+b.c1+'"/>'
     + '<g transform="translate(122,75) scale(0.9)"><circle r="15" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c3+'"/></g>'
-    + '<text x="146" y="72" font-family="Georgia,serif" font-size="12" fill="'+b.c3+'">'+esc(b.name.split(" ")[0]+" "+(b.name.split(" ")[1]||""))+'</text>'
-    + '<text x="146" y="90" font-size="8" fill="'+b.c2+'" letter-spacing="1">'+esc(b.tag.split("\u00B7")[0].toUpperCase().slice(0,26))+'</text>'
+    + '<text x="144" y="70" font-family="Georgia,serif" font-size="12" fill="'+b.c3+'">'+esc(b.short)+'</text>'
+    + '<text x="144" y="87" font-size="6.5" fill="'+b.c2+'" letter-spacing="0.5">'+esc(b.sub)+'</text>'
     + '</svg>';
 }
 function mockSign(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<rect x="52" y="14" width="156" height="88" rx="6" fill="'+b.c1+'"/>'
     + '<g transform="translate(130,44)"><circle r="14" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c3+'" transform="scale(0.9)"/></g>'
-    + '<text x="130" y="80" font-family="Georgia,serif" font-size="12" fill="'+b.c3+'" text-anchor="middle">'+esc(b.name)+'</text>'
-    + '<text x="130" y="94" font-size="7.5" fill="'+b.c2+'" text-anchor="middle" letter-spacing="1.5">FREE QUOTES \u00B7 330 555 0141</text>'
+    + '<text x="130" y="78" font-family="Georgia,serif" font-size="13" fill="'+b.c3+'" text-anchor="middle">'+esc(b.short)+'</text>'
+    + '<text x="130" y="93" font-size="6" fill="'+b.c2+'" text-anchor="middle" letter-spacing="0.5">'+esc(b.sub)+' \u00B7 330 555 0141</text>'
     + '<rect x="84" y="102" width="6" height="34" fill="#8a7a5f"/><rect x="170" y="102" width="6" height="34" fill="#8a7a5f"/>'
     + '</svg>';
 }
@@ -403,7 +403,7 @@ function mockTee(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<path d="M96 26 l-30 17 12 22 14 -8 v63 h76 v-63 l14 8 12 -22 -30 -17 a18 12 0 0 1 -68 0 z" fill="'+b.c1+'"/>'
     + '<g transform="translate(130,78)"><circle r="18" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c3+'" transform="scale(1.1)"/></g>'
-    + '<text x="130" y="112" font-size="8" fill="'+b.c2+'" text-anchor="middle" letter-spacing="2">'+esc(b.name.split(" ")[0].toUpperCase())+'</text>'
+    + '<text x="130" y="112" font-size="8" fill="'+b.c2+'" text-anchor="middle" letter-spacing="2">'+esc(b.short.toUpperCase())+'</text>'
     + '</svg>';
 }
 function mockPunch(b){
@@ -416,7 +416,7 @@ function mockPunch(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<rect x="26" y="28" width="208" height="100" rx="10" fill="#fdf9f1" stroke="#e0d3bd"/>'
     + '<rect x="26" y="28" width="208" height="30" rx="10" fill="'+b.c1+'"/>'
-    + '<text x="40" y="48" font-family="Georgia,serif" font-size="12" fill="'+b.c3+'">'+esc(b.name.split(" ")[0])+' loyalty</text>'
+    + '<text x="40" y="48" font-family="Georgia,serif" font-size="12" fill="'+b.c3+'">'+esc(b.short)+' loyalty</text>'
     + '<text x="40" y="80" font-size="8.5" fill="#5c4d3d">Six visits. The seventh is on the house.</text>'
     + circles + stamped
     + '</svg>';
@@ -425,17 +425,17 @@ function mockCard(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<rect x="34" y="30" width="150" height="88" rx="7" fill="'+b.c1+'" transform="rotate(-4 109 74)"/>'
     + '<g transform="rotate(-4 109 74) translate(66,62)"><circle r="13" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c3+'" transform="scale(0.8)"/></g>'
-    + '<text x="88" y="60" font-family="Georgia,serif" font-size="11" fill="'+b.c3+'" transform="rotate(-4 109 74)">'+esc(b.name.split(" ").slice(0,2).join(" "))+'</text>'
+    + '<text x="86" y="66" font-family="Georgia,serif" font-size="10.5" fill="'+b.c3+'" transform="rotate(-4 109 74)">'+esc(b.short)+'</text>'
     + '<rect x="90" y="58" width="150" height="88" rx="7" fill="#fdf9f1" stroke="#e0d3bd" transform="rotate(3 165 102)"/>'
     + '<text x="106" y="92" font-family="Georgia,serif" font-size="10" fill="#2b2019" transform="rotate(3 165 102)">330 555 0141</text>'
-    + '<text x="106" y="108" font-size="7.5" fill="'+(b.c2==="#e8a83b"?"#8a6a2a":b.c2)+'" transform="rotate(3 165 102)">'+esc(b.tag)+'</text>'
+    + '<text x="106" y="108" font-size="7" fill="'+(b.c2==="#e8a83b"?"#8a6a2a":b.c2)+'" transform="rotate(3 165 102)" letter-spacing="0.4">'+esc(b.sub)+'</text>'
     + '</svg>';
 }
 function mockPhone(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<rect x="86" y="8" width="88" height="134" rx="12" fill="#22282e"/>'
     + '<rect x="93" y="18" width="74" height="36" rx="4" fill="'+b.c1+'"/>'
-    + '<text x="130" y="40" font-family="Georgia,serif" font-size="9" fill="'+b.c3+'" text-anchor="middle">'+esc(b.name.split(" ")[0])+'</text>'
+    + '<text x="130" y="40" font-family="Georgia,serif" font-size="8.5" fill="'+b.c3+'" text-anchor="middle">'+esc(b.short)+'</text>'
     + '<g transform="translate(108,60)"><circle r="12" fill="'+b.c2+'" stroke="#22282e" stroke-width="3"/><path d="'+b.icon+'" fill="'+b.c1+'" transform="scale(0.7)"/></g>'
     + '<rect x="93" y="78" width="74" height="7" rx="3.5" fill="#4a525c"/>'
     + '<rect x="93" y="90" width="48" height="7" rx="3.5" fill="#4a525c"/>'
@@ -452,15 +452,15 @@ function mockLabel(b){
     + '<rect x="70" y="26" width="120" height="12" rx="6" fill="#c4bba8"/>'
     + '<rect x="88" y="40" width="84" height="32" rx="4" fill="'+b.c3+'" stroke="'+b.c1+'"/>'
     + '<g transform="translate(104,56)"><circle r="9" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c1+'" transform="scale(0.55)"/></g>'
-    + '<text x="118" y="54" font-family="Georgia,serif" font-size="8" fill="'+b.c1+'">'+esc(b.name)+'</text>'
-    + '<text x="118" y="64" font-size="6" fill="#5c4d3d">CHICKEN BURRITO BOWL \u00B7 REHEAT 2 MIN</text>'
+    + '<text x="116" y="52" font-family="Georgia,serif" font-size="7.5" fill="'+b.c1+'">'+esc(b.short)+'</text>'
+    + '<text x="116" y="62" font-size="5.5" fill="#5c4d3d">BURRITO BOWL \u00B7 HEAT 2 MIN</text>'
     + '</svg>';
 }
 function mockThanks(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<rect x="52" y="34" width="156" height="84" rx="8" fill="#fdf9f1" stroke="#e0d3bd" transform="rotate(-2 130 76)"/>'
     + '<text x="130" y="68" font-family="Georgia,serif" font-size="14" font-style="italic" fill="'+b.c1+'" text-anchor="middle" transform="rotate(-2 130 76)">Thank you.</text>'
-    + '<text x="130" y="86" font-size="7.5" fill="#5c4d3d" text-anchor="middle" transform="rotate(-2 130 76)">'+esc(b.tag)+'</text>'
+    + '<text x="130" y="86" font-size="7.5" fill="#5c4d3d" text-anchor="middle" transform="rotate(-2 130 76)" letter-spacing="0.4">'+esc(b.sub)+'</text>'
     + '<text x="130" y="100" font-size="7.5" fill="'+(b.c2==="#e8a83b"||b.c2==="#e0a13c"?"#8a6a2a":b.c2)+'" text-anchor="middle" transform="rotate(-2 130 76)">Tell a friend \u00B7 330 555 0141</text>'
     + '</svg>';
 }
@@ -475,7 +475,7 @@ function mockMenu(b){
   return '<svg viewBox="0 0 260 150" width="260">'
     + '<rect x="72" y="8" width="116" height="136" rx="8" fill="'+b.c1+'"/>'
     + '<g transform="translate(130,32)"><circle r="12" fill="'+b.c2+'"/><path d="'+b.icon+'" fill="'+b.c3+'" transform="scale(0.7)"/></g>'
-    + '<text x="130" y="58" font-family="Georgia,serif" font-size="10" fill="'+b.c3+'" text-anchor="middle">'+esc(b.name.split(" ").slice(0,2).join(" "))+'</text>'
+    + '<text x="130" y="58" font-family="Georgia,serif" font-size="10" fill="'+b.c3+'" text-anchor="middle">'+esc(b.short)+'</text>'
     + '<line x1="86" y1="66" x2="174" y2="66" stroke="'+b.c2+'" stroke-width="1.5"/>'
     + rows
     + '</svg>';
@@ -496,7 +496,7 @@ var MOCKS = {
       + '<circle cx="130" cy="75" r="56" fill="#fdf9f1" stroke="#e0d3bd" stroke-width="2"/>'
       + '<circle cx="130" cy="75" r="47" fill="'+b.c1+'"/>'
       + '<g transform="translate(130,68)"><path d="'+b.icon+'" fill="'+b.c3+'" transform="scale(1.7)"/></g>'
-      + '<text x="130" y="108" font-size="7.5" fill="'+b.c2+'" text-anchor="middle" letter-spacing="2">'+esc(b.name.toUpperCase().slice(0,22))+'</text>'
+      + '<text x="130" y="108" font-size="7.5" fill="'+b.c2+'" text-anchor="middle" letter-spacing="2">'+esc(b.short.toUpperCase())+'</text>'
       + '</svg>';
   }, cap:"Sticker design \u00B7 <b>$75</b>" }
 };
@@ -521,7 +521,7 @@ host.innerHTML = h;
 </script>
 
 <footer>
-  Design work by Mot Buchanan · every brand on this page is fictional, created for this showcase.<br>shelf v2 · six brands<br>
+  Design work by Mot Buchanan · every brand on this page is fictional, created for this showcase.<br>shelf v2.1 · six brands<br>
   All pieces delivered as print-ready files you own. Two revision rounds included. You order printing directly, so there's never a middleman markup.
 </footer>
 
