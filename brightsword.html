@@ -65,6 +65,42 @@
   .t-maker footer{background:#2e6b66;}
   .t-maker footer .ig{color:#d6efe8;}
   .t-maker .fine{color:#a9d8cc;}
+  /* workshop configurators */
+  .shop{background:#241e1a;}
+  .t-maker .shop{background:#1e2a28;}
+  .toolTabs{display:flex; gap:8px; margin-top:26px;}
+  .toolTabs button{flex:1; font-family:inherit; font-size:15px; font-weight:700; color:#faf3e6;
+    background:none; border:2px solid #4a413a; border-radius:12px; padding:13px 4px; cursor:pointer;}
+  .t-maker .toolTabs button{border-color:#3a524d;}
+  .toolTabs button.on{background:#e8a83b; color:#1f1a17; border-color:#e8a83b;}
+  .toolPanel{display:none; margin-top:18px;}
+  .toolPanel.on{display:block;}
+  .grp{margin-top:16px;}
+  .grp .gname{font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:#e8a83b; margin-bottom:8px;}
+  .t-maker .grp .gname{color:#7ec4b8;}
+  .opts{display:flex; flex-wrap:wrap; gap:8px;}
+  .opt{font-family:inherit; font-size:14px; color:#faf3e6; background:none; border:1px solid #4a413a;
+    border-radius:999px; padding:9px 14px; cursor:pointer;}
+  .t-maker .opt{border-color:#3a524d;}
+  .opt.on{border-color:#e8a83b; background:rgba(232,168,59,.16);}
+  .opt .up{opacity:.65; font-size:12.5px;}
+  .estBar{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-top:22px;
+    background:#faf3e6; color:#1f1a17; border-radius:14px; padding:16px 18px;}
+  .estBar .lab{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:#5c5142;}
+  .estBar .val{font-size:30px; font-weight:700; font-family:Georgia,serif;}
+  .estNote{margin-top:10px; font-size:12.5px; color:#8a7a6a; text-align:center;}
+  .sendBtn{display:block; width:100%; font-family:inherit; margin-top:16px; background:#e0562b; color:#faf3e6;
+    font-weight:700; font-size:16px; border:none; border-radius:12px; padding:15px; cursor:pointer;}
+  .t-maker .sendBtn{background:#2e6b66;}
+  .designOut{display:none; margin-top:14px;}
+  .designOut.on{display:block;}
+  .designOut textarea{width:100%; min-height:170px; font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:13px; background:#14100d; color:#faf3e6; border:1px solid #4a413a; border-radius:12px; padding:12px; box-sizing:border-box;}
+  .t-maker .designOut textarea{background:#12201e; border-color:#3a524d;}
+  .outRow{display:flex; gap:10px; margin-top:10px;}
+  .outRow button, .outRow a{flex:1; font-family:inherit; text-align:center; font-size:14.5px; color:#faf3e6;
+    background:none; border:1px solid #4a413a; border-radius:10px; padding:12px; cursor:pointer; text-decoration:none;}
+  .t-maker .outRow button, .t-maker .outRow a{border-color:#3a524d;}
 </style>
 </head>
 <body>
@@ -74,7 +110,7 @@
   <div class="stamp" id="c-stamp"></div>
   <h1 id="c-name"></h1>
   <p id="c-tagline"></p>
-  <a class="cta" href="#find">Find the truck</a>
+  <a class="cta" href="#find" id="c-hero"></a>
 </header>
 
 <section>
@@ -83,6 +119,16 @@
     <h2 id="c-l2"></h2>
     <div class="board" id="c-menu"></div>
     <p style="text-align:center; margin-top:14px; color:#8a7a6a; font-size:13px;" id="c-menunote"></p>
+  </div>
+</section>
+
+<section class="shop">
+  <div class="wrap">
+    <div class="kicker">The workshop</div>
+    <h2>Design your own</h2>
+    <p style="text-align:center; margin-top:10px; font-size:15px; opacity:.8;">Build it piece by piece. Send the design, get a real quote.</p>
+    <div class="toolTabs" id="toolTabs"></div>
+    <div id="toolPanels"></div>
   </div>
 </section>
 
@@ -151,7 +197,7 @@ var CONFIG = {
   galleryCount: 6,
   labels: {
     menuKicker: "The table", menu: "Catalog",
-    schedKicker: "On the road", sched: "Find the booth",
+    schedKicker: "On the road", sched: "Find the booth", hero: "Find the booth",
     galKicker: "Off the bench", gal: "The work",
     footer: "Custom work"
   }
@@ -161,6 +207,119 @@ function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
 
+/* ============ Design-your-own configurators ============ */
+var TOOLS = [
+  { id:"pen", title:"Pen", intro:"Hand-turned on the lathe.",
+    groups:[
+      { name:"Style", opts:[["Slimline",35],["Cigar (full-body)",45],["Bolt-action",50]] },
+      { name:"Stock", opts:[["Maple",0],["Walnut",0],["Padauk",5],["Wenge",5],["Leopardwood",8],["Resin swirl",8]] },
+      { name:"Hardware", opts:[["Chrome",0],["Gunmetal",3],["Gold",5],["Antique copper",5]] },
+      { name:"Ink", opts:[["Black",0],["Blue",0]] }
+    ]},
+  { id:"knife", title:"Knife", intro:"Fixed blade, hand-stitched sheath included.",
+    groups:[
+      { name:"Blade", opts:[["3\u2033 drop point",85],["3.5\u2033 drop point",95],["4\u2033 clip point",105]] },
+      { name:"Steel", opts:[["High-carbon",0],["Stainless",10],["Damascus",60]] },
+      { name:"Handle", opts:[["Oak",0],["Walnut",5],["Wenge",10],["Leopardwood",15]] },
+      { name:"Bolster", opts:[["None",0],["Brass",12]] },
+      { name:"Sheath leather", opts:[["Tan",0],["Brown",0],["Dark brown",0],["Black",0]] },
+      { name:"Initials stamp", opts:[["None",0],["Stamped",5]] }
+    ]},
+  { id:"wallet", title:"Wallet", intro:"Cut, dyed, and saddle-stitched by hand.",
+    groups:[
+      { name:"Style", opts:[["Minimalist (elastic)",15],["Card holder",25],["Trifold",45],["Snap clutch",70]] },
+      { name:"Leather", opts:[["Veg-tan natural",0],["Brown",0],["Black",0],["Forest green",0],["Navy",0],["Oil-tanned pull-up",10]] },
+      { name:"Thread", opts:[["Natural",0],["Black",0],["Contrast gold",0]] },
+      { name:"Monogram stamp", opts:[["None",0],["Stamped",5]] }
+    ]}
+];
+var toolSel = {};   // toolSel[toolId] = [optIndex per group]
+
+function toolPrice(t){
+  var sum = 0, sel = toolSel[t.id];
+  for (var g=0; g<t.groups.length; g++) sum += t.groups[g].opts[sel[g]][1];
+  return sum;
+}
+function renderToolPanel(t){
+  var sel = toolSel[t.id];
+  var h = '<p style="opacity:.75; font-size:14.5px; margin-top:2px;">'+esc(t.intro)+'</p>';
+  for (var g=0; g<t.groups.length; g++){
+    var grp = t.groups[g];
+    h += '<div class="grp"><div class="gname">'+esc(grp.name)+'</div><div class="opts">';
+    for (var o=0; o<grp.opts.length; o++){
+      var up = grp.opts[o][1];
+      var upTxt = (g===0) ? ' <span class="up">$'+up+'</span>' : (up>0 ? ' <span class="up">+$'+up+'</span>' : '');
+      h += '<button class="opt'+(sel[g]===o?" on":"")+'" data-tool="'+t.id+'" data-g="'+g+'" data-o="'+o+'">'+esc(grp.opts[o][0])+upTxt+'</button>';
+    }
+    h += '</div></div>';
+  }
+  h += '<div class="estBar"><span class="lab">Estimated</span><span class="val">$'+toolPrice(t)+'</span></div>'
+     + '<div class="estNote">Sample estimate for this design. Final quote comes from the maker.</div>'
+     + '<button class="sendBtn" data-send="'+t.id+'">Send this design</button>'
+     + '<div class="designOut" id="out-'+t.id+'"><textarea readonly id="txt-'+t.id+'"></textarea>'
+     + '<div class="outRow"><button data-copy="'+t.id+'">Copy design</button>'
+     + '<a href="'+esc(CONFIG.facebookUrl)+'" target="_blank" rel="noopener">Open Facebook</a></div>'
+     + '<div class="estNote">Copy, then paste it in a message to the shop.</div></div>';
+  return h;
+}
+function renderTools(activeId){
+  var tabs = "", panels = "";
+  for (var i=0;i<TOOLS.length;i++){
+    var t = TOOLS[i];
+    if (!toolSel[t.id]){
+      toolSel[t.id] = [];
+      for (var g=0; g<t.groups.length; g++) toolSel[t.id].push(0);
+    }
+    var on = (t.id === activeId);
+    tabs += '<button data-tooltab="'+t.id+'"'+(on?' class="on"':'')+'>'+esc(t.title)+'</button>';
+    panels += '<div class="toolPanel'+(on?" on":"")+'" id="panel-'+t.id+'">'+renderToolPanel(t)+'</div>';
+  }
+  document.getElementById("toolTabs").innerHTML = tabs;
+  document.getElementById("toolPanels").innerHTML = panels;
+}
+function toolById(id){
+  for (var i=0;i<TOOLS.length;i++) if (TOOLS[i].id===id) return TOOLS[i];
+  return null;
+}
+function designText(t){
+  var sel = toolSel[t.id], lines = [];
+  lines.push("Custom " + t.title.toLowerCase() + " request \u2014 " + CONFIG.name);
+  for (var g=0; g<t.groups.length; g++){
+    lines.push(t.groups[g].name + ": " + t.groups[g].opts[sel[g]][0]);
+  }
+  lines.push("Estimated: $" + toolPrice(t) + " (sample estimate)");
+  lines.push("My name: ");
+  lines.push("Best way to reach me: ");
+  return lines.join("\n");
+}
+document.addEventListener("click", function(e){
+  var el = e.target.closest ? e.target.closest("[data-tooltab],[data-tool],[data-send],[data-copy]") : null;
+  if (!el) return;
+  if (el.hasAttribute("data-tooltab")){ renderTools(el.getAttribute("data-tooltab")); return; }
+  if (el.hasAttribute("data-tool")){
+    var id = el.getAttribute("data-tool");
+    toolSel[id][parseInt(el.getAttribute("data-g"),10)] = parseInt(el.getAttribute("data-o"),10);
+    document.getElementById("panel-"+id).innerHTML = renderToolPanel(toolById(id));
+    return;
+  }
+  if (el.hasAttribute("data-send")){
+    var sid = el.getAttribute("data-send");
+    document.getElementById("txt-"+sid).value = designText(toolById(sid));
+    document.getElementById("out-"+sid).classList.add("on");
+    return;
+  }
+  if (el.hasAttribute("data-copy")){
+    var cid = el.getAttribute("data-copy");
+    var ta = document.getElementById("txt-"+cid);
+    ta.select(); ta.setSelectionRange(0, 99999);
+    var done = function(){ el.textContent = "Copied"; setTimeout(function(){ el.textContent = "Copy design"; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ try{ document.execCommand("copy"); done(); }catch(err){} });
+    } else { try{ document.execCommand("copy"); done(); }catch(err){} }
+    return;
+  }
+});
+
 function build(){
   if (CONFIG.theme) document.body.className = "t-" + CONFIG.theme;
   var L = CONFIG.labels;
@@ -168,6 +327,7 @@ function build(){
   $("c-l3").textContent = L.schedKicker; $("c-l4").textContent = L.sched;
   $("c-l5").textContent = L.galKicker; $("c-l6").textContent = L.gal;
   $("c-l7").textContent = L.footer;
+  $("c-hero").textContent = L.hero;
   $("c-quote").textContent = CONFIG.quote;
   $("c-pay").textContent = CONFIG.payLine;
   if (CONFIG.logo){
@@ -208,6 +368,7 @@ function build(){
     $("c-ig").textContent = CONFIG.facebookText;
     $("c-ig").href = CONFIG.facebookUrl;
   } else { $("c-ig").style.display = "none"; }
+  renderTools("pen");
 }
 build();
 </script>
