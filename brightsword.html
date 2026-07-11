@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright Sword Artisan</title>
+<style>
+  :root{ --char:#1f1a17; --flame:#e0562b; --mustard:#e8a83b; --paper:#faf3e6; --smoke:#4a413a; }
+  *{box-sizing:border-box; margin:0;}
+  body{background:#1f1a17; color:#faf3e6; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  h1,h2,h3{font-family:Georgia,'Times New Roman',serif;}
+  img{max-width:100%; display:block;}
+  section{padding:52px 20px;}
+  .wrap{max-width:880px; margin:0 auto;}
+  .ph{background:repeating-linear-gradient(-45deg,#2b241f,#2b241f 12px,#332b25 12px,#332b25 24px);
+    display:flex; align-items:center; justify-content:center; color:#8a7a6a; font-size:13px;
+    letter-spacing:.08em; text-transform:uppercase; min-height:170px; border-radius:12px;}
+
+  header{padding:70px 20px 58px; text-align:center;
+    background:linear-gradient(180deg,#e0562b 0%,#c8471f 100%); color:#faf3e6;}
+  .stamp{display:inline-block; border:2px dashed #faf3e6; border-radius:999px; padding:6px 18px;
+    font-size:13px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:18px; transform:rotate(-2deg);}
+  header h1{font-size:clamp(38px,8vw,64px); line-height:1; text-shadow:3px 3px 0 #8f2f10;}
+  header p{margin-top:14px; font-size:19px; font-style:italic; font-family:Georgia,serif;}
+  .cta{display:inline-block; margin-top:26px; background:#1f1a17; color:#e8a83b; font-weight:700;
+    padding:15px 30px; border-radius:999px; text-decoration:none; font-size:17px;}
+
+  h2{font-size:clamp(26px,5vw,38px); text-align:center;}
+  .kicker{text-align:center; color:#e8a83b; letter-spacing:.16em; text-transform:uppercase; font-size:13px; margin-bottom:10px;}
+
+  /* menu board */
+  .board{background:#faf3e6; color:#1f1a17; border-radius:18px; padding:28px 24px; margin-top:28px;
+    box-shadow:0 8px 0 #e8a83b;}
+  .mitem{display:flex; align-items:baseline; gap:10px; padding:13px 0; border-bottom:1px dashed #cbbca4;}
+  .mitem:last-child{border-bottom:none;}
+  .mname{font-weight:700; font-size:17px;}
+  .mdesc{color:#5c5142; font-size:14px; margin-top:3px;}
+  .mdots{flex:1; border-bottom:2px dotted #cbbca4; transform:translateY(-4px);}
+  .mprice{font-weight:700; color:#c8471f; font-size:17px; white-space:nowrap;}
+  .mleft{min-width:0;}
+
+  /* schedule */
+  .sched{background:#2b241f;}
+  .schedtbl{width:100%; border-collapse:collapse; margin-top:26px; font-size:15.5px;}
+  .schedtbl td{padding:14px 8px; border-bottom:1px solid #40372f;}
+  .schedtbl td:first-child{font-weight:700; color:#e8a83b; text-transform:uppercase; font-size:13px; letter-spacing:.08em; width:92px;}
+  .schedtbl td:last-child{color:#c9bda6; text-align:right; font-size:13.5px;}
+
+  /* gallery */
+  .gal{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-top:26px;}
+  .gal .ph, .gal img{aspect-ratio:1; min-height:0; border-radius:12px; object-fit:cover; width:100%;}
+
+  footer{background:#e0562b; text-align:center; padding:56px 20px;}
+  footer h2{color:#faf3e6;}
+  footer .ig{display:block; margin-top:16px; color:#ffe2b8; text-decoration:none; font-size:16px; font-weight:700;}
+  footer .cta{margin-top:22px;}
+  .fine{margin-top:26px; font-size:12.5px; color:#ffd0ad;}
+  /* maker theme: craft tables, market vendors */
+  .t-maker header{background:linear-gradient(180deg,#2e6b66 0%,#245550 100%);}
+  .t-maker header h1{text-shadow:3px 3px 0 #16332f;}
+  .t-maker .cta{color:#e8a83b;}
+  .t-maker .board{box-shadow:0 8px 0 #2e6b66;}
+  .t-maker .mprice{color:#2e6b66;}
+  .t-maker .kicker{color:#7ec4b8;}
+  .t-maker footer{background:#2e6b66;}
+  .t-maker footer .ig{color:#d6efe8;}
+  .t-maker .fine{color:#a9d8cc;}
+</style>
+</head>
+<body>
+
+<header>
+  <img id="c-logo" alt="" style="width:110px; height:110px; border-radius:50%; background:#faf3e6; padding:6px; margin:0 auto 16px; display:none;">
+  <div class="stamp" id="c-stamp"></div>
+  <h1 id="c-name"></h1>
+  <p id="c-tagline"></p>
+  <a class="cta" href="#find">Find the truck</a>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker" id="c-l1"></div>
+    <h2 id="c-l2"></h2>
+    <div class="board" id="c-menu"></div>
+    <p style="text-align:center; margin-top:14px; color:#8a7a6a; font-size:13px;" id="c-menunote"></p>
+  </div>
+</section>
+
+<section class="sched" id="find">
+  <div class="wrap">
+    <div class="kicker" id="c-l3"></div>
+    <h2 id="c-l4"></h2>
+    <table class="schedtbl" id="c-sched"></table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker" id="c-l5"></div>
+    <h2 id="c-l6"></h2>
+    <div class="gal" id="c-gallery"></div>
+  </div>
+</section>
+
+<footer>
+  <h2 id="c-l7"></h2>
+  <p style="margin-top:14px; font-size:19px; font-style:italic; font-family:Georgia,serif;" id="c-quote"></p>
+  <a class="cta" id="c-cta2" href="#" target="_blank" rel="noopener"></a>
+  <a class="ig" id="c-ig" href="#" target="_blank" rel="noopener"></a>
+  <p style="margin-top:14px; font-size:13.5px; opacity:.85;" id="c-pay"></p>
+  <div class="fine">Design preview by Mot Buchanan · menu prices are samples unless confirmed</div>
+</footer>
+
+<script>
+"use strict";
+/* ================= CONFIG =================
+   ARCHETYPE: Roamer (the schedule is the product)
+   FITS: food truck, snow cone trailer, flea market vendor, farmers market maker,
+         craft table (candles, woodwork, jerky, engraving), plant seller
+   THEMES: "" = flame (food) · "maker" = teal/craft (market vendors, makers)
+   LABELS: swap "Menu" to "Catalog", "The board" to "The table", etc. for makers
+   ========================================== */
+var CONFIG = {
+  theme: "maker",
+  logo: "bsa-logo.jpg",
+  name: "Bright Sword Artisan",
+  tagline: "Leather goods, hand-turned pens, and knives.",
+  stamp: "Handmade in Massillon, Ohio",
+  facebookUrl: "https://www.facebook.com/share/1Gzo5dJATD/",
+  facebookText: "Bright Sword Artisan on Facebook",
+  ctaText: "Ask about custom work",
+  quote: "\u201CIf you can think of it, we can make it.\u201D",
+  payLine: "Cash \u00B7 PayPal \u00B7 Cash App",
+  menuNote: "Pens, knives, and bags are one-of-a-kind and priced per piece.",
+  menu: [
+    { name: "Design-Your-Own Bookmark", desc: "Pick the leather, watch it made", price: "$5" },
+    { name: "Straps", desc: "", price: "$5" },
+    { name: "Minimalist Wallet", desc: "Cards + cash, pocket-flat", price: "$15" },
+    { name: "Traveler's Journal", desc: "Refillable leather cover, made to age well", price: "$25" },
+    { name: "Clutch", desc: "Full-grain leather, snap close", price: "$70" },
+    { name: "Hand-Turned Pens", desc: "Wood and resin, no two alike", price: "per piece" },
+    { name: "Knives", desc: "With hand-stitched leather sheath", price: "per piece" },
+    { name: "Backpacks & Bags", desc: "Built to outlast the trend", price: "per piece" }
+  ],
+  schedule: [
+    { day: "Sat", where: "Sample: craft show name here", when: "9a\u20133p" },
+    { day: "Sat", where: "Sample: next booked show", when: "10a\u20134p" },
+    { day: "Sun", where: "Sample: holiday market", when: "11a\u20135p" }
+  ],
+  photos: ["bsa-wallet.jpg","bsa-knives.jpg","bsa-pens.jpg","bsa-minis.jpg","bsa-belts.jpg","bsa-display.jpg"],
+  galleryCount: 6,
+  labels: {
+    menuKicker: "The table", menu: "Catalog",
+    schedKicker: "On the road", sched: "Find the booth",
+    galKicker: "Off the bench", gal: "The work",
+    footer: "Custom work"
+  }
+};
+/* ========================================== */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+function build(){
+  if (CONFIG.theme) document.body.className = "t-" + CONFIG.theme;
+  var L = CONFIG.labels;
+  $("c-l1").textContent = L.menuKicker; $("c-l2").textContent = L.menu;
+  $("c-l3").textContent = L.schedKicker; $("c-l4").textContent = L.sched;
+  $("c-l5").textContent = L.galKicker; $("c-l6").textContent = L.gal;
+  $("c-l7").textContent = L.footer;
+  $("c-quote").textContent = CONFIG.quote;
+  $("c-pay").textContent = CONFIG.payLine;
+  if (CONFIG.logo){
+    var lg = $("c-logo"); lg.src = CONFIG.logo; lg.style.display = "block";
+  }
+  document.title = CONFIG.name;
+  $("c-name").textContent = CONFIG.name;
+  $("c-tagline").textContent = CONFIG.tagline;
+  $("c-stamp").textContent = CONFIG.stamp;
+  $("c-menunote").textContent = CONFIG.menuNote;
+
+  var m = "";
+  for (var i=0;i<CONFIG.menu.length;i++){
+    var it = CONFIG.menu[i];
+    m += '<div class="mitem"><div class="mleft"><div class="mname">'+esc(it.name)+'</div>'
+       + (it.desc?('<div class="mdesc">'+esc(it.desc)+'</div>'):"")
+       + '</div><div class="mdots"></div><div class="mprice">'+esc(it.price)+'</div></div>';
+  }
+  $("c-menu").innerHTML = m;
+
+  var sc = "";
+  for (var d=0;d<CONFIG.schedule.length;d++){
+    var row = CONFIG.schedule[d];
+    sc += '<tr><td>'+esc(row.day)+'</td><td>'+esc(row.where)+'</td><td>'+esc(row.when)+'</td></tr>';
+  }
+  $("c-sched").innerHTML = sc;
+
+  var g = "";
+  var n = Math.max(CONFIG.photos.length, CONFIG.galleryCount);
+  for (var k=0;k<n;k++){
+    g += CONFIG.photos[k] ? '<img src="'+esc(CONFIG.photos[k])+'" alt="">' : '<div class="ph">Photo</div>';
+  }
+  $("c-gallery").innerHTML = g;
+
+  $("c-cta2").textContent = CONFIG.ctaText;
+  $("c-cta2").href = CONFIG.facebookUrl;
+  if (CONFIG.facebookUrl){
+    $("c-ig").textContent = CONFIG.facebookText;
+    $("c-ig").href = CONFIG.facebookUrl;
+  } else { $("c-ig").style.display = "none"; }
+}
+build();
+</script>
+</body>
+</html>

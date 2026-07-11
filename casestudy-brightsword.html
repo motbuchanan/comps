@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Bright Sword Artisan</title>
+<style>
+  *{box-sizing:border-box; margin:0;}
+  body{background:#1d252d; color:#e9decb; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; font-size:16px;}
+  h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif;}
+  #stage{max-width:640px; margin:0 auto; padding:22px 18px 130px; min-height:100vh;}
+  .step{display:none;}
+  .step.on{display:block;}
+  .crumb{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#d9a441; margin-bottom:10px;}
+  h1{font-size:27px; line-height:1.15; margin-bottom:6px;}
+  h2{font-size:23px; margin-bottom:6px;}
+  .sub{font-style:italic; font-family:Georgia,serif; color:#9aa8b5; margin-bottom:18px;}
+  .card{background:#27313b; border:1px solid #394653; border-radius:14px; padding:15px 16px; margin:12px 0;}
+  .card h3{color:#d9a441; font-size:15.5px; margin-bottom:8px;}
+  .card h3.ruf{color:#c26a33;}
+  .card p{line-height:1.55; margin:7px 0; font-size:15px;}
+  .card ul{margin:0; padding-left:18px;}
+  .card li{margin:7px 0; line-height:1.5; font-size:15px;}
+  .card li b, .card p b{color:#d9a441; font-weight:600;}
+  .say{font-family:Georgia,serif; font-style:italic; font-size:16px; line-height:1.55;
+    border-left:3px solid #c26a33; padding:2px 0 2px 12px; margin:10px 0; color:#e9decb;}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; background:#1a222a;
+    border:1px solid #394653; border-radius:10px; padding:12px; line-height:1.6; color:#cdd6de;
+    white-space:pre-wrap; word-break:break-word;}
+  .pill{display:inline-block; border:1px solid #394653; border-radius:999px; padding:4px 12px;
+    font-size:12.5px; color:#9aa8b5; margin:3px 4px 3px 0;}
+  .pill.hot{border-color:#c26a33; color:#c26a33;}
+  .pill.gold{border-color:#d9a441; color:#d9a441;}
+  .bigbtn{display:block; text-align:center; background:#c26a33; color:#1d252d; font-weight:700;
+    font-size:16px; border-radius:12px; padding:15px; margin:16px 0 6px; text-decoration:none;}
+  .note{font-size:13px; color:#9aa8b5;}
+  /* nav */
+  #nav{position:fixed; left:0; right:0; bottom:0; background:#27313b; border-top:1px solid #394653;
+    display:flex; align-items:center; gap:12px; padding:12px 18px calc(12px + env(safe-area-inset-bottom));}
+  #nav button{font-family:inherit; font-size:15px; color:#e9decb; background:none; border:1px solid #394653;
+    border-radius:10px; padding:12px 20px; cursor:pointer;}
+  #nav button#next{background:#c26a33; color:#1d252d; border-color:#c26a33; font-weight:700; flex:1;}
+  #nav button:disabled{opacity:.35;}
+  #dots{display:flex; gap:6px; justify-content:center; position:fixed; left:0; right:0;
+    bottom:calc(64px + env(safe-area-inset-bottom) + 8px); pointer-events:none;}
+  .dot{width:7px; height:7px; border-radius:50%; background:#394653;}
+  .dot.on{background:#d9a441;}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- STEP 1 -->
+  <section class="step on">
+    <div class="crumb">Case study · step 1 of 6</div>
+    <h1>Bright Sword Artisan</h1>
+    <p class="sub">One target, run through the whole Kestrel pipeline. Tap Next to walk it.</p>
+    <div class="card">
+      <h3>The sighting</h3>
+      <p>Coworker's side business: handmade leather goods, hand-turned pens, knives. Sells at craft shows around Massillon. <b>Facebook only.</b> No website, no booking, custom work advertised on a paper sign.</p>
+      <p>Kestrel entry, 30 seconds:</p>
+      <p>
+        <span class="pill gold">FB-only</span>
+        <span class="pill gold">No website</span>
+        <span class="pill gold">Heard it out loud</span>
+        <span class="pill">Tier 2 · maker</span>
+      </p>
+      <p class="note">Warm target: known person, zero cold-approach risk. Also both sides benefit from discretion, he runs quiet too.</p>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step">
+    <div class="crumb">Case study · step 2 of 6</div>
+    <h2>Recon</h2>
+    <p class="sub">Ten photos from his Facebook. No conversation needed yet.</p>
+    <div class="card">
+      <h3>Extracted from the photos alone</h3>
+      <ul>
+        <li><b>Full price list</b> read straight off his booth sign: bookmarks $5, straps $5, minimalist wallets $15, traveler's journals $25, clutches $70, pens/knives/bags per piece</li>
+        <li><b>Tagline material:</b> his table sign says "All items are handmade in Massillon, Ohio"</li>
+        <li><b>The best line of copy he owns,</b> from his own pricing sheet: "If you can think of it, we can make it"</li>
+        <li><b>Payments:</b> cash, PayPal, Cash App (also on the sign)</li>
+        <li><b>Logo:</b> paid for, personal connection, locked. So it gets featured, never redrawn.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="ruf">Still missing</h3>
+      <p>Phone number, real show schedule, whether he owns a domain. All three get answered in one conversation, and none block the demo: samples are labeled as samples.</p>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="step">
+    <div class="crumb">Case study · step 3 of 6</div>
+    <h2>Archetype match</h2>
+    <p class="sub">The decision that picks everything else.</p>
+    <div class="card">
+      <h3>Roamer</h3>
+      <p>The schedule is the product: people who love his booth have no way to find the next one. Skeleton: <b>food truck file, maker theme</b>, one word in CONFIG. Labels swapped: Menu → Catalog, Where we're parked → Find the booth.</p>
+    </div>
+    <div class="card">
+      <h3 class="ruf">Ticket-size check</h3>
+      <p>$5–70 goods alone would NOT justify a $900 site. What tips it: <b>knives and custom commissions</b>, where one order can be hundreds. The site's real job is turning "if you can think of it, we can make it" from a paper sign into an order pipeline.</p>
+      <p>If the site's too big a bite, the small doors fit him perfectly: a <b>QR table card</b> pointing at a one-pager, or a price-board redesign to replace the printer-paper signs.</p>
+    </div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="step">
+    <div class="crumb">Case study · step 4 of 6</div>
+    <h2>The build</h2>
+    <p class="sub">Skeleton + recon = comp. About 30 minutes of actual work.</p>
+    <div class="card">
+      <h3>What changed in the file</h3>
+      <div class="mono">theme: "maker"          // one word: teal craft palette
+logo: "bsa-logo.jpg"    // his logo, featured, untouched
+menu: [...his real 8 items, his real prices...]
+labels: Menu -> "Catalog"
+        Where we're parked -> "Find the booth"
+quote: "If you can think of it, we can make it."
+photos: 6 of his real product shots
+schedule: 3 rows, clearly labeled Sample</div>
+      <p>Every word of copy is either his own or built from his signs. The footer carries the standing disclaimer: <b>prices shown are samples unless confirmed.</b></p>
+    </div>
+    <div class="card">
+      <h3>Deploy</h3>
+      <p>All files flat into the <b>comps</b> repo: brightsword.html plus the seven photos. Link becomes motbuchanan.github.io/comps/brightsword.html</p>
+    </div>
+  </section>
+
+  <!-- STEP 5 -->
+  <section class="step">
+    <div class="crumb">Case study · step 5 of 6</div>
+    <h2>The output</h2>
+    <p class="sub">This is what's on your phone when you walk up.</p>
+    <a class="bigbtn" href="brightsword.html">Open the Bright Sword comp</a>
+    <p class="note" style="text-align:center;">Opens in this folder. Works once both files are deployed together.</p>
+    <div class="card">
+      <h3>What he'll see</h3>
+      <ul>
+        <li>His logo in the hero, his tagline under his name</li>
+        <li>His entire booth price list as a proper catalog</li>
+        <li>His products photographed by him, presented like a brand</li>
+        <li>A "Find the booth" schedule his regulars have never had</li>
+        <li>His own custom-work line, given the spotlight it deserves</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- STEP 6 -->
+  <section class="step">
+    <div class="crumb">Case study · step 6 of 6</div>
+    <h2>The pitch</h2>
+    <p class="sub">Warm target version. Break room, two minutes.</p>
+    <div class="card">
+      <h3 class="ruf">The opener</h3>
+      <p class="say">"Hey, side-hustle to side-hustle: I've been building websites. I made a mockup of what Bright Sword could look like online. Thirty seconds, want to see?"</p>
+      <p>Phone out. Scroll slowly. Stop talking at the catalog.</p>
+    </div>
+    <div class="card">
+      <h3>The one question</h3>
+      <p class="say">"Where do your custom orders come from right now, and how do people find your next show?"</p>
+      <p>Both answers are the sale. If commissions come from word of mouth and shows are announced nowhere, the site is the answer to problems he already feels.</p>
+    </div>
+    <div class="card">
+      <h3>Deal shapes, in order</h3>
+      <ul>
+        <li><b>Full build, $900:</b> this comp plus a custom-order request form and his real schedule, on a platform he owns, handed off. Friends-and-family price is the same price.</li>
+        <li><b>Small door:</b> QR table card + one-pager if $900 is too big right now. Gets his booth traffic capturing itself.</li>
+        <li><b>Trade caution:</b> he makes beautiful things, and a wallet is not a website. If a trade comes up, both sides get valued in dollars, in writing, like the rules say.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Then, in Kestrel</h3>
+      <p>Stage to <b>Pitched</b>, follow-up date set, demo link saved on the card, and whatever he said about custom orders goes in Notes. Comp stays up a week either way, and either way it just became the maker-archetype template.</p>
+    </div>
+  </section>
+
+</div>
+
+<div id="dots"></div>
+<nav id="nav">
+  <button id="back">Back</button>
+  <button id="next">Next</button>
+</nav>
+
+<script>
+"use strict";
+var steps = document.querySelectorAll(".step");
+var idx = 0;
+var dots = document.getElementById("dots");
+for (var i=0;i<steps.length;i++){
+  var d = document.createElement("span");
+  d.className = "dot" + (i===0 ? " on" : "");
+  dots.appendChild(d);
+}
+function show(n){
+  idx = Math.max(0, Math.min(steps.length-1, n));
+  for (var i=0;i<steps.length;i++){
+    steps[i].classList.toggle("on", i===idx);
+    dots.children[i].classList.toggle("on", i===idx);
+  }
+  document.getElementById("back").disabled = idx===0;
+  document.getElementById("next").textContent = idx===steps.length-1 ? "Done" : "Next";
+  window.scrollTo(0,0);
+}
+document.getElementById("next").addEventListener("click", function(){
+  if (idx === steps.length-1){ show(0); } else { show(idx+1); }
+});
+document.getElementById("back").addEventListener("click", function(){ show(idx-1); });
+show(0);
+</script>
+</body>
+</html>
