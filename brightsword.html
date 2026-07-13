@@ -263,7 +263,7 @@
   <a class="cta" id="c-cta2" href="#" target="_blank" rel="noopener"></a>
   <a class="ig" id="c-ig" href="#" target="_blank" rel="noopener"></a>
   <p style="margin-top:14px; font-size:13.5px; opacity:.85;" id="c-pay"></p>
-  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3.3 · tap to admire</div>
+  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3.4 · lightbox live</div>
 </footer>
 
 <script>
@@ -521,15 +521,22 @@ build();
 
 /* ---------- lightbox ---------- */
 (function(){
-  var lb = $("lb"), im = $("lbimg"), cap = $("lbcap");
+  /* lightbox markup sits after this script in the document, so all
+     element lookups happen at event time, never at load time */
   function openLb(src, alt){
+    var lb = $("lb"), im = $("lbimg"), cap = $("lbcap");
+    if (!lb) return;
     im.src = src; im.alt = alt; cap.textContent = alt;
     lb.hidden = false; document.body.style.overflow = "hidden";
   }
   function closeLb(){
+    var lb = $("lb"), im = $("lbimg");
+    if (!lb) return;
     lb.hidden = true; im.src = ""; document.body.style.overflow = "";
   }
   document.addEventListener("click", function(e){
+    var lb = $("lb");
+    if (!lb) return;
     if (!lb.hidden){
       if (!e.target.closest("#lb figure") || e.target.closest("#lbx")) closeLb();
       return;
