@@ -35,6 +35,10 @@
   .chip.on{border-color:#ff7a2f; background:rgba(255,122,47,.15); color:#ffd9bd;
     box-shadow:0 0 10px rgba(255,122,47,.25);}
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .mgrp{font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:#c9973f; margin:14px 0 8px;}
+  .prow{display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:center; margin-top:9px;}
+  .prow .pname{font-size:14px; color:#e6d6bc;}
+  @media (max-width:400px){ .prow{grid-template-columns:1fr;} .prow input{margin-top:-2px;} }
   @media (max-width:480px){ .grid2{grid-template-columns:1fr;} }
   .savebar{position:fixed; left:0; right:0; bottom:0; background:rgba(20,16,12,.97);
     border-top:1px solid #3a2c1f; padding:12px 16px; display:flex; gap:10px; z-index:10;}
@@ -62,9 +66,9 @@
 
 <section data-sec="The maker">
   <h2><span class="num">I.</span>The maker</h2>
-  <div class="q"><label>What should the site be called?
-    <span class="hint">Your booth signs say Anodyne, your page says Bright Sword Artisan &mdash; which name leads? Both?</span></label>
-    <input type="text" data-label="Site name / brand" placeholder="Bright Sword Artisan, Anodyne, both...">
+  <div class="q"><label>What exactly should the site say at the top?
+    <span class="hint">The precise wording &mdash; &ldquo;Bright Sword Artisan,&rdquo; &ldquo;Bright Sword Artisan Co.,&rdquo; with a tagline under it, however you want it to read.</span></label>
+    <input type="text" data-label="Exact site name wording" placeholder="Bright Sword Artisan">
   </div>
   <div class="q"><label>Your story, two or three sentences.
     <span class="hint">How you started, why leather and wood and steel. This becomes the About section.</span></label>
@@ -88,13 +92,41 @@
       <button class="chip">Sheaths</button><button class="chip">Other</button>
     </div>
   </div>
-  <div class="q"><label>Real prices, item by item.
-    <span class="hint">Whatever you actually charge &mdash; ranges are fine (&ldquo;pens $35&ndash;60, knives $85 and up&rdquo;). The demo prices were my guesses; correct them all here.</span></label>
-    <textarea data-label="Real prices" placeholder="Bookmarks $5, straps $5, mini wallets $15, journals $25, clutches $70..."></textarea>
+  <div class="q" id="priceQ" hidden><span class="qlab">Your price for each &mdash; ranges are fine.
+    <span class="hint">The demo prices were my guesses; these become the real ones.</span></span>
+    <div id="priceList"></div>
   </div>
-  <div class="q"><label>Materials you work with and like to talk about.
-    <span class="hint">Leathers, wood species, steels, hardware. These become the words on the site &mdash; buyers love the specifics.</span></label>
-    <textarea data-label="Materials" placeholder="Full-grain leather, leopardwood, Bethlehem olive wood, damascus..."></textarea>
+  <div class="q"><span class="qlab">Materials you work with &mdash; tap everything you use.
+    <span class="hint">These become the words on the site. Buyers love the specifics.</span></span>
+    <p class="mgrp">Leathers</p>
+    <div class="chips" data-label="Leathers">
+      <button class="chip">Full-grain</button><button class="chip">Top-grain</button>
+      <button class="chip">Veg-tan</button><button class="chip">Oil-tanned</button>
+      <button class="chip">Suede</button><button class="chip">Bridle</button>
+    </div>
+    <p class="mgrp">Woods</p>
+    <div class="chips" data-label="Woods">
+      <button class="chip">Leopardwood</button><button class="chip">Olive wood</button>
+      <button class="chip">Walnut</button><button class="chip">Maple</button>
+      <button class="chip">Cherry</button><button class="chip">Padauk</button>
+      <button class="chip">Purpleheart</button><button class="chip">Wenge</button>
+      <button class="chip">Spalted woods</button><button class="chip">Resin blanks</button>
+    </div>
+    <p class="mgrp">Metals &amp; hardware</p>
+    <div class="chips" data-label="Metals and hardware">
+      <button class="chip">Brass</button><button class="chip">Antique brass</button>
+      <button class="chip">Copper</button><button class="chip">Stainless</button>
+      <button class="chip">Gunmetal</button><button class="chip">Chrome</button>
+      <button class="chip">Carbon steel</button><button class="chip">Damascus</button>
+    </div>
+    <p class="mgrp">Thread &amp; finish</p>
+    <div class="chips" data-label="Thread and finish">
+      <button class="chip">Waxed thread</button><button class="chip">Contrast stitching</button>
+      <button class="chip">Monogram / initials</button><button class="chip">Dyed colors</button>
+      <button class="chip">Burnished edges</button>
+    </div>
+    <div style="margin-top:12px;"><label>Anything special or unique I missed?
+      <input type="text" data-label="Other materials" placeholder="Exotic leathers, reclaimed woods, antler..."></label></div>
   </div>
   <div class="q"><label>Roughly what do materials cost you on a typical piece?
     <span class="hint">Optional &mdash; only so pricing on custom work protects your margin. Stays between us.</span></label>
@@ -221,7 +253,7 @@
   <button id="shareBtn">Share&hellip;</button>
 </div>
 
-<footer>Bright Sword Artisan site intake &middot; built by Mot Buchanan &middot; intake v1<br>
+<footer>Bright Sword Artisan site intake &middot; built by Mot Buchanan &middot; intake v1.2<br>
 Nothing sends anywhere until you copy or share it yourself.</footer>
 
 <script>
@@ -229,6 +261,29 @@ Nothing sends anywhere until you copy or share it yourself.</footer>
 var KEY = "bsa-intake-v1";
 
 function $(id){ return document.getElementById(id); }
+
+/* price rows follow the product checklist */
+function syncPriceRows(){
+  var grp = document.querySelector('.chips[data-label="Products"]');
+  var host = $("priceList"), q = $("priceQ");
+  if (!grp || !host) return;
+  var kept = {};
+  var olds = host.querySelectorAll("input[data-label]");
+  for (var i=0;i<olds.length;i++){ kept[olds[i].getAttribute("data-label")] = olds[i].value; }
+  var on = grp.querySelectorAll(".chip.on"), h = "";
+  for (var j=0;j<on.length;j++){
+    var name = on[j].textContent, lab = "Price \u2014 " + name;
+    h += '<div class="prow"><span class="pname">' + name + '</span>'
+       + '<input type="text" data-label="' + lab + '" placeholder="$ or range"></div>';
+  }
+  host.innerHTML = h;
+  var news = host.querySelectorAll("input[data-label]");
+  for (var k=0;k<news.length;k++){
+    var lab2 = news[k].getAttribute("data-label");
+    if (kept[lab2]) news[k].value = kept[lab2];
+  }
+  q.hidden = on.length === 0;
+}
 
 /* chips */
 document.addEventListener("click", function(e){
@@ -240,6 +295,7 @@ document.addEventListener("click", function(e){
     for (var i=0;i<sel.length;i++){ if (sel[i] !== chip) sel[i].classList.remove("on"); }
   }
   chip.classList.toggle("on");
+  if (grp.getAttribute("data-label") === "Products") syncPriceRows();
   save();
 });
 document.addEventListener("input", function(e){
@@ -269,11 +325,6 @@ function restore(){
   if (!raw) return;
   try{
     var data = JSON.parse(raw);
-    var f = document.querySelectorAll("input[data-label],textarea[data-label]");
-    for (var i=0;i<f.length;i++){
-      var v = data.fields[f[i].getAttribute("data-label")];
-      if (v) f[i].value = v;
-    }
     var g = document.querySelectorAll(".chips[data-label]");
     for (var j=0;j<g.length;j++){
       var want = data.chips[g[j].getAttribute("data-label")] || [];
@@ -281,6 +332,12 @@ function restore(){
       for (var k=0;k<chips.length;k++){
         if (want.indexOf(chips[k].textContent) !== -1) chips[k].classList.add("on");
       }
+    }
+    syncPriceRows();
+    var f = document.querySelectorAll("input[data-label],textarea[data-label]");
+    for (var i=0;i<f.length;i++){
+      var v = data.fields[f[i].getAttribute("data-label")];
+      if (v) f[i].value = v;
     }
   }catch(e){}
 }
