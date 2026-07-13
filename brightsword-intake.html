@@ -74,6 +74,10 @@
     <span class="hint">How you started, why leather and wood and steel. This becomes the About section.</span></label>
     <textarea data-label="Story"></textarea>
   </div>
+  <div class="q"><label>Sayings or lines of yours that belong on the site.
+    <span class="hint">&ldquo;If you can think of it, we can make it&rdquo; is already there. Any others?</span></label>
+    <input type="text" data-label="Sayings / lines">
+  </div>
   <div class="q"><label>Links people should find you at</label>
     <input type="text" data-label="Facebook / Instagram / other links" placeholder="Facebook page, Instagram, anything else">
   </div>
@@ -188,6 +192,27 @@
       <button class="chip">Store built into the site</button><button class="chip">Not sure &mdash; advise me</button>
     </div>
   </div>
+  <div class="q"><span class="qlab">Is most of what you sell one-of-a-kind, or repeatable designs?
+    <span class="hint">This decides how a store works: unique pieces get listed one at a time, repeatable designs get a standing catalog.</span></span>
+    <div class="chips" data-single data-label="One-of-a-kind or repeatable">
+      <button class="chip">Mostly one-of-a-kind</button><button class="chip">Mostly repeatable</button>
+      <button class="chip">Half and half</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">Already set up with any of these?</span>
+    <div class="chips" data-label="Existing accounts">
+      <button class="chip">Etsy shop</button><button class="chip">Shopify</button>
+      <button class="chip">PayPal business</button><button class="chip">Square</button>
+      <button class="chip">None of these</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">When a customer hits &ldquo;order&rdquo; or &ldquo;contact,&rdquo; where should it land?
+    <span class="hint">Pick the one you actually check.</span></span>
+    <div class="chips" data-single data-label="Orders land at">
+      <button class="chip">Facebook Messenger</button><button class="chip">Text message</button>
+      <button class="chip">Email</button><button class="chip">Whatever you recommend</button>
+    </div>
+  </div>
   <div class="q"><span class="qlab">If someone orders from far away&hellip;</span>
     <div class="chips" data-single data-label="Shipping">
       <button class="chip">I&rsquo;ll ship it myself</button><button class="chip">Local pickup / at shows only</button>
@@ -205,6 +230,13 @@
 
 <section data-sec="The website itself">
   <h2><span class="num">VI.</span>The website itself</h2>
+  <div class="q"><span class="qlab">If the site does exactly one job well, which job?
+    <span class="hint">Everything can be on there &mdash; this just decides what a visitor sees first.</span></span>
+    <div class="chips" data-single data-label="The site's number one job">
+      <button class="chip">Bring in custom orders</button><button class="chip">Show where the booth will be</button>
+      <button class="chip">Sell stock online</button><button class="chip">Look legit when people search me</button>
+    </div>
+  </div>
   <div class="q"><span class="qlab">What belongs on it? Tap all you want.</span>
     <div class="chips" data-label="Site sections wanted">
       <button class="chip">Catalog with prices</button><button class="chip">Design-your-own builders</button>
@@ -225,6 +257,10 @@
       <button class="chip">Me, from my phone</button><button class="chip">Mostly me, Mot for big stuff</button>
       <button class="chip">I&rsquo;d rather pay per change</button>
     </div>
+  </div>
+  <div class="q"><label>Any date you&rsquo;d love this live by?
+    <span class="hint">A show, a season, a market &mdash; the build schedules around it.</span></label>
+    <input type="text" data-label="Live-by date" placeholder="e.g. before the August faire runs">
   </div>
   <div class="q grid2">
     <div><label>Own a domain name already?</label>
@@ -253,7 +289,7 @@
   <button id="shareBtn">Share&hellip;</button>
 </div>
 
-<footer>Bright Sword Artisan site intake &middot; built by Mot Buchanan &middot; intake v1.2<br>
+<footer>Bright Sword Artisan site intake &middot; built by Mot Buchanan &middot; intake v1.3<br>
 Nothing sends anywhere until you copy or share it yourself.</footer>
 
 <script>
