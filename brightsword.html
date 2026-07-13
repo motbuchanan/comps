@@ -126,14 +126,19 @@
     letter-spacing:.26em; text-transform:uppercase; white-space:nowrap;}
   .blabel::before, .blabel::after{content:""; height:1px; background:#3a2c1f; flex:1;}
   .bgrid{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:minmax(120px,auto); gap:12px; margin-top:16px;}
-  .bgrid img{width:100%; height:100%; object-fit:cover; border-radius:10px; border:1px solid #3a2c1f;
-    box-shadow:0 6px 18px rgba(0,0,0,.4);}
-  .bgrid figure{margin:0; position:relative; overflow:hidden; border-radius:10px;}
-  .bgrid .lead{grid-column:span 2; grid-row:span 2;}
+  .bgrid img{width:100%; aspect-ratio:1; object-fit:cover; border-radius:10px; border:1px solid #3a2c1f;
+    box-shadow:0 6px 18px rgba(0,0,0,.4); display:block;}
+  .bgrid figure{margin:0;}
+  .bgrid .scap{font-family:Georgia,serif; font-style:italic; font-size:11.5px; color:#a8917a;
+    margin:7px 2px 0; line-height:1.35;}
+  .bgrid .lead{grid-column:span 2; grid-row:span 2; position:relative; overflow:hidden; border-radius:10px;}
+  .bgrid .lead img{position:absolute; inset:0; height:100%; aspect-ratio:auto;}
   .bgrid .lead figcaption{position:absolute; left:0; right:0; bottom:0; padding:26px 14px 11px;
     background:linear-gradient(180deg, rgba(20,16,12,0), rgba(20,16,12,.88));
     font-family:Georgia,serif; font-style:italic; color:#efe3cf; font-size:13.5px;}
   .bgrid .wide{grid-column:span 2;}
+  .bgrid .wide img{aspect-ratio:auto; height:100%; position:absolute; inset:0;}
+  .bgrid .wide{position:relative; overflow:hidden; border-radius:10px; min-height:120px;}
   .flip .bgrid{direction:rtl;}
   .flip .bgrid > *{direction:ltr;}
   .qtile{grid-column:span 2; position:relative; display:flex; align-items:center; justify-content:center;
@@ -232,7 +237,7 @@
         <figcaption>A duffel that will outlive the vacation.</figcaption>
       </figure>
     </div>
-    <div class="gal" id="c-gallery"></div>
+    <div id="c-gallery"></div>
   </div>
 </section>
 
@@ -242,7 +247,7 @@
   <a class="cta" id="c-cta2" href="#" target="_blank" rel="noopener"></a>
   <a class="ig" id="c-ig" href="#" target="_blank" rel="noopener"></a>
   <p style="margin-top:14px; font-size:13.5px; opacity:.85;" id="c-pay"></p>
-  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3.1 · guided gallery</div>
+  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3.2 · benches fixed</div>
 </footer>
 
 <script>
@@ -292,13 +297,15 @@ var CONFIG = {
         ["bsa-wallet.jpg","Trifold wallet in green leather"],
         ["bsa-minis.jpg","Minimalist card wallets"],
         ["bsa-belts.jpg","Belt rack at the booth"]
-      ] },
+      ],
+      quote: "Full grain. Saddle stitched. No shortcuts." },
     { label: "The pen lathe", flip: true,
       lead: ["bsa-resinpens.jpg","Seventeen resin blanks, no two alike"],
       support: [
         ["bsa-woodpens.jpg","Hand-turned wood pens in a display case"],
         ["bsa-olivewood.jpg","Bolt-action pen in Bethlehem olive wood"]
-      ] },
+      ],
+      quote: "Turned one blank at a time." },
     { label: "The blade bench",
       lead: ["bsa-knives.jpg","Fixed blades in fitted sheaths"],
       support: [
@@ -470,7 +477,7 @@ function build(){
   var g = "";
   function bimg(p, cls){
     return '<figure'+(cls?' class="'+cls+'"':'')+'><img src="'+esc(p[0])+'" alt="'+esc(p[1])+'" loading="lazy" decoding="async">'
-      + (cls==="lead" ? '<figcaption>'+esc(p[1])+'</figcaption>' : '')
+      + (cls==="lead" ? '<figcaption>'+esc(p[1])+'</figcaption>' : '<figcaption class="scap">'+esc(p[1])+'</figcaption>')
       + '</figure>';
   }
   for (var b=0;b<CONFIG.benches.length;b++){
