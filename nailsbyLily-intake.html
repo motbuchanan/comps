@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nails by Lily &mdash; Site Questionnaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F2F1; --surface:#FBF8F6; --card:#fff; --ink:#181318;
+    --pink:#EC1E79; --violet:#6E3AF2; --line:#E7DED8; --mut:#7A6E68;
+    --disp:'Syne',Georgia,serif; --body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;
+    -webkit-font-smoothing:antialiased;padding-bottom:150px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  header{text-align:center;padding:52px 20px 30px}
+  .eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--pink)}
+  header h1{font-family:var(--disp);font-weight:800;font-size:clamp(28px,7vw,44px);line-height:1.03;
+    letter-spacing:-.02em;margin:.3em 0 .35em}
+  header h1 b{color:var(--pink)}
+  header .sub{color:var(--mut);font-size:1.05rem;max-width:52ch;margin:0 auto}
+
+  .progwrap{position:sticky;top:0;z-index:20;background:rgba(246,242,241,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
+  .progbar{height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+  .progfill{height:100%;width:0%;background:var(--pink);border-radius:99px;transition:width .3s}
+  .progtxt{font-size:.78rem;color:var(--mut);font-weight:600;margin-top:6px;text-align:center}
+
+  section{background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:26px 22px;margin-top:22px;box-shadow:0 6px 20px rgba(24,19,24,.05)}
+  section h2{font-family:var(--disp);font-weight:700;font-size:1.35rem;line-height:1.15;
+    display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--pink);color:#fff;
+    font-size:.9rem;font-weight:700;display:grid;place-items:center;font-family:var(--body)}
+  section .intro{color:var(--mut);font-size:.97rem;margin-bottom:20px}
+
+  .q{margin-bottom:22px}
+  .q:last-child{margin-bottom:0}
+  label{display:block;font-weight:700;font-size:1rem;margin-bottom:4px}
+  .hint{display:block;font-weight:400;color:var(--mut);font-size:.88rem;margin-top:2px}
+  input[type=text],input[type=url],textarea{width:100%;margin-top:9px;font-family:var(--body);
+    font-size:1rem;padding:12px 13px;border:1.5px solid var(--line);border-radius:10px;
+    background:var(--surface);color:var(--ink)}
+  textarea{resize:vertical;min-height:78px}
+  input:focus,textarea:focus{outline:2px solid var(--pink);border-color:var(--pink)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;
+    padding:9px 15px;font-family:var(--body);font-weight:600;font-size:.92rem;color:var(--ink);
+    cursor:pointer;transition:.14s}
+  .chip:hover{border-color:var(--pink)}
+  .chip[aria-pressed="true"]{background:var(--pink);color:#fff;border-color:var(--pink)}
+
+  /* pricing */
+  .tiers{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+  .tier{border:1.5px solid var(--line);border-radius:14px;padding:18px;background:var(--surface)}
+  .tier.pick{border-color:var(--pink);box-shadow:0 8px 22px rgba(236,30,121,.12)}
+  .tier-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .tier-name{font-family:var(--disp);font-weight:700;font-size:1.1rem}
+  .tier-cost{font-weight:800;color:var(--pink);white-space:nowrap}
+  .tier p{font-size:.94rem;color:var(--mut);margin-top:8px}
+  .tier ul{margin:10px 0 0 18px;font-size:.93rem}
+  .tier li{margin-bottom:4px}
+  .tier .trade{margin-top:10px;font-size:.88rem;background:#F2E7D8;border-radius:9px;padding:9px 12px;color:var(--ink)}
+  .tier .trade b{color:var(--ink)}
+
+  .note{background:#F2E7D8;border-radius:12px;padding:15px 17px;font-size:.93rem;margin-top:18px}
+  .note b{font-weight:700}
+  .yours{background:var(--violet);color:#fff;border-radius:12px;padding:16px 18px;font-size:.95rem;margin-top:18px}
+  .yours b{font-weight:700}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(251,248,246,.96);
+    backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:14px 20px 18px}
+  .barin{max-width:760px;margin:0 auto;display:flex;gap:10px}
+  .btn{flex:1;border:0;border-radius:999px;padding:14px;font-family:var(--body);font-weight:700;
+    font-size:1rem;cursor:pointer;transition:.15s}
+  .btn-main{background:var(--pink);color:#fff;box-shadow:0 8px 20px rgba(236,30,121,.3)}
+  .btn-main:hover{transform:translateY(-2px)}
+  .btn-alt{background:transparent;color:var(--ink);border:1.6px solid var(--ink);flex:0 0 auto;padding:14px 20px}
+  .saved{text-align:center;font-size:.78rem;color:var(--mut);font-weight:600;margin-top:8px}
+
+  .out{margin-top:22px;display:none}
+  .out.show{display:block}
+  .out pre{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:16px;
+    font-family:var(--body);font-size:.88rem;white-space:pre-wrap;line-height:1.5;max-height:340px;overflow:auto}
+
+  footer{text-align:center;color:var(--mut);font-size:.85rem;padding:34px 20px 10px;max-width:52ch;margin:0 auto}
+  .ver{display:inline-block;margin-top:14px;font-size:.72rem;color:var(--mut);background:var(--surface);
+    border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+  :focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Nails by Lily &middot; Akron, OH</span>
+  <h1>Let's build <b>your</b> site.</h1>
+  <p class="sub">Answer whatever you can, skip whatever you can't. It saves as you go, so you can put it down and come back. Nothing sends until you tap the button at the bottom.</p>
+</header>
+
+<div class="progwrap"><div class="wrap">
+  <div class="progbar"><div class="progfill" id="pf"></div></div>
+  <div class="progtxt" id="pt">0 of 0 answered</div>
+</div></div>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="num">1</span> You &amp; the name</h2>
+  <p class="intro">The basics that go at the top of every page.</p>
+
+  <div class="q"><label>What exactly should the site say at the top?
+    <span class="hint">The precise wording. "Nails by Lily," "Nails by Lily Co.," with a tagline under it, however you want it to read.</span></label>
+    <input type="text" data-label="Exact site name wording" placeholder="Nails by Lily"></div>
+
+  <div class="q"><label>Want a tagline under it?
+    <span class="hint">One line that says what you do. Leave blank if you'd rather not have one.</span></label>
+    <input type="text" data-label="Tagline" placeholder="Custom nail art, Akron OH"></div>
+
+  <div class="q"><label>How would you describe what you do, in your own words?
+    <span class="hint">A few sentences. This becomes your "about" blurb, so say it how you'd say it out loud.</span></label>
+    <textarea data-label="About blurb" placeholder="I do nails out of Akron. Everything from..."></textarea></div>
+
+  <div class="q"><label>What's the thing you most want to be known for?</label>
+    <div class="chips" data-label="Known for" data-multi="1">
+      <button type="button" class="chip">Hand-painted character art</button>
+      <button type="button" class="chip">Bold / statement sets</button>
+      <button type="button" class="chip">Clean classics &amp; French</button>
+      <button type="button" class="chip">Custom, whatever you bring me</button>
+      <button type="button" class="chip">Mobile / I come to you</button>
+      <button type="button" class="chip">Nail health &amp; care</button>
+    </div></div>
+
+  <div class="q"><label>Anything you do NOT want on the site?
+    <span class="hint">Services you're phasing out, photos you don't love, prices you'd rather not post publicly, anything.</span></label>
+    <textarea data-label="Keep off the site" placeholder="Don't post..."></textarea></div>
+</section>
+
+<section>
+  <h2><span class="num">2</span> Services &amp; pricing</h2>
+  <p class="intro">I put estimates on the demo based on what other Akron techs charge. Correct them. Your numbers, not mine.</p>
+
+  <div class="q"><label>The demo priced full sets in three tiers. Do those feel right?
+    <span class="hint">Simple $65&ndash;110 &middot; Designed $90&ndash;135 &middot; Custom/Character $115&ndash;170+, going up with length.</span></label>
+    <div class="chips" data-label="Pricing tiers reaction">
+      <button type="button" class="chip">About right</button>
+      <button type="button" class="chip">Too high</button>
+      <button type="button" class="chip">Too low</button>
+      <button type="button" class="chip">I price it differently</button>
+    </div></div>
+
+  <div class="q"><label>What are your actual prices?
+    <span class="hint">However you have it in your head. Rough is fine. If you charge by length or by design, say so.</span></label>
+    <textarea data-label="Actual prices" placeholder="Full set simple: $__  |  Fill: $__  |  Character set: $__ ..."></textarea></div>
+
+  <div class="q"><label>What do you actually offer right now?</label>
+    <div class="chips" data-label="Services offered" data-multi="1">
+      <button type="button" class="chip">Acrylic full sets</button>
+      <button type="button" class="chip">Gel-X / soft gel</button>
+      <button type="button" class="chip">Fills</button>
+      <button type="button" class="chip">Gel polish / manicure</button>
+      <button type="button" class="chip">Pedicures</button>
+      <button type="button" class="chip">Press-on sets</button>
+      <button type="button" class="chip">Nail art add-ons</button>
+      <button type="button" class="chip">Repairs / removal</button>
+    </div></div>
+
+  <div class="q"><label>Do you want prices shown on the site at all?
+    <span class="hint">Some techs post everything, some post "starting at," some keep it to a quote. No wrong answer.</span></label>
+    <div class="chips" data-label="Show prices publicly">
+      <button type="button" class="chip">Show the full menu</button>
+      <button type="button" class="chip">"Starting at" only</button>
+      <button type="button" class="chip">No prices, quote only</button>
+      <button type="button" class="chip">Not sure &mdash; advise me</button>
+    </div></div>
+
+  <div class="q"><label>How long does a typical set take you?
+    <span class="hint">Helps set expectations on the site and space out your bookings.</span></label>
+    <input type="text" data-label="Typical appointment length" placeholder="Simple ~1.5 hr, character sets ~3 hr"></div>
+</section>
+
+<section>
+  <h2><span class="num">3</span> Booking</h2>
+  <p class="intro">You mentioned you used a booking site before and stopped when things slowed down. This section decides what we set you back up with.</p>
+
+  <div class="q"><label>Which one did you use, and what made you stop?
+    <span class="hint">Was it the monthly cost, the hassle, not enough bookings coming through, something else? Be blunt. It tells me what to avoid.</span></label>
+    <textarea data-label="Previous booking tool + why stopped" placeholder="I used ___ and stopped because..."></textarea></div>
+
+  <div class="q"><label>Is your GlossGenius link still live?
+    <span class="hint">The demo currently points its Book buttons at nailsbylily.glossgenius.com.</span></label>
+    <div class="chips" data-label="GlossGenius status">
+      <button type="button" class="chip">Still live, still use it</button>
+      <button type="button" class="chip">Live but I don't use it</button>
+      <button type="button" class="chip">Cancelled it</button>
+      <button type="button" class="chip">Not sure</button>
+    </div></div>
+
+  <div class="q"><label>How do people book you right now, honestly?</label>
+    <div class="chips" data-label="Current booking method" data-multi="1">
+      <button type="button" class="chip">Facebook messages</button>
+      <button type="button" class="chip">Instagram DMs</button>
+      <button type="button" class="chip">Text me</button>
+      <button type="button" class="chip">Word of mouth</button>
+      <button type="button" class="chip">Booking link</button>
+      <button type="button" class="chip">Regulars rebook in person</button>
+    </div></div>
+
+  <div class="q"><label>How do you want people to book on the new site?</label>
+    <div class="chips" data-label="Desired booking method">
+      <button type="button" class="chip">Pick a real open time slot</button>
+      <button type="button" class="chip">Send me a request, I confirm</button>
+      <button type="button" class="chip">Just text/DM me</button>
+      <button type="button" class="chip">Not sure &mdash; advise me</button>
+    </div></div>
+
+  <div class="q"><label>Do no-shows and last-minute cancels hurt you?
+    <span class="hint">If yes, taking a small deposit at booking is the single best fix, and it changes which tool I'd put you on.</span></label>
+    <div class="chips" data-label="No-show problem">
+      <button type="button" class="chip">Yes, it's a real problem</button>
+      <button type="button" class="chip">Occasionally</button>
+      <button type="button" class="chip">Not really</button>
+    </div></div>
+
+  <div class="q"><label>Would you want to take a deposit when someone books?</label>
+    <div class="chips" data-label="Deposits">
+      <button type="button" class="chip">Yes, deposit required</button>
+      <button type="button" class="chip">Only for big custom sets</button>
+      <button type="button" class="chip">No deposits</button>
+      <button type="button" class="chip">Not sure &mdash; advise me</button>
+    </div></div>
+
+  <div class="q"><label>How do people pay you?</label>
+    <div class="chips" data-label="Payment methods" data-multi="1">
+      <button type="button" class="chip">Cash</button>
+      <button type="button" class="chip">Venmo / CashApp / Zelle</button>
+      <button type="button" class="chip">Card in person</button>
+      <button type="button" class="chip">Pay online when booking</button>
+    </div></div>
+
+  <div class="q"><label>Mobile, studio, or both? And how far will you travel?</label>
+    <input type="text" data-label="Mobile / studio + travel radius" placeholder="Both. I'll travel ~20 min from Akron."></div>
+
+  <div class="q"><label>Your booking hours, roughly.
+    <span class="hint">Days and times you actually want appointments. This gets built into the scheduler.</span></label>
+    <textarea data-label="Availability" placeholder="Weeknights after 5, weekends open..."></textarea></div>
+</section>
+
+<section>
+  <h2><span class="num">4</span> What goes on the site</h2>
+  <p class="intro">Tap everything you'd want. Anything you skip, we leave off.</p>
+
+  <div class="q"><label>Sections</label>
+    <div class="chips" data-label="Wanted sections" data-multi="1">
+      <button type="button" class="chip">Photo gallery</button>
+      <button type="button" class="chip">Filter by style</button>
+      <button type="button" class="chip">Price menu</button>
+      <button type="button" class="chip">Book / request form</button>
+      <button type="button" class="chip">About me + photo</button>
+      <button type="button" class="chip">Client reviews</button>
+      <button type="button" class="chip">Instagram feed</button>
+      <button type="button" class="chip">How it works</button>
+      <button type="button" class="chip">Nail care / aftercare</button>
+      <button type="button" class="chip">Policies (late, cancel)</button>
+      <button type="button" class="chip">Gift certificates</button>
+      <button type="button" class="chip">Contact</button>
+    </div></div>
+
+  <div class="q"><label>Which of the three demo looks felt most like you?
+    <span class="hint">Editorial (clean, upscale) &middot; Pop (bold, playful) &middot; Showroom (pick-your-vibe, prices on photos). Mixing is allowed.</span></label>
+    <div class="chips" data-label="Preferred design direction">
+      <button type="button" class="chip">Editorial</button>
+      <button type="button" class="chip">Pop</button>
+      <button type="button" class="chip">Showroom</button>
+      <button type="button" class="chip">A mix &mdash; I'll explain</button>
+      <button type="button" class="chip">None quite hit it</button>
+    </div></div>
+
+  <div class="q"><label>What did you like or not like about them?
+    <span class="hint">Colors, fonts, layout, anything. Blunt is useful.</span></label>
+    <textarea data-label="Design feedback" placeholder="I liked... I didn't like..."></textarea></div>
+
+  <div class="q"><label>Any colors you love or hate?</label>
+    <input type="text" data-label="Color preferences" placeholder="Love pink and black. No pastels."></div>
+
+  <div class="q"><label>Web address you want, if you could pick anything
+    <span class="hint">Something like nailsbylily.com. I'll check what's actually available.</span></label>
+    <input type="text" data-label="Desired domain" placeholder="nailsbylily.com"></div>
+</section>
+
+<section>
+  <h2><span class="num">5</span> Photos, reviews &amp; socials</h2>
+  <p class="intro">The site is only as good as what goes in it. This is the part I can't do for you.</p>
+
+  <div class="q"><label>Your Facebook page link</label>
+    <input type="url" data-label="Facebook" placeholder="https://facebook.com/..."></div>
+
+  <div class="q"><label>Instagram, if you have one
+    <span class="hint">If you don't, a business IG separate from your personal page is the single biggest free thing you could do for bookings.</span></label>
+    <input type="url" data-label="Instagram" placeholder="https://instagram.com/..."></div>
+
+  <div class="q"><label>Phone and email you want on the site
+    <span class="hint">Whatever you're comfortable making public. The booking form sends to these.</span></label>
+    <input type="text" data-label="Public phone / email" placeholder="330-555-0000 / lily@..."></div>
+
+  <div class="q"><label>The reviews on the demo are fake &mdash; I wrote them as placeholders. Do you have real ones?
+    <span class="hint">Screenshots from GlossGenius, Facebook comments, texts from happy clients. Anything real beats anything invented.</span></label>
+    <div class="chips" data-label="Real reviews available">
+      <button type="button" class="chip">Yes, I can send some</button>
+      <button type="button" class="chip">A few, somewhere</button>
+      <button type="button" class="chip">None saved</button>
+    </div></div>
+
+  <div class="q"><label>Photo of you for the "about" section?</label>
+    <div class="chips" data-label="Headshot">
+      <button type="button" class="chip">I'll send one</button>
+      <button type="button" class="chip">Rather not have my photo up</button>
+      <button type="button" class="chip">Need to take one</button>
+    </div></div>
+
+  <div class="q"><label>Are you on Google yet?
+    <span class="hint">A free Google Business Profile is what makes you show up in "nail tech near me" and on Maps. It's free and it's the biggest local lever you have. If you don't have one I'd set it up first.</span></label>
+    <div class="chips" data-label="Google Business Profile">
+      <button type="button" class="chip">Yes, set up</button>
+      <button type="button" class="chip">No</button>
+      <button type="button" class="chip">Don't know what that is</button>
+    </div></div>
+
+  <div class="q"><label>Anything else you want pulled into the site?
+    <span class="hint">Photos I haven't seen, a logo, a specific set you're proud of, a video.</span></label>
+    <textarea data-label="Other assets" placeholder="I have..."></textarea></div>
+</section>
+
+<section>
+  <h2><span class="num">6</span> What it costs</h2>
+  <p class="intro">Real numbers, cheapest first. You quit a paid tool once when work slowed down, so I'd rather start you low and let you move up when the bookings justify it, not before.</p>
+
+  <div class="tiers">
+
+    <div class="tier pick">
+      <div class="tier-top"><span class="tier-name">A &middot; Start free</span><span class="tier-cost">$0/mo</span></div>
+      <p>A free website you own, plus free booking software. This is real, not a trial.</p>
+      <ul>
+        <li>Free site builder (you own the account and edit it yourself)</li>
+        <li>Square Appointments free plan for booking: real open time slots, calendar sync, reminders</li>
+        <li>No monthly cost at all if clients pay you cash or Venmo in person</li>
+        <li>If you take card or deposits through it: about 2.6% + 15&cent; per transaction, and nothing else</li>
+      </ul>
+      <div class="trade"><b>The tradeoff:</b> your web address looks like nailsbylily.wixsite.com and there's a small "made with" badge on the page. Everything works, it just doesn't look like you own the address.</div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-top"><span class="tier-name">A+ &middot; Free, plus your own address</span><span class="tier-cost">about $1/mo</span></div>
+      <p>Same as A, but you buy the domain so it reads nailsbylily.com.</p>
+      <ul>
+        <li>A .com runs roughly $12&ndash;15 a year, which is about a dollar a month</li>
+        <li>Everything else stays free</li>
+      </ul>
+      <div class="trade"><b>My honest rec if you want to spend anything at all.</b> A real web address is the cheapest thing that makes you look established, and you own it even if you switch platforms later.</div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-top"><span class="tier-name">B &middot; Look fully professional</span><span class="tier-cost">$16&ndash;19/mo</span></div>
+      <p>A paid site plan. No platform branding, your domain built in, still edited by you.</p>
+      <ul>
+        <li>Wix Light is about $17/mo billed yearly, Squarespace about $16/mo &mdash; roughly the same thing</li>
+        <li>Clean address, no badges, more room for photos</li>
+        <li>Booking still runs through Square's free plan, linked from the site</li>
+      </ul>
+      <div class="trade"><b>Worth knowing:</b> Wix's own booking add-on needs their $29/mo plan. Not worth it &mdash; free Square booking does the same job, so we just link to it.</div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-top"><span class="tier-name">C &middot; Everything in one place</span><span class="tier-cost">about $24/mo</span></div>
+      <p>An all-in-one like GlossGenius: booking, deposits, no-show protection, payments, reminders, and a simple site, one login, no contract.</p>
+      <ul>
+        <li>Closest to what you had before</li>
+        <li>Deposits and no-show fees are the real reason to pay for this</li>
+        <li>Cancel any time if things slow down again</li>
+      </ul>
+      <div class="trade"><b>My take:</b> only worth it once you're booked enough that a couple of saved no-shows pays the bill. Don't start here.</div>
+    </div>
+
+  </div>
+
+  <div class="q" style="margin-top:22px"><label>Which sounds right to you?</label>
+    <div class="chips" data-label="Preferred package">
+      <button type="button" class="chip">A &mdash; free, keep it at zero</button>
+      <button type="button" class="chip">A+ &mdash; free + my own domain</button>
+      <button type="button" class="chip">B &mdash; $16&ndash;19/mo</button>
+      <button type="button" class="chip">C &mdash; ~$24/mo all-in-one</button>
+      <button type="button" class="chip">Not sure &mdash; talk me through it</button>
+    </div></div>
+
+  <div class="q"><label>What's the most you'd actually be comfortable spending per month?
+    <span class="hint">Say the real number. It's the single most useful thing in this whole form.</span></label>
+    <div class="chips" data-label="Monthly budget ceiling">
+      <button type="button" class="chip">$0</button>
+      <button type="button" class="chip">A few dollars</button>
+      <button type="button" class="chip">Up to $10</button>
+      <button type="button" class="chip">Up to $20</button>
+      <button type="button" class="chip">Up to $25</button>
+      <button type="button" class="chip">Depends how busy I am</button>
+    </div></div>
+
+  <div class="q"><label>Do you want a business email like lily@nailsbylily.com?
+    <span class="hint">Optional. Runs about $6/mo, or free forwarding to the email you already use.</span></label>
+    <div class="chips" data-label="Business email">
+      <button type="button" class="chip">Yes</button>
+      <button type="button" class="chip">Free forwarding is fine</button>
+      <button type="button" class="chip">No, use my regular email</button>
+    </div></div>
+
+  <div class="yours"><b>All of it goes in your name.</b> Every account &mdash; the domain, the site, the booking tool &mdash; gets set up under your email with your billing. Nothing runs through me. If you ever want to fire me, change platforms, or hand it to someone else, you can, and nothing breaks.</div>
+</section>
+
+<section>
+  <h2><span class="num">7</span> After I hand it over</h2>
+  <p class="intro">Being straight with you about how this works, so there are no surprises.</p>
+
+  <div class="note"><b>The deal:</b> I build it, set it up in your accounts, and walk you through editing it. After that it's yours to run. I'm not going to be your website guy forever &mdash; but I'll make sure you can actually do it yourself, and it'll be a platform where changing a price or adding a photo takes about a minute on your phone.</div>
+
+  <div class="q" style="margin-top:20px"><label>How much do you want to be able to change yourself?</label>
+    <div class="chips" data-label="Self-edit comfort">
+      <button type="button" class="chip">Everything &mdash; teach me</button>
+      <button type="button" class="chip">Photos and prices, that's it</button>
+      <button type="button" class="chip">As little as possible</button>
+      <button type="button" class="chip">Depends how hard it is</button>
+    </div></div>
+
+  <div class="q"><label>How comfortable are you with this kind of thing generally?
+    <span class="hint">Straight answer helps. It decides which platform I put you on.</span></label>
+    <div class="chips" data-label="Tech comfort">
+      <button type="button" class="chip">Pretty comfortable</button>
+      <button type="button" class="chip">I can figure it out</button>
+      <button type="button" class="chip">Show me once and I'll manage</button>
+      <button type="button" class="chip">Honestly, not very</button>
+    </div></div>
+
+  <div class="q"><label>When would you want this live?</label>
+    <div class="chips" data-label="Timeline">
+      <button type="button" class="chip">As soon as possible</button>
+      <button type="button" class="chip">Next month or so</button>
+      <button type="button" class="chip">No rush</button>
+    </div></div>
+
+  <div class="q"><label>Anything I haven't asked that I should have?
+    <span class="hint">Worries, questions, something you've always wanted the site to do.</span></label>
+    <textarea data-label="Anything else" placeholder="..."></textarea></div>
+</section>
+
+<div class="out" id="out">
+  <h2 style="font-family:var(--disp);font-weight:700;font-size:1.2rem;margin-bottom:10px">Your answers</h2>
+  <pre id="outtxt"></pre>
+</div>
+
+<footer>
+  Nothing here gets sent anywhere until you tap the button. Your answers save on your own phone as you type.
+  <br><span class="ver" id="ver">intake v1.0 &middot; Jul 13</span>
+</footer>
+
+</div>
+
+<div class="bar"><div class="barin">
+  <button class="btn btn-main" id="copy">Copy my answers</button>
+  <button class="btn btn-alt" id="share">Share</button>
+</div>
+<div class="saved" id="saved">&nbsp;</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "nbl-intake-v1";
+
+  var store = {
+    get: function(){
+      try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
+      catch(e){ return this.mem || {}; }
+    },
+    set: function(o){
+      this.mem = o;
+      try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e){}
+    },
+    mem: {}
+  };
+
+  var fields = [].slice.call(document.querySelectorAll("input[data-label], textarea[data-label]"));
+  var chipsets = [].slice.call(document.querySelectorAll(".chips[data-label]"));
+
+  function keyOf(label){ return label.replace(/[^a-z0-9]+/gi, "_").toLowerCase(); }
+
+  // restore
+  var saved = store.get();
+  fields.forEach(function(f){
+    var k = keyOf(f.dataset.label);
+    if (saved[k]) f.value = saved[k];
+  });
+  chipsets.forEach(function(cs){
+    var k = keyOf(cs.dataset.label);
+    var v = saved[k];
+    if (!v) return;
+    var picked = Array.isArray(v) ? v : [v];
+    [].slice.call(cs.querySelectorAll(".chip")).forEach(function(c){
+      if (picked.indexOf(c.textContent.trim()) !== -1) c.setAttribute("aria-pressed", "true");
+    });
+  });
+
+  function collect(){
+    var data = {};
+    fields.forEach(function(f){
+      var v = f.value.trim();
+      if (v) data[keyOf(f.dataset.label)] = v;
+    });
+    chipsets.forEach(function(cs){
+      var on = [].slice.call(cs.querySelectorAll('.chip[aria-pressed="true"]'))
+        .map(function(c){ return c.textContent.trim(); });
+      if (!on.length) return;
+      data[keyOf(cs.dataset.label)] = cs.dataset.multi ? on : on[0];
+    });
+    return data;
+  }
+
+  var total = fields.length + chipsets.length;
+
+  function flash(msg){
+    var s = document.getElementById("saved");
+    s.textContent = msg;
+    clearTimeout(flash.t);
+    flash.t = setTimeout(function(){ s.innerHTML = "&nbsp;"; }, 1600);
+  }
+
+  function sync(){
+    var data = collect();
+    store.set(data);
+    var n = Object.keys(data).length;
+    document.getElementById("pf").style.width = total ? (n / total * 100) + "%" : "0%";
+    document.getElementById("pt").textContent = n + " of " + total + " answered";
+  }
+
+  fields.forEach(function(f){
+    f.addEventListener("input", function(){ sync(); flash("Saved"); });
+  });
+
+  chipsets.forEach(function(cs){
+    var multi = !!cs.dataset.multi;
+    [].slice.call(cs.querySelectorAll(".chip")).forEach(function(c){
+      c.setAttribute("aria-pressed", c.getAttribute("aria-pressed") === "true" ? "true" : "false");
+      c.addEventListener("click", function(){
+        var on = c.getAttribute("aria-pressed") === "true";
+        if (!multi) {
+          [].slice.call(cs.querySelectorAll(".chip")).forEach(function(o){
+            o.setAttribute("aria-pressed", "false");
+          });
+        }
+        c.setAttribute("aria-pressed", on ? "false" : "true");
+        sync();
+        flash("Saved");
+      });
+    });
+  });
+
+  function compile(){
+    var data = collect();
+    var lines = ["NAILS BY LILY - site questionnaire", ""];
+    function push(label){
+      var k = keyOf(label);
+      if (!data[k]) return;
+      var v = Array.isArray(data[k]) ? data[k].join(", ") : data[k];
+      lines.push(label + ": " + v);
+    }
+    var order = [];
+    fields.forEach(function(f){ order.push({ el: f, label: f.dataset.label }); });
+    chipsets.forEach(function(cs){ order.push({ el: cs, label: cs.dataset.label }); });
+    order.sort(function(a, b){
+      var p = a.el.compareDocumentPosition(b.el);
+      return (p & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+    });
+    order.forEach(function(o){ push(o.label); });
+    if (lines.length === 2) lines.push("(nothing answered yet)");
+    return lines.join("\n");
+  }
+
+  function show(txt){
+    document.getElementById("outtxt").textContent = txt;
+    document.getElementById("out").classList.add("show");
+    document.getElementById("out").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.getElementById("copy").addEventListener("click", function(){
+    var txt = compile();
+    show(txt);
+    var done = function(){ flash("Copied - paste it to Mot"); };
+    try {
+      navigator.clipboard.writeText(txt).then(done, function(){ flash("Copy the text above"); });
+    } catch(e){ flash("Copy the text above"); }
+  });
+
+  document.getElementById("share").addEventListener("click", function(){
+    var txt = compile();
+    show(txt);
+    if (navigator.share) {
+      navigator.share({ title: "Nails by Lily questionnaire", text: txt })
+        .catch(function(){});
+    } else {
+      flash("Copy the text above");
+    }
+  });
+
+  document.getElementById("ver").addEventListener("click", function(){
+    flash(document.getElementById("ver").textContent);
+  });
+
+  sync();
+})();
+</script>
+</body>
+</html>
