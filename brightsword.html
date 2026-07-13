@@ -113,6 +113,13 @@
     font-size:13px; letter-spacing:.12em; width:86px;}
   .schedtbl td:last-child{color:#a8917a; text-align:right; font-size:13.5px;}
 
+  .feat{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:30px;}
+  .feat figure{margin:0;}
+  .feat img{width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px;
+    border:1px solid #4a3826; box-shadow:0 10px 26px rgba(0,0,0,.5);}
+  .feat figcaption{font-family:Georgia,serif; font-style:italic; color:#cdb99c; font-size:13.5px;
+    text-align:center; margin-top:9px;}
+  @media (max-width:560px){ .feat{grid-template-columns:1fr;} }
   /* ---------- gallery ---------- */
   .gal{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-top:28px;}
   .gal img, .gal .ph{aspect-ratio:1; width:100%; object-fit:cover; border-radius:10px;
@@ -187,6 +194,16 @@
   <div class="wrap">
     <div class="kicker" id="c-l5"></div>
     <h2 id="c-l6"></h2>
+    <div class="feat">
+      <figure>
+        <img src="bsa-renfaire.jpg" alt="Black and orange leather backpack at the faire" loading="lazy" decoding="async">
+        <figcaption>Built for the faire. Carried at the faire.</figcaption>
+      </figure>
+      <figure>
+        <img src="bsa-duffel.jpg" alt="Leather duffel with hand-stitched pocket, ocean behind" loading="lazy" decoding="async">
+        <figcaption>A duffel that will outlive the vacation.</figcaption>
+      </figure>
+    </div>
     <div class="gal" id="c-gallery"></div>
   </div>
 </section>
@@ -197,7 +214,7 @@
   <a class="cta" id="c-cta2" href="#" target="_blank" rel="noopener"></a>
   <a class="ig" id="c-ig" href="#" target="_blank" rel="noopener"></a>
   <p style="margin-top:14px; font-size:13.5px; opacity:.85;" id="c-pay"></p>
-  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v2</div>
+  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3 · full gallery</div>
 </footer>
 
 <script>
@@ -229,6 +246,7 @@ var CONFIG = {
     { name: "Clutch", desc: "Full-grain leather, snap close", price: "$70" },
     { name: "Hand-Turned Pens", desc: "Wood and resin, no two alike", price: "per piece" },
     { name: "Knives", desc: "With hand-stitched leather sheath", price: "per piece" },
+    { name: "Tool Rolls & Custom Commissions", desc: "If you can think of it, we can make it", price: "per piece" },
     { name: "Backpacks & Bags", desc: "Built to outlast the trend", price: "per piece" }
   ],
   schedule: [
@@ -236,8 +254,22 @@ var CONFIG = {
     { day: "Sat", where: "Sample: next booked show", when: "10a\u20134p" },
     { day: "Sun", where: "Sample: holiday market", when: "11a\u20135p" }
   ],
-  photos: ["bsa-wallet.jpg","bsa-knives.jpg","bsa-pens.jpg","bsa-minis.jpg","bsa-belts.jpg","bsa-display.jpg"],
-  galleryCount: 6,
+  photos: [
+    ["bsa-toolroll.jpg","Two-tone leather tool roll, hand stitched"],
+    ["bsa-clutches.jpg","Snap clutches in black, oxblood, and tan"],
+    ["bsa-woodpens.jpg","Hand-turned wood pens in a display case"],
+    ["bsa-kitchenknife.jpg","Kitchen knife with rosewood handle on the stone"],
+    ["bsa-resinpens.jpg","Resin pens, seventeen one-of-a-kind blanks"],
+    ["bsa-sling-tan.jpg","Tan leather sling bag"],
+    ["bsa-olivewood.jpg","Bolt-action pen in Bethlehem olive wood"],
+    ["bsa-wallet.jpg","Trifold wallet in green leather"],
+    ["bsa-knives.jpg","Fixed-blade knives in fitted sheaths"],
+    ["bsa-sling-navy.jpg","Navy pebbled leather sling"],
+    ["bsa-minis.jpg","Minimalist card wallets"],
+    ["bsa-belts.jpg","Belt rack at the booth"],
+    ["bsa-display.jpg","The booth: journals, clutches, wallets"]
+  ],
+  galleryCount: 13,
   labels: {
     menuKicker: "The table", menu: "Catalog",
     schedKicker: "On the road", sched: "Find the booth", hero: "Find the booth",
@@ -401,7 +433,7 @@ function build(){
   var g = "";
   var n = Math.max(CONFIG.photos.length, CONFIG.galleryCount);
   for (var k=0;k<n;k++){
-    g += CONFIG.photos[k] ? '<img src="'+esc(CONFIG.photos[k])+'" alt="">' : '<div class="ph">Photo</div>';
+    g += CONFIG.photos[k] ? '<img src="'+esc(CONFIG.photos[k][0])+'" alt="'+esc(CONFIG.photos[k][1])+'" loading="lazy" decoding="async">' : '<div class="ph">Photo</div>';
   }
   $("c-gallery").innerHTML = g;
 
