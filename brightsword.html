@@ -120,6 +120,34 @@
   .feat figcaption{font-family:Georgia,serif; font-style:italic; color:#cdb99c; font-size:13.5px;
     text-align:center; margin-top:9px;}
   @media (max-width:560px){ .feat{grid-template-columns:1fr;} }
+  /* ---------- benches ---------- */
+  .bench{margin-top:36px;}
+  .blabel{display:flex; align-items:center; gap:14px; color:#c9973f; font-size:11.5px;
+    letter-spacing:.26em; text-transform:uppercase; white-space:nowrap;}
+  .blabel::before, .blabel::after{content:""; height:1px; background:#3a2c1f; flex:1;}
+  .bgrid{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:minmax(120px,auto); gap:12px; margin-top:16px;}
+  .bgrid img{width:100%; height:100%; object-fit:cover; border-radius:10px; border:1px solid #3a2c1f;
+    box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .bgrid figure{margin:0; position:relative; overflow:hidden; border-radius:10px;}
+  .bgrid .lead{grid-column:span 2; grid-row:span 2;}
+  .bgrid .lead figcaption{position:absolute; left:0; right:0; bottom:0; padding:26px 14px 11px;
+    background:linear-gradient(180deg, rgba(20,16,12,0), rgba(20,16,12,.88));
+    font-family:Georgia,serif; font-style:italic; color:#efe3cf; font-size:13.5px;}
+  .bgrid .wide{grid-column:span 2;}
+  .flip .bgrid{direction:rtl;}
+  .flip .bgrid > *{direction:ltr;}
+  .qtile{grid-column:span 2; position:relative; display:flex; align-items:center; justify-content:center;
+    background:#241c14; border:1px solid #3a2c1f; border-radius:10px; padding:18px;
+    font-family:Georgia,serif; font-style:italic; color:#cdb99c; font-size:15px; text-align:center;}
+  .qtile::before{content:""; position:absolute; inset:6px; border:1.5px dashed rgba(201,151,63,.5); border-radius:7px;}
+  .bwide{margin:36px 0 0;}
+  .bwide img{width:100%; aspect-ratio:16/7; object-fit:cover; border-radius:12px; border:1px solid #4a3826;}
+  .bwide figcaption{font-family:Georgia,serif; font-style:italic; color:#cdb99c; font-size:13.5px;
+    text-align:center; margin-top:9px;}
+  @media (max-width:560px){
+    .bgrid{grid-template-columns:repeat(2,1fr);}
+    .bwide img{aspect-ratio:4/3;}
+  }
   /* ---------- gallery ---------- */
   .gal{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-top:28px;}
   .gal img, .gal .ph{aspect-ratio:1; width:100%; object-fit:cover; border-radius:10px;
@@ -214,7 +242,7 @@
   <a class="cta" id="c-cta2" href="#" target="_blank" rel="noopener"></a>
   <a class="ig" id="c-ig" href="#" target="_blank" rel="noopener"></a>
   <p style="margin-top:14px; font-size:13.5px; opacity:.85;" id="c-pay"></p>
-  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3 · full gallery</div>
+  <div class="fine">Design preview by Mot Buchanan · prices are samples unless confirmed · forged edition v3.1 · guided gallery</div>
 </footer>
 
 <script>
@@ -254,22 +282,31 @@ var CONFIG = {
     { day: "Sat", where: "Sample: next booked show", when: "10a\u20134p" },
     { day: "Sun", where: "Sample: holiday market", when: "11a\u20135p" }
   ],
-  photos: [
-    ["bsa-toolroll.jpg","Two-tone leather tool roll, hand stitched"],
-    ["bsa-clutches.jpg","Snap clutches in black, oxblood, and tan"],
-    ["bsa-woodpens.jpg","Hand-turned wood pens in a display case"],
-    ["bsa-kitchenknife.jpg","Kitchen knife with rosewood handle on the stone"],
-    ["bsa-resinpens.jpg","Resin pens, seventeen one-of-a-kind blanks"],
-    ["bsa-sling-tan.jpg","Tan leather sling bag"],
-    ["bsa-olivewood.jpg","Bolt-action pen in Bethlehem olive wood"],
-    ["bsa-wallet.jpg","Trifold wallet in green leather"],
-    ["bsa-knives.jpg","Fixed-blade knives in fitted sheaths"],
-    ["bsa-sling-navy.jpg","Navy pebbled leather sling"],
-    ["bsa-minis.jpg","Minimalist card wallets"],
-    ["bsa-belts.jpg","Belt rack at the booth"],
-    ["bsa-display.jpg","The booth: journals, clutches, wallets"]
+  benches: [
+    { label: "The leather bench",
+      lead: ["bsa-toolroll.jpg","A full wrench roll, saddle stitched in two-tone"],
+      support: [
+        ["bsa-clutches.jpg","Snap clutches in black, oxblood, and tan"],
+        ["bsa-sling-tan.jpg","Tan leather sling bag"],
+        ["bsa-sling-navy.jpg","Navy pebbled leather sling"],
+        ["bsa-wallet.jpg","Trifold wallet in green leather"],
+        ["bsa-minis.jpg","Minimalist card wallets"],
+        ["bsa-belts.jpg","Belt rack at the booth"]
+      ] },
+    { label: "The pen lathe", flip: true,
+      lead: ["bsa-resinpens.jpg","Seventeen resin blanks, no two alike"],
+      support: [
+        ["bsa-woodpens.jpg","Hand-turned wood pens in a display case"],
+        ["bsa-olivewood.jpg","Bolt-action pen in Bethlehem olive wood"]
+      ] },
+    { label: "The blade bench",
+      lead: ["bsa-knives.jpg","Fixed blades in fitted sheaths"],
+      support: [
+        ["bsa-kitchenknife.jpg","Kitchen knife with rosewood handle on the stone","wide"]
+      ],
+      quote: "Steel, wood, and hide \u2014 sharpened by hand." }
   ],
-  galleryCount: 13,
+  booth: ["bsa-display.jpg","Find the booth \u2014 the whole bench travels"],
   labels: {
     menuKicker: "The table", menu: "Catalog",
     schedKicker: "On the road", sched: "Find the booth", hero: "Find the booth",
@@ -431,10 +468,22 @@ function build(){
   $("c-sched").innerHTML = sc;
 
   var g = "";
-  var n = Math.max(CONFIG.photos.length, CONFIG.galleryCount);
-  for (var k=0;k<n;k++){
-    g += CONFIG.photos[k] ? '<img src="'+esc(CONFIG.photos[k][0])+'" alt="'+esc(CONFIG.photos[k][1])+'" loading="lazy" decoding="async">' : '<div class="ph">Photo</div>';
+  function bimg(p, cls){
+    return '<figure'+(cls?' class="'+cls+'"':'')+'><img src="'+esc(p[0])+'" alt="'+esc(p[1])+'" loading="lazy" decoding="async">'
+      + (cls==="lead" ? '<figcaption>'+esc(p[1])+'</figcaption>' : '')
+      + '</figure>';
   }
+  for (var b=0;b<CONFIG.benches.length;b++){
+    var B = CONFIG.benches[b];
+    g += '<div class="bench'+(B.flip?' flip':'')+'"><div class="blabel">'+esc(B.label)+'</div><div class="bgrid">';
+    g += bimg(B.lead, "lead");
+    for (var k=0;k<B.support.length;k++){
+      g += bimg(B.support[k], B.support[k][2] || "");
+    }
+    if (B.quote) g += '<div class="qtile">'+esc(B.quote)+'</div>';
+    g += '</div></div>';
+  }
+  if (CONFIG.booth) g += '<figure class="bwide"><img src="'+esc(CONFIG.booth[0])+'" alt="'+esc(CONFIG.booth[1])+'" loading="lazy" decoding="async"><figcaption>'+esc(CONFIG.booth[1])+'</figcaption></figure>';
   $("c-gallery").innerHTML = g;
 
   $("c-cta2").textContent = CONFIG.ctaText;
