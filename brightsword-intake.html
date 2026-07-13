@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright Sword Artisan &mdash; Site Questionnaire</title>
+<style>
+  :root{ --coal:#171310; --hide:#241c14; --hideline:#3a2c1f; --parch:#efe3cf;
+    --ember:#ff7a2f; --emberdeep:#c9491a; --brass:#c9973f; --smoke:#a8917a; }
+  *{box-sizing:border-box; margin:0;}
+  body{background:#171310 radial-gradient(ellipse 120% 50% at 50% -10%, #241a12 0%, #171310 60%);
+    color:#efe3cf; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; padding-bottom:120px;}
+  header{text-align:center; padding:52px 20px 34px;}
+  header h1{font-family:Georgia,serif; font-weight:400; font-size:clamp(30px,7vw,44px); line-height:1.05;}
+  header .sub{margin-top:12px; color:#cdb99c; font-family:Georgia,serif; font-style:italic; font-size:16px;}
+  header .note{margin-top:14px; color:#a8917a; font-size:13px; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.55;}
+  main{max-width:720px; margin:0 auto; padding:0 16px;}
+  section{position:relative; background:#241c14; border:1px solid #3a2c1f; border-radius:14px;
+    padding:22px 18px; margin-top:18px;}
+  section::before{content:""; position:absolute; inset:7px; border:1.5px dashed rgba(201,151,63,.45);
+    border-radius:9px; pointer-events:none;}
+  section > *{position:relative;}
+  h2{font-family:Georgia,serif; font-weight:400; font-size:21px; color:#efe3cf;}
+  h2 .num{color:#c9973f; margin-right:8px;}
+  .q{margin-top:18px;}
+  .q label, .q .qlab{display:block; font-size:14.5px; color:#e6d6bc; margin-bottom:8px; line-height:1.45;}
+  .q .hint{color:#a8917a; font-size:12.5px; display:block; margin-top:3px;}
+  input[type=text], textarea{width:100%; background:#171310; border:1px solid #4a3826; border-radius:10px;
+    color:#efe3cf; font-family:inherit; font-size:15px; padding:12px;}
+  textarea{min-height:84px; resize:vertical;}
+  input:focus, textarea:focus{outline:none; border-color:#c9973f;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{font-family:inherit; font-size:14px; color:#e6d6bc; background:#171310; border:1px solid #4a3826;
+    border-radius:999px; padding:10px 15px; cursor:pointer; transition:all .12s ease;}
+  .chip.on{border-color:#ff7a2f; background:rgba(255,122,47,.15); color:#ffd9bd;
+    box-shadow:0 0 10px rgba(255,122,47,.25);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:480px){ .grid2{grid-template-columns:1fr;} }
+  .savebar{position:fixed; left:0; right:0; bottom:0; background:rgba(20,16,12,.97);
+    border-top:1px solid #3a2c1f; padding:12px 16px; display:flex; gap:10px; z-index:10;}
+  .savebar button{flex:1; font-family:Georgia,serif; font-size:16px; font-weight:700; border:none;
+    border-radius:11px; padding:14px; cursor:pointer;}
+  #copyBtn{background:linear-gradient(180deg,#ff7a2f,#c9491a); color:#14100c;
+    box-shadow:0 3px 14px rgba(255,122,47,.3);}
+  #shareBtn{background:#241c14; border:1px solid #c9973f; color:#e6d6bc;}
+  .saved{color:#a8917a; font-size:12px; text-align:center; margin-top:26px;}
+  footer{text-align:center; color:#6d5942; font-size:12px; padding:34px 20px 10px; line-height:1.7;}
+  @media (prefers-reduced-motion: reduce){ .chip{transition:none;} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Let&rsquo;s build it right.</h1>
+  <p class="sub">A few questions so the site fits the work.</p>
+  <p class="note">Answer what you can, skip what you&rsquo;re not sure about &mdash; nothing here is binding.
+    Your answers save on your phone as you go, so you can come back anytime.
+    When you&rsquo;re done, hit <b>Copy my answers</b> at the bottom and send them to Mot however you like.</p>
+</header>
+
+<main>
+
+<section data-sec="The maker">
+  <h2><span class="num">I.</span>The maker</h2>
+  <div class="q"><label>What should the site be called?
+    <span class="hint">Your booth signs say Anodyne, your page says Bright Sword Artisan &mdash; which name leads? Both?</span></label>
+    <input type="text" data-label="Site name / brand" placeholder="Bright Sword Artisan, Anodyne, both...">
+  </div>
+  <div class="q"><label>Your story, two or three sentences.
+    <span class="hint">How you started, why leather and wood and steel. This becomes the About section.</span></label>
+    <textarea data-label="Story"></textarea>
+  </div>
+  <div class="q"><label>Links people should find you at</label>
+    <input type="text" data-label="Facebook / Instagram / other links" placeholder="Facebook page, Instagram, anything else">
+  </div>
+</section>
+
+<section data-sec="The goods">
+  <h2><span class="num">II.</span>The goods</h2>
+  <div class="q"><span class="qlab">What do you make and sell? Tap everything that belongs on the site.</span>
+    <div class="chips" data-label="Products">
+      <button class="chip">Pens (wood)</button><button class="chip">Pens (resin)</button>
+      <button class="chip">Knives</button><button class="chip">Kitchen knives</button>
+      <button class="chip">Wallets</button><button class="chip">Clutches</button>
+      <button class="chip">Belts</button><button class="chip">Bags &amp; backpacks</button>
+      <button class="chip">Journals</button><button class="chip">Tool rolls</button>
+      <button class="chip">Straps</button><button class="chip">Bookmarks</button>
+      <button class="chip">Sheaths</button><button class="chip">Other</button>
+    </div>
+  </div>
+  <div class="q"><label>Real prices, item by item.
+    <span class="hint">Whatever you actually charge &mdash; ranges are fine (&ldquo;pens $35&ndash;60, knives $85 and up&rdquo;). The demo prices were my guesses; correct them all here.</span></label>
+    <textarea data-label="Real prices" placeholder="Bookmarks $5, straps $5, mini wallets $15, journals $25, clutches $70..."></textarea>
+  </div>
+  <div class="q"><label>Materials you work with and like to talk about.
+    <span class="hint">Leathers, wood species, steels, hardware. These become the words on the site &mdash; buyers love the specifics.</span></label>
+    <textarea data-label="Materials" placeholder="Full-grain leather, leopardwood, Bethlehem olive wood, damascus..."></textarea>
+  </div>
+  <div class="q"><label>Roughly what do materials cost you on a typical piece?
+    <span class="hint">Optional &mdash; only so pricing on custom work protects your margin. Stays between us.</span></label>
+    <input type="text" data-label="Typical material costs" placeholder="e.g. pen blanks $4-12, knife steel $20-40...">
+  </div>
+</section>
+
+<section data-sec="Custom orders">
+  <h2><span class="num">III.</span>Custom orders</h2>
+  <div class="q"><span class="qlab">Which things can people design their own of?</span>
+    <div class="chips" data-label="Design-your-own products">
+      <button class="chip">Pens</button><button class="chip">Knives</button>
+      <button class="chip">Wallets</button><button class="chip">Bags</button>
+      <button class="chip">Belts</button><button class="chip">Anything (if you can think of it...)</button>
+    </div>
+  </div>
+  <div class="q"><label>For custom pieces, what does the buyer get to choose?
+    <span class="hint">Woods, leathers, hardware color, blade length, initials, thread color... list per product if it differs.</span></label>
+    <textarea data-label="Custom options buyers choose"></textarea>
+  </div>
+  <div class="q"><label>Custom price ranges and what moves the price.
+    <span class="hint">e.g. &ldquo;knives $85&ndash;200: damascus adds $60, sheath included.&rdquo; This makes the builders on the site quote honestly.</span></label>
+    <textarea data-label="Custom price ranges and upcharges"></textarea>
+  </div>
+  <div class="q grid2">
+    <div><label>Turnaround time on a custom order</label>
+      <input type="text" data-label="Custom turnaround" placeholder="e.g. 2-3 weeks"></div>
+    <div><label>Deposit up front?</label>
+      <input type="text" data-label="Deposit policy" placeholder="e.g. half down, pay on pickup..."></div>
+  </div>
+</section>
+
+<section data-sec="Shows and schedule">
+  <h2><span class="num">IV.</span>Shows &amp; schedule</h2>
+  <div class="q"><label>Where can people find the booth? List what you know.
+    <span class="hint">Event name, city, dates &mdash; as many as you have, as far out as you book. This builds the calendar page.</span></label>
+    <textarea data-label="Upcoming shows" placeholder="Great Lakes Medieval Faire, Geneva OH, weekends Jul 18 - Aug 9..."></textarea>
+  </div>
+  <div class="q"><span class="qlab">How far ahead do you usually know your schedule?</span>
+    <div class="chips" data-single data-label="Schedule known how far ahead">
+      <button class="chip">A season ahead</button><button class="chip">A month or two</button>
+      <button class="chip">Week to week</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">Want the site to show a full calendar of where you&rsquo;ll be?</span>
+    <div class="chips" data-single data-label="Full calendar wanted">
+      <button class="chip">Yes, full calendar</button><button class="chip">Just the next few shows</button>
+      <button class="chip">Not sure yet</button>
+    </div>
+  </div>
+</section>
+
+<section data-sec="Selling and shipping">
+  <h2><span class="num">V.</span>Selling &amp; shipping</h2>
+  <div class="q"><span class="qlab">Where should orders actually happen?</span>
+    <div class="chips" data-label="Order channels">
+      <button class="chip">At the booth only</button><button class="chip">Message me (FB/text)</button>
+      <button class="chip">Etsy shop</button><button class="chip">Shopify store</button>
+      <button class="chip">Store built into the site</button><button class="chip">Not sure &mdash; advise me</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">If someone orders from far away&hellip;</span>
+    <div class="chips" data-single data-label="Shipping">
+      <button class="chip">I&rsquo;ll ship it myself</button><button class="chip">Local pickup / at shows only</button>
+      <button class="chip">Depends on the piece</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">Payments you take</span>
+    <div class="chips" data-label="Payments">
+      <button class="chip">Cash</button><button class="chip">PayPal</button>
+      <button class="chip">Cash App</button><button class="chip">Card reader</button>
+      <button class="chip">Venmo</button>
+    </div>
+  </div>
+</section>
+
+<section data-sec="The website itself">
+  <h2><span class="num">VI.</span>The website itself</h2>
+  <div class="q"><span class="qlab">What belongs on it? Tap all you want.</span>
+    <div class="chips" data-label="Site sections wanted">
+      <button class="chip">Catalog with prices</button><button class="chip">Design-your-own builders</button>
+      <button class="chip">Show calendar</button><button class="chip">Photo gallery</button>
+      <button class="chip">About / story</button><button class="chip">Online store</button>
+      <button class="chip">Contact form</button><button class="chip">Email list signup</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">Monthly hosting budget you&rsquo;re comfortable with
+    <span class="hint">This decides the platform. A store usually means the $10&ndash;20+ tiers.</span></span>
+    <div class="chips" data-single data-label="Hosting budget">
+      <button class="chip">Free / as close as possible</button><button class="chip">Around $10</button>
+      <button class="chip">$15&ndash;20</button><button class="chip">Up to $30 if it earns it</button>
+    </div>
+  </div>
+  <div class="q"><span class="qlab">Who updates the site after handoff?</span>
+    <div class="chips" data-single data-label="Who updates">
+      <button class="chip">Me, from my phone</button><button class="chip">Mostly me, Mot for big stuff</button>
+      <button class="chip">I&rsquo;d rather pay per change</button>
+    </div>
+  </div>
+  <div class="q grid2">
+    <div><label>Own a domain name already?</label>
+      <input type="text" data-label="Domain owned or wanted" placeholder="No / yes: brightsword.com / want one"></div>
+    <div><label>Business email, or want one?</label>
+      <input type="text" data-label="Business email" placeholder="e.g. orders@..."></div>
+  </div>
+</section>
+
+<section data-sec="Photos and extras">
+  <h2><span class="num">VII.</span>Photos &amp; anything else</h2>
+  <div class="q"><label>Can you get more photos, and of what?
+    <span class="hint">Most wanted: you at the bench working, the booth with people, close-ups of stitching and grain.</span></label>
+    <textarea data-label="Photos he can supply"></textarea>
+  </div>
+  <div class="q"><label>Anything I didn&rsquo;t ask that matters?</label>
+    <textarea data-label="Anything else"></textarea>
+  </div>
+</section>
+
+<p class="saved" id="savedNote">Answers save automatically on this phone.</p>
+</main>
+
+<div class="savebar">
+  <button id="copyBtn">Copy my answers</button>
+  <button id="shareBtn">Share&hellip;</button>
+</div>
+
+<footer>Bright Sword Artisan site intake &middot; built by Mot Buchanan &middot; intake v1<br>
+Nothing sends anywhere until you copy or share it yourself.</footer>
+
+<script>
+"use strict";
+var KEY = "bsa-intake-v1";
+
+function $(id){ return document.getElementById(id); }
+
+/* chips */
+document.addEventListener("click", function(e){
+  var chip = e.target.closest(".chip");
+  if (!chip) return;
+  var grp = chip.parentElement;
+  if (grp.hasAttribute("data-single")){
+    var sel = grp.querySelectorAll(".chip.on");
+    for (var i=0;i<sel.length;i++){ if (sel[i] !== chip) sel[i].classList.remove("on"); }
+  }
+  chip.classList.toggle("on");
+  save();
+});
+document.addEventListener("input", function(e){
+  if (e.target.matches("input,textarea")) save();
+});
+
+/* autosave */
+function snapshot(){
+  var data = { fields: {}, chips: {} };
+  var f = document.querySelectorAll("input[data-label],textarea[data-label]");
+  for (var i=0;i<f.length;i++){ data.fields[f[i].getAttribute("data-label")] = f[i].value; }
+  var g = document.querySelectorAll(".chips[data-label]");
+  for (var j=0;j<g.length;j++){
+    var on = g[j].querySelectorAll(".chip.on"), vals = [];
+    for (var k=0;k<on.length;k++){ vals.push(on[k].textContent); }
+    data.chips[g[j].getAttribute("data-label")] = vals;
+  }
+  return data;
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(snapshot())); }catch(e){}
+  $("savedNote").textContent = "Saved just now \u00b7 answers stay on this phone until you send them.";
+}
+function restore(){
+  var raw = null;
+  try{ raw = localStorage.getItem(KEY); }catch(e){}
+  if (!raw) return;
+  try{
+    var data = JSON.parse(raw);
+    var f = document.querySelectorAll("input[data-label],textarea[data-label]");
+    for (var i=0;i<f.length;i++){
+      var v = data.fields[f[i].getAttribute("data-label")];
+      if (v) f[i].value = v;
+    }
+    var g = document.querySelectorAll(".chips[data-label]");
+    for (var j=0;j<g.length;j++){
+      var want = data.chips[g[j].getAttribute("data-label")] || [];
+      var chips = g[j].querySelectorAll(".chip");
+      for (var k=0;k<chips.length;k++){
+        if (want.indexOf(chips[k].textContent) !== -1) chips[k].classList.add("on");
+      }
+    }
+  }catch(e){}
+}
+restore();
+
+/* compile */
+function compile(){
+  var out = "BRIGHT SWORD ARTISAN \u2014 SITE QUESTIONNAIRE\n";
+  var secs = document.querySelectorAll("section[data-sec]");
+  for (var s=0;s<secs.length;s++){
+    var lines = [];
+    var f = secs[s].querySelectorAll("input[data-label],textarea[data-label]");
+    for (var i=0;i<f.length;i++){
+      if (f[i].value.trim()) lines.push(f[i].getAttribute("data-label") + ": " + f[i].value.trim());
+    }
+    var g = secs[s].querySelectorAll(".chips[data-label]");
+    for (var j=0;j<g.length;j++){
+      var on = g[j].querySelectorAll(".chip.on"), vals = [];
+      for (var k=0;k<on.length;k++){ vals.push(on[k].textContent); }
+      if (vals.length) lines.push(g[j].getAttribute("data-label") + ": " + vals.join(", "));
+    }
+    if (lines.length){
+      out += "\n== " + secs[s].getAttribute("data-sec").toUpperCase() + " ==\n" + lines.join("\n") + "\n";
+    }
+  }
+  return out;
+}
+$("copyBtn").addEventListener("click", function(){
+  var txt = compile();
+  function done(){ $("copyBtn").textContent = "Copied \u2014 now paste it to Mot"; setTimeout(function(){ $("copyBtn").textContent = "Copy my answers"; }, 2600); }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done, function(){ fallback(txt); done(); });
+  } else { fallback(txt); done(); }
+  function fallback(t){
+    var ta = document.createElement("textarea");
+    ta.value = t; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+  }
+});
+$("shareBtn").addEventListener("click", function(){
+  var txt = compile();
+  if (navigator.share){ navigator.share({ text: txt }).catch(function(){}); }
+  else { alert("Sharing isn't supported here \u2014 use Copy my answers instead."); }
+});
+</script>
+</body>
+</html>
