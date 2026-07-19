@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Solid — the questionnaire</title>
+<style>
+  :root{ --deep:#08222e; --panel:#0e2f3f; --panel2:#123a4d; --clear:#4ec6d9; --clear2:#7fdcea;
+    --clay:#c07a44; --clay2:#e0a066; --green:#4fbf7a; --foam:#eaf6f8; --mute:#9db8c2; --line:#1c4a5e; }
+  *{box-sizing:border-box; margin:0;}
+  body{background:var(--deep); color:var(--foam); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased; padding-bottom:110px;}
+  .wrap{max-width:640px; margin:0 auto; padding:0 18px;}
+  header{text-align:center; padding:52px 18px 30px;}
+  header h1{font-family:Georgia,serif; font-weight:700; font-size:clamp(28px,7vw,40px);}
+  header .sub{color:var(--mute); margin-top:12px; font-size:15px; max-width:480px; margin-left:auto; margin-right:auto;}
+  header .policy{margin-top:16px; display:inline-block; background:rgba(79,191,122,.12); border:1px solid var(--green);
+    color:#9fe6bd; border-radius:12px; padding:10px 16px; font-size:13px; font-weight:700;}
+  .qsec{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 18px; margin-top:16px;
+    position:relative; overflow:hidden;}
+  .qsec::before{content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,#8a5a30,#c07a44 30%,#134a5e 65%,#4ec6d9);}
+  .qnum{font-size:11px; letter-spacing:.2em; font-weight:800; color:var(--clay2); text-transform:uppercase; font-family:system-ui;}
+  .qsec h2{font-family:Georgia,serif; font-weight:700; font-size:19px; margin-top:6px;}
+  .qsec .note{color:var(--mute); font-size:13.5px; margin-top:6px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .chip{background:#0b2836; border:1px solid var(--line); color:var(--foam); border-radius:999px;
+    padding:11px 16px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; min-height:44px;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;}
+  .chip[aria-pressed="true"]{background:var(--clear); color:#062029; border-color:var(--clear);}
+  input[type=text], textarea{width:100%; margin-top:12px; background:#0b2836; border:1px solid var(--line);
+    color:var(--foam); border-radius:10px; padding:12px 14px; font-size:15px; font-family:inherit;}
+  textarea{min-height:88px; resize:vertical;}
+  input::placeholder, textarea::placeholder{color:#537382;}
+  .donecount{color:var(--mute); font-size:12.5px; margin-top:8px;}
+
+  .compilebar{position:fixed; left:0; right:0; bottom:0; z-index:40; background:rgba(6,26,36,.96);
+    border-top:1px solid var(--line); backdrop-filter:blur(8px); padding:12px 16px;}
+  .cinner{max-width:640px; margin:0 auto; display:flex; gap:10px; align-items:center;}
+  .cinner .prog{flex:1; font-size:13px; color:var(--mute); font-weight:700;}
+  .btn{font-weight:800; font-size:15px; padding:13px 20px; border-radius:10px; border:none; cursor:pointer; font-family:inherit;}
+  .btn-primary{background:var(--clear); color:#062029;}
+  .btn-ghost{background:transparent; color:var(--foam); border:1px solid var(--line);}
+  .out{display:none; margin-top:16px;}
+  .out.show{display:block;}
+  .out textarea{min-height:220px; font-size:13px;}
+  .toast{position:fixed; left:50%; bottom:86px; transform:translateX(-50%); background:var(--green); color:#062416;
+    font-weight:800; font-size:13px; padding:9px 16px; border-radius:10px; z-index:60; opacity:0; transition:opacity .25s ease; pointer-events:none;}
+  .toast.show{opacity:1;}
+  .vbadge{position:fixed; left:10px; bottom:76px; z-index:50; background:rgba(8,34,46,.85); border:1px solid var(--line);
+    color:var(--mute); font-size:11px; padding:5px 9px; border-radius:8px;}
+  .fine{text-align:center; color:#5b7f8c; font-size:12px; padding:26px 18px 10px;}
+  @media (prefers-reduced-motion: reduce){ *{transition-duration:.001s !important;} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Help me build it right</h1>
+  <div class="sub">Ten minutes, mostly tapping. Skip anything — blanks are fine. Hit <b>Copy my answers</b> at the end and text them to me.</div>
+  <div class="policy">You open every account yourself · I never have your passwords</div>
+</header>
+
+<div class="wrap" id="c-form"></div>
+
+<div class="wrap">
+  <div class="out" id="out">
+    <textarea id="out-text" readonly></textarea>
+  </div>
+  <div class="fine">Answers live on this page only — don't refresh before you copy. Nothing is sent anywhere until you send it.</div>
+</div>
+
+<div class="compilebar">
+  <div class="cinner">
+    <div class="prog" id="prog">0 answered</div>
+    <button class="btn btn-ghost" id="btn-review" type="button">Review</button>
+    <button class="btn btn-primary" id="btn-copy" type="button">Copy my answers</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied — text it to Mot</div>
+<div class="vbadge">questionnaire · v2 · Jul 19</div>
+
+<script>
+"use strict";
+/* ================= CONFIG: questions drive everything =================
+   Built from the Kestrel questionnaire framework v1 — all 15 sections.
+   type: single | multi | text | textarea
+   ==================================================================== */
+var Q = [
+  { sec:"1 · Basics", h:"Best way to reach you?", id:"contact", type:"single",
+    opts:["Text","Call","Either works"] },
+  { sec:"1 · Basics", h:"Best time?", id:"time", type:"single",
+    opts:["Evenings","Weekends","Anytime, I'll answer when I can"] },
+  { sec:"1 · Basics", h:"Business name, exactly how it should appear everywhere", id:"bizname", type:"text",
+    ph:"Rock Solid Services" },
+
+  { sec:"2 · What you already have", h:"Tap everything that exists today", id:"have", type:"multi",
+    note:"So I build around what you've got instead of over it.",
+    opts:["A logo I want to keep","Job photos","The Facebook page","Google listing claimed by me","A business email","A customer list somewhere","None of these"] },
+
+  { sec:"3 · Services", h:"What do you actually offer?", id:"services", type:"multi",
+    opts:["Well pumps","Pressure tanks","Water lines & trenching","Water treatment / softeners","Plumbing repairs","Yard hydrants","Excavation odd jobs"] },
+  { sec:"3 · Services", h:"Anything you refuse to do, or words customers use that I should use too?", id:"svcnotes", type:"text",
+    ph:"e.g. no sewer work · everyone says \u201cwater softener guy\u201d" },
+
+  { sec:"4 · Pricing", h:"How much price do you want on the site?", id:"pricing", type:"single",
+    opts:["Real prices, up front","\u201cStarting at\u201d ranges","Quote-only, no numbers","Not sure — show me both ways"] },
+  { sec:"4 · Pricing", h:"Any flat fees worth publishing?", id:"fees", type:"text",
+    ph:"e.g. service call $75, water test $60" },
+
+  { sec:"5 · Service area", h:"How far will you go for a job?", id:"range", type:"single",
+    opts:["Ashland County only","~30 minutes out","~45 minutes out","Wherever the job pays"] },
+  { sec:"5 · Service area", h:"Towns worth name-dropping on the site", id:"towns", type:"text",
+    ph:"Loudonville, Perrysville, Jeromesville, Savannah, Polk\u2026" },
+
+  { sec:"6 · Website", h:"Which direction hit you?", id:"sitedir", type:"single",
+    note:"Deep Water is the dark one with the water tool. Clean & Clear is the bright one. Workhorse has prices up front.",
+    opts:["Deep Water","Clean & Clear","Workhorse","Mix of them / not sure yet"] },
+  { sec:"6 · Website", h:"Any company whose website you like the look of?", id:"sitelike", type:"text",
+    ph:"Paste a link or just a name" },
+  { sec:"6 · Website", h:"Hosting", id:"hosting", type:"single",
+    note:"Your Squarespace works. Other hosts can cost less monthly and lift the custom-code limit.",
+    opts:["Stay on my Squarespace","Open to alternatives","Whatever's cheapest long-term"] },
+
+  { sec:"7 · Logo", h:"Pick a lane", id:"logo", type:"single",
+    opts:["A · Stone Drop","B · Badge","C · Strata","D · Pump","E · Wordmark","Keep my current logo","Surprise me"] },
+  { sec:"7 · Logo", h:"Colors — got any?", id:"colors", type:"single",
+    note:"The palettes on the pitch are my picks, not gospel. Yours win.",
+    opts:["Use what's on my card / truck","I've got favorites (next box)","Your call — whatever looks professional"] },
+  { sec:"7 · Logo", h:"If you've got colors, name them", id:"colornames", type:"text",
+    ph:"e.g. hunter green and black, like the truck" },
+
+  { sec:"8 · The water tool", h:"The tap-a-symptom diagnostic", id:"tool", type:"single",
+    opts:["Love it — build the full one","The simple text-shortcut version","Skip for now"] },
+  { sec:"8 · The water tool", h:"A ballpark price estimator later?", id:"estimator", type:"single",
+    opts:["Yes","Maybe down the road","No"] },
+
+  { sec:"9 · Facebook", h:"How much do you want to post?", id:"social", type:"single",
+    opts:["Give me templates, I'll post if it's 2 minutes","Set it up, I'll rarely touch it","I actually like posting"] },
+  { sec:"9 · Facebook", h:"The seasonal pack — a year of posts queued by season?", id:"seasonal", type:"single",
+    opts:["Yes","No"] },
+
+  { sec:"10 · Google & reviews", h:"Your Google Business listing", id:"gbp", type:"single",
+    opts:["I claimed it","It exists but I never claimed it","No idea, honestly"] },
+  { sec:"10 · Google & reviews", h:"Printed review cards to hand out after jobs?", id:"revcards", type:"single",
+    opts:["Yes","No"] },
+  { sec:"10 · Google & reviews", h:"Where do your happy customers live right now?", id:"revwhere", type:"text",
+    ph:"e.g. Facebook comments, texts, word of mouth" },
+
+  { sec:"11 · Business email", h:"paul@rocksolidservice.com", id:"email", type:"single",
+    opts:["Forward it into my Gmail","Full inbox, set up properly","Skip"] },
+
+  { sec:"12 · Back office", h:"Tap what would actually help", id:"office", type:"multi",
+    opts:["Branded quote & invoice templates","Job & money tracker sheet","Missed-call auto-text","Service reminder list","Skip all of it"] },
+
+  { sec:"13 · Truck & gear", h:"What do you want files for?", id:"gear", type:"multi",
+    note:"I design print-ready; you order from any print shop whenever.",
+    opts:["Truck door magnets","Yard signs","Business cards","Shirts","Hats","Fridge magnets","Letterhead & envelopes","None yet"] },
+
+  { sec:"14 · Photos", h:"Job photos", id:"photos", type:"single",
+    opts:["I have some already","I'll start snapping","Give me a shot list — I don't know what to shoot"] },
+
+  { sec:"15 · The open one", h:"Anything else? Must-haves, things you hate, questions for me", id:"open", type:"textarea",
+    ph:"Say anything\u2026" }
+];
+var MOT_PHONE = "3305550100";   // PLACEHOLDER — Mot's number
+/* ==================================================================== */
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+var STATE = {};   // id -> string (single/text) or array (multi)
+
+function build(){
+  var html = "", lastSec = "";
+  for (var i=0;i<Q.length;i++){
+    var q = Q[i];
+    html += '<div class="qsec">';
+    html += '<div class="qnum">'+esc(q.sec)+'</div>';
+    html += '<h2>'+esc(q.h)+'</h2>';
+    if (q.note) html += '<div class="note">'+esc(q.note)+'</div>';
+    if (q.type === "single" || q.type === "multi"){
+      html += '<div class="chips" data-q="'+q.id+'" data-type="'+q.type+'">';
+      for (var o=0;o<q.opts.length;o++){
+        html += '<button class="chip" type="button" data-q="'+q.id+'" data-type="'+q.type+'" data-val="'+esc(q.opts[o])+'" aria-pressed="false">'+esc(q.opts[o])+'</button>';
+      }
+      html += '</div>';
+    } else if (q.type === "text"){
+      html += '<input type="text" data-q="'+q.id+'" placeholder="'+esc(q.ph||"")+'">';
+    } else {
+      html += '<textarea data-q="'+q.id+'" placeholder="'+esc(q.ph||"")+'"></textarea>';
+    }
+    html += '</div>';
+  }
+  $("c-form").innerHTML = html;
+
+  var chips = document.querySelectorAll(".chip");
+  for (var c=0;c<chips.length;c++){
+    chips[c].addEventListener("click", function(){
+      var qid = this.getAttribute("data-q");
+      var type = this.getAttribute("data-type");
+      var val = this.getAttribute("data-val");
+      var group = document.querySelectorAll('.chip[data-q="'+qid+'"]');
+      if (type === "single"){
+        var was = this.getAttribute("aria-pressed") === "true";
+        for (var g=0; g<group.length; g++) group[g].setAttribute("aria-pressed","false");
+        if (was){ delete STATE[qid]; }
+        else { this.setAttribute("aria-pressed","true"); STATE[qid] = val; }
+      } else {
+        var arr = STATE[qid] || [];
+        var idx = arr.indexOf(val);
+        if (idx >= 0){ arr.splice(idx,1); this.setAttribute("aria-pressed","false"); }
+        else { arr.push(val); this.setAttribute("aria-pressed","true"); }
+        if (arr.length) STATE[qid] = arr; else delete STATE[qid];
+      }
+      progress();
+    });
+  }
+  var inputs = document.querySelectorAll("input[data-q], textarea[data-q]");
+  for (var t=0;t<inputs.length;t++){
+    inputs[t].addEventListener("input", function(){
+      var v = this.value.trim();
+      if (v) STATE[this.getAttribute("data-q")] = v; else delete STATE[this.getAttribute("data-q")];
+      progress();
+    });
+  }
+
+  $("btn-copy").addEventListener("click", function(){ compile(true); });
+  $("btn-review").addEventListener("click", function(){ compile(false); });
+  progress();
+}
+
+function progress(){
+  var n = 0;
+  for (var k in STATE) if (STATE.hasOwnProperty(k)) n++;
+  $("prog").textContent = n + " of " + Q.length + " answered";
+}
+
+function compile(doCopy){
+  var lines = ["ROCK SOLID QUESTIONNAIRE"];
+  for (var i=0;i<Q.length;i++){
+    var q = Q[i], v = STATE[q.id];
+    if (v === undefined) continue;
+    var val = (Object.prototype.toString.call(v) === "[object Array]") ? v.join(", ") : v;
+    lines.push(q.h.replace(/\?$/,"") + ": " + val);
+  }
+  if (lines.length === 1) lines.push("(nothing answered yet)");
+  var text = lines.join("\n");
+  var ta = $("out-text");
+  ta.value = text;
+  $("out").classList.add("show");
+  if (doCopy){
+    var done = function(){ var t=$("toast"); t.classList.add("show"); setTimeout(function(){ t.classList.remove("show"); }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, function(){ ta.focus(); ta.select(); done(); });
+    } else { ta.focus(); ta.select(); try{ document.execCommand("copy"); }catch(e){} done(); }
+  } else {
+    ta.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+}
+
+build();
+</script>
+</body>
+</html>

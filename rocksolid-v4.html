@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Solid Services</title>
+<style>
+  :root{
+    --deep:#08222e; --water:#0f3547; --panel:#0e2f3f; --panel2:#123a4d;
+    --clear:#4ec6d9; --clear2:#7fdcea; --clay:#c07a44; --clay2:#e0a066;
+    --green:#4fbf7a; --foam:#eaf6f8; --mute:#9db8c2; --line:#1c4a5e;
+  }
+  *{box-sizing:border-box; margin:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--deep); color:var(--foam);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  img{max-width:100%; display:block;}
+  h1,h2,h3{font-weight:800; letter-spacing:-.01em; line-height:1.05;}
+  section{padding:56px 20px; position:relative;}
+  .wrap{max-width:960px; margin:0 auto;}
+  .kicker{color:var(--clear); letter-spacing:.22em; text-transform:uppercase;
+    font-size:12px; font-weight:700; margin-bottom:12px; text-align:center;}
+  h2{font-size:clamp(27px,5.5vw,40px); text-align:center;}
+  .sub{color:var(--mute); text-align:center; max-width:620px; margin:14px auto 0; font-size:16px;}
+  a{color:inherit;}
+  .btn{display:inline-block; font-weight:700; font-size:16px; padding:15px 26px; border-radius:10px;
+    text-decoration:none; transition:transform .12s ease, box-shadow .12s ease; border:none; cursor:pointer; font-family:inherit;}
+  .btn-primary{background:var(--clear); color:#062029; box-shadow:0 6px 20px rgba(78,198,217,.28);}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{background:transparent; color:var(--foam); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--clear);}
+  .btns{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+
+  /* ---------- hero: rising water ---------- */
+  header{position:relative; overflow:hidden; padding:56px 20px 52px; text-align:center;
+    background:radial-gradient(130% 100% at 50% -12%, #1c5266 0%, #103a4d 46%, #08222e 84%);}
+  .eyebrow{display:inline-block; border:1px solid var(--line); color:var(--clear2);
+    border-radius:999px; padding:6px 16px; font-size:12.5px; letter-spacing:.14em;
+    text-transform:uppercase; margin-bottom:14px; background:rgba(8,34,46,.5);}
+  .hero-svg-wrap{max-width:600px; margin:6px auto 0;}
+  .hero-svg{width:100%; height:auto; display:block; overflow:visible;}
+
+  .cst{animation:caustic 6s ease-in-out infinite;}
+  .cst.c2{animation-duration:7.6s; animation-delay:-2s;}
+  .cst.c3{animation-duration:9s; animation-delay:-4s;}
+  @keyframes caustic{ 0%,100%{opacity:0; transform:translateX(0);} 50%{opacity:.55; transform:translateX(20px);} }
+  .bub{animation:rise 5.2s ease-in infinite;}
+  .bub.b2{animation-duration:6.6s; animation-delay:-2s;}
+  .bub.b3{animation-duration:5.9s; animation-delay:-3.4s;}
+  .bub.b4{animation-duration:7.2s; animation-delay:-1s;}
+  @keyframes rise{ 0%{transform:translateY(0); opacity:0;} 16%{opacity:.7;} 82%{opacity:.45;} 100%{transform:translateY(-118px); opacity:0;} }
+
+  .promise{margin-top:18px; font-size:clamp(19px,4.2vw,25px); font-weight:800; color:var(--foam); letter-spacing:-.01em;}
+  .tagline{font-family:Georgia,"Times New Roman",serif; font-style:italic;
+    font-size:clamp(16px,3.2vw,20px); color:var(--clear2); max-width:560px; margin:10px auto 0;}
+  .hero-btns{margin-top:26px;}
+  .trust{margin-top:22px; display:flex; gap:8px 22px; justify-content:center; flex-wrap:wrap; color:var(--mute); font-size:13.5px;}
+  .trust span{white-space:nowrap;} .trust b{color:var(--clear2); font-weight:700;}
+
+  /* ---------- services ---------- */
+  .svc-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:30px;}
+  .svc{background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    display:flex; flex-direction:column; transition:transform .15s ease, border-color .15s ease;}
+  .svc:hover{transform:translateY(-3px); border-color:var(--clear);}
+  .svc .thumb{aspect-ratio:16/10; object-fit:cover; width:100%; background:#0c2a37;}
+  .svc .body{padding:18px 18px 22px;}
+  .svc h3{font-size:18px; font-weight:800;}
+  .svc p{margin-top:8px; color:var(--mute); font-size:14.5px;}
+  .svc .tick{margin-top:12px; display:inline-block; color:var(--clay2); font-weight:700; font-size:13.5px;}
+
+  /* ---------- diagnostic ---------- */
+  .diag{background:linear-gradient(180deg,#0c2b39,#08222e); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .status{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:24px;
+    font-size:13px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--mute);}
+  .status .dot{width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green);}
+  .status.busy .dot{background:var(--clay2); box-shadow:0 0 8px var(--clay2); animation:blink .6s linear infinite;}
+  .status.alert .dot{background:var(--clay); box-shadow:0 0 8px var(--clay);}
+  @keyframes blink{ 50%{opacity:.3;} }
+  .chips{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:24px;}
+  .chip{background:var(--panel); border:1px solid var(--line); color:var(--foam);
+    border-radius:999px; padding:12px 18px; font-size:15px; font-weight:600; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, color .15s ease; font-family:inherit;}
+  .chip:hover{border-color:var(--clear);}
+  .chip[aria-pressed="true"]{background:var(--clear); color:#062029; border-color:var(--clear);}
+
+  .system{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 12px 8px; margin-top:26px;}
+  .system svg{width:100%; height:auto; display:block;}
+  .part{transition:opacity .3s ease;}
+  .part .glow{opacity:0; transition:opacity .3s ease;}
+  .part.active .glow{opacity:.9;}
+  .part.active .lbl{fill:var(--clear2); font-weight:700;}
+  .part.dim{opacity:.38;}
+  .pulse{transform-box:fill-box; transform-origin:center;}
+  .part.active .pulse{animation:pulse 1.5s ease-in-out infinite;}
+  @keyframes pulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+
+  /* flowing droplets along the main */
+  .droplet{offset-path:path('M79 262 V168 H636'); animation:travel 3.4s linear infinite;}
+  @keyframes travel{ from{offset-distance:0%;} to{offset-distance:100%;} }
+  .paused .droplet{animation-play-state:paused; opacity:.12;}
+  .trace{offset-path:path('M79 262 V168 H636'); offset-distance:0%; opacity:0;}
+  .trace.run{animation:scan 1s ease-out;}
+  @keyframes scan{ 0%{offset-distance:0%; opacity:1;} 95%{opacity:1;} 100%{offset-distance:100%; opacity:0;} }
+
+  .pumpbox{transform-box:fill-box; transform-origin:center; animation:hum .18s ease-in-out infinite alternate;}
+  .paused .pumpbox{animation:none;}
+  @keyframes hum{ from{transform:translateY(0);} to{transform:translateY(.6px);} }
+  .table-water{animation:shimmer 3s ease-in-out infinite;}
+  @keyframes shimmer{ 0%,100%{opacity:.5;} 50%{opacity:.72;} }
+
+  .mainpipe{stroke:#4a6470; stroke-width:8; fill:none; stroke-linecap:round;}
+  .mainwater{stroke:#4ec6d9; stroke-width:3.5; fill:none; stroke-linecap:round; opacity:.7; transition:stroke .4s ease;}
+  .mainwater.murky{stroke:#b3763f;}
+
+  .seep{opacity:0;}
+  .seep.on{opacity:1;}
+  .seep circle{animation:seep 2.4s ease-out infinite;}
+  @keyframes seep{ 0%{r:2; opacity:.7;} 100%{r:26; opacity:0;} }
+
+  .gneedle2{transform-box:fill-box; transform-origin:center bottom; transition:transform .8s cubic-bezier(.5,-.3,.4,1.4);}
+
+  .result{background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--clear);
+    border-radius:14px; padding:22px 22px 24px; margin-top:22px;}
+  .result .likely{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--clear); font-weight:700;}
+  .result h3{font-size:20px; font-weight:800; margin-top:8px;}
+  .result .rbody{margin-top:10px; color:var(--mute); font-size:15.5px;}
+  .badges{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;}
+  .badge-u{background:rgba(192,122,68,.16); border:1px solid var(--clay); color:var(--clay2);}
+  .badge-g{background:rgba(79,191,122,.14); border:1px solid var(--green); color:#9fe6bd;}
+  .badges .b{font-weight:700; font-size:12.5px; padding:6px 13px; border-radius:999px;}
+  .rrow{display:flex; gap:10px; margin-top:16px; align-items:flex-start; font-size:14.5px;}
+  .rrow .tagword{flex:0 0 auto; font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+    color:var(--clear2); background:rgba(78,198,217,.12); border:1px solid var(--line); border-radius:6px; padding:4px 8px; margin-top:1px;}
+  .rrow .rtext{color:var(--foam);}
+  .result .act{margin-top:20px;}
+  .placeholder-note{color:var(--mute); text-align:center; font-size:14px; padding:16px;}
+
+  /* ---------- gallery ---------- */
+  .gal{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:30px;}
+  .gcard{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--panel); position:relative;}
+  .gcard img{aspect-ratio:4/3; object-fit:cover; width:100%;}
+  .gcard .cap{position:absolute; left:0; right:0; bottom:0; padding:16px 14px 10px;
+    background:linear-gradient(180deg,rgba(8,34,46,0),rgba(8,34,46,.9));
+    font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--foam);}
+
+  /* ---------- who ---------- */
+  .who{background:#0c2b39; border-top:1px solid var(--line);}
+  .who-grid{display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:center; margin-top:30px;}
+  .who-grid img{aspect-ratio:1; object-fit:cover; width:100%; border-radius:16px; border:1px solid var(--line);}
+  .who-grid p{color:var(--mute); font-size:16px; line-height:1.65;}
+  .who-grid p b{color:var(--foam); font-weight:700;}
+  @media (max-width:560px){ .who-grid{grid-template-columns:1fr;} .who-grid img{max-width:220px; margin:0 auto;} }
+
+  /* ---------- reviews ---------- */
+  .rev-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin-top:30px;}
+  .rcard{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px;}
+  .rcard .q{font-family:Georgia,serif; font-style:italic; font-size:16px; line-height:1.55; color:var(--foam);}
+  .rcard .who2{margin-top:12px; color:var(--clear); font-weight:700; font-size:14px;}
+
+  /* ---------- footer ---------- */
+  footer{background:radial-gradient(120% 100% at 50% 130%, #16506a 0%, #08222e 68%);
+    text-align:center; padding:70px 20px 60px; border-top:1px solid var(--line);}
+  footer h2{color:var(--foam);}
+  footer .area{margin-top:12px; color:var(--mute); font-size:15px;}
+  footer .btns{margin-top:26px;}
+  footer .links{margin-top:22px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap; font-size:14.5px;}
+  footer .links a{color:var(--clear2); text-decoration:none;}
+  footer .links a:hover{text-decoration:underline;}
+  .fine{margin-top:30px; font-size:12px; color:#5b7f8c; max-width:560px; margin-left:auto; margin-right:auto;}
+
+  .vbadge{position:fixed; left:10px; bottom:10px; z-index:50; background:rgba(8,34,46,.85);
+    border:1px solid var(--line); color:var(--mute); font-size:11px; padding:5px 9px; border-radius:8px; cursor:pointer;}
+  .toast{position:fixed; left:50%; bottom:54px; transform:translateX(-50%); background:var(--clear); color:#062029;
+    font-weight:700; font-size:13px; padding:9px 16px; border-radius:10px; z-index:60; opacity:0; transition:opacity .25s ease; pointer-events:none;}
+  .toast.show{opacity:1;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition-duration:.001s !important; scroll-behavior:auto !important;}
+    .cst,.bub{opacity:0 !important;}
+    .droplet{opacity:.5;} .table-water{opacity:.62;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow" id="c-eyebrow"></span>
+  <div class="hero-svg-wrap">
+    <svg class="hero-svg" id="hero" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <filter id="refract" x="-12%" y="-12%" width="124%" height="124%">
+          <feTurbulence id="turb" type="turbulence" baseFrequency="0.009 0.017" numOctaves="2" seed="4" result="noise"/>
+          <feOffset id="noff" in="noise" dx="0" dy="0" result="noise2"/>
+          <feDisplacementMap id="disp" in="SourceGraphic" in2="noise2" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="soft"><feGaussianBlur stdDeviation="3.2"/></filter>
+        <linearGradient id="depth" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8fe6f2" stop-opacity="0.30"/>
+          <stop offset="0.5" stop-color="#2f9bb4" stop-opacity="0.16"/>
+          <stop offset="1" stop-color="#0a3a4a" stop-opacity="0.22"/>
+        </linearGradient>
+        <clipPath id="below"><path id="clip-below" d="M -40 300 L 640 300 L 640 320 L -40 320 Z"/></clipPath>
+      </defs>
+
+      <!-- dry wordmark (crisp, above water) -->
+      <g font-family="system-ui,'Segoe UI',Roboto,sans-serif" font-weight="800" text-anchor="middle" letter-spacing="1">
+        <text x="300" y="120" font-size="80"><tspan fill="#4ec6d9">ROCK</tspan> <tspan fill="#eaf6f8">SOLID</tspan></text>
+        <text x="300" y="212" font-size="80" fill="#e0a066">SERVICES</text>
+      </g>
+
+      <!-- water body veil (depth) -->
+      <rect clip-path="url(#below)" x="-40" y="0" width="680" height="320" fill="url(#depth)"/>
+
+      <!-- submerged wordmark: same colors, refracted + slightly magnified -->
+      <g clip-path="url(#below)">
+        <g transform="translate(300 148) scale(1.035) translate(-300 -150)" filter="url(#refract)"
+           font-family="system-ui,'Segoe UI',Roboto,sans-serif" font-weight="800" text-anchor="middle" letter-spacing="1" opacity="0.96">
+          <text x="300" y="120" font-size="80"><tspan fill="#5fd0e2">ROCK</tspan> <tspan fill="#dff6f9">SOLID</tspan></text>
+          <text x="300" y="212" font-size="80" fill="#eab784">SERVICES</text>
+        </g>
+      </g>
+
+      <!-- caustic light streaks -->
+      <g clip-path="url(#below)" class="caustics">
+        <path class="cst c1" d="M -60 190 Q 60 178 180 190 T 420 190 T 680 190" fill="none" stroke="#d8fbff" stroke-width="2.4" opacity="0.0" filter="url(#soft)"/>
+        <path class="cst c2" d="M -60 224 Q 80 214 200 224 T 460 224 T 700 224" fill="none" stroke="#bff4fb" stroke-width="1.8" opacity="0.0" filter="url(#soft)"/>
+        <path class="cst c3" d="M -60 258 Q 70 250 190 258 T 440 258 T 690 258" fill="none" stroke="#a7ecf6" stroke-width="1.4" opacity="0.0" filter="url(#soft)"/>
+      </g>
+
+      <!-- rising bubbles -->
+      <g clip-path="url(#below)" class="bubbles">
+        <circle class="bub b1" cx="180" cy="290" r="3" fill="#dff9ff"/>
+        <circle class="bub b2" cx="330" cy="290" r="2.2" fill="#cff4fb"/>
+        <circle class="bub b3" cx="450" cy="290" r="2.6" fill="#dff9ff"/>
+        <circle class="bub b4" cx="255" cy="290" r="1.8" fill="#cff4fb"/>
+      </g>
+
+      <!-- surface: glow, line, foam highlight -->
+      <path id="surf-glow" d="" fill="none" stroke="#7fdcea" stroke-width="6" opacity="0.35" filter="url(#soft)"/>
+      <path id="surf" d="" fill="none" stroke="#dffbff" stroke-width="2.4" opacity="0.9"/>
+      <path id="surf-foam" d="" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <p class="promise" id="c-promise"></p>
+  <p class="tagline" id="c-tag"></p>
+
+  <div class="btns hero-btns">
+    <a class="btn btn-primary" id="c-cta1" href="#">Text us</a>
+    <a class="btn btn-ghost" id="c-cta-call" href="#">Call</a>
+  </div>
+  <div class="trust" id="c-trust"></div>
+</header>
+
+
+<section>
+  <div class="wrap">
+    <div class="kicker">What we do</div>
+    <h2>Water, start to finish</h2>
+    <div class="svc-grid" id="c-services"></div>
+  </div>
+</section>
+
+
+<section class="diag" id="triage">
+  <div class="wrap">
+    <div class="kicker">Not sure what's wrong?</div>
+    <h2>Trace your water trouble</h2>
+    <p class="sub">Tap what you're seeing. We light up the part of your system it points to, tell you what to check, and start a text so we show up already knowing the story.</p>
+
+    <div class="status" id="c-status"><span class="dot"></span><span id="c-status-text">System ready — tap a symptom</span></div>
+    <div class="chips" id="c-chips" role="group" aria-label="Water symptoms"></div>
+
+    <div class="system" aria-hidden="true">
+      <svg viewBox="0 0 680 300" id="sysdiag">
+        <rect x="0" y="0" width="680" height="150" fill="#0c2f3f"/>
+        <rect x="0" y="150" width="680" height="150" fill="#1a2830"/>
+        <line x1="0" y1="150" x2="680" y2="150" stroke="#3a4a52" stroke-width="2"/>
+
+        <!-- main pipe body + water (upstream/downstream recolorable) -->
+        <path class="mainpipe" d="M79 262 V168 H636"/>
+        <path class="mainwater" id="water-up" d="M79 262 V168 H523"/>
+        <path class="mainwater" id="water-down" d="M523 168 H636"/>
+
+        <!-- seep glow for leak (soft, no drip) -->
+        <g class="seep" id="seep"><circle cx="300" cy="168" r="2" fill="#7fdcea"/></g>
+
+        <!-- flowing droplets -->
+        <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:0s"></circle>
+        <circle class="droplet" r="3" fill="#8fe3ef" style="animation-delay:-.8s"></circle>
+        <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:-1.6s"></circle>
+        <circle class="droplet" r="2.6" fill="#8fe3ef" style="animation-delay:-2.4s"></circle>
+        <circle class="trace" id="trace" r="6" fill="#eafcff"></circle>
+
+        <!-- well + pump -->
+        <g class="part" data-part="well">
+          <rect class="glow pulse" x="46" y="90" width="66" height="192" rx="8" fill="#7fdcea" opacity="0"/>
+          <rect x="54" y="98" width="50" height="180" rx="4" fill="#2a3a44" stroke="#4a6470" stroke-width="2"/>
+          <rect x="50" y="90" width="58" height="14" rx="3" fill="#4a6470"/>
+          <rect class="table-water" x="56" y="186" width="46" height="88" fill="#2f8ba4"/>
+          <line x1="56" y1="186" x2="102" y2="186" stroke="#7fdcea" stroke-width="2"/>
+          <rect class="pumpbox" x="69" y="244" width="20" height="26" rx="3" fill="#c07a44"/>
+          <text class="lbl" x="79" y="294" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">WELL &amp; PUMP</text>
+        </g>
+        <!-- supply line label region -->
+        <g class="part" data-part="line">
+          <rect class="glow" x="120" y="158" width="300" height="20" rx="10" fill="#7fdcea" opacity="0"/>
+          <text class="lbl" x="270" y="200" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">SUPPLY LINE</text>
+        </g>
+        <!-- pressure tank + gauge -->
+        <g class="part" data-part="tank">
+          <rect class="glow pulse" x="410" y="66" width="84" height="104" rx="10" fill="#7fdcea" opacity="0"/>
+          <rect x="428" y="80" width="44" height="88" rx="12" fill="#2f7d9a" stroke="#4a6470" stroke-width="2"/>
+          <rect x="428" y="80" width="14" height="88" rx="7" fill="#4fa6c4" opacity="0.5"/>
+          <g transform="translate(484,74)">
+            <circle cx="0" cy="0" r="15" fill="#0c2f3f" stroke="#4a6470" stroke-width="2"/>
+            <line id="needle2" class="gneedle2" x1="0" y1="0" x2="0" y2="-10" stroke="#e0a066" stroke-width="2.4"/>
+            <circle cx="0" cy="0" r="2.2" fill="#e0a066"/>
+          </g>
+          <text class="lbl" x="450" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">PRESSURE TANK</text>
+        </g>
+        <!-- treatment -->
+        <g class="part" data-part="treatment">
+          <rect class="glow pulse" x="506" y="74" width="46" height="96" rx="8" fill="#7fdcea" opacity="0"/>
+          <rect x="518" y="88" width="24" height="80" rx="10" fill="#3a5a52" stroke="#4a6470" stroke-width="2"/>
+          <ellipse cx="530" cy="88" rx="12" ry="5" fill="#4a7a6e"/>
+          <text class="lbl" x="530" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">TREATMENT</text>
+        </g>
+        <!-- house -->
+        <g class="part" data-part="house">
+          <rect class="glow" x="586" y="80" width="82" height="90" rx="6" fill="#7fdcea" opacity="0"/>
+          <rect x="600" y="112" width="56" height="46" fill="#24414f" stroke="#4a6470" stroke-width="2"/>
+          <path d="M596 112 L628 86 L660 112 Z" fill="#2f5b6c" stroke="#4a6470" stroke-width="2"/>
+          <rect x="620" y="128" width="16" height="30" fill="#0c2f3f"/>
+          <text class="lbl" x="628" y="186" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">HOME</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="result" id="c-result" aria-live="polite">
+      <div class="placeholder-note" id="r-empty">Pick a symptom above and we'll trace it through the system.</div>
+      <div id="r-content" style="display:none;">
+        <div class="likely">Likely cause</div>
+        <h3 id="r-title"></h3>
+        <div class="rbody" id="r-body"></div>
+        <div class="badges">
+          <span class="b badge-u" id="r-urgent" style="display:none;"></span>
+          <span class="b badge-g" id="r-outcome"></span>
+        </div>
+        <div class="rrow"><span class="tagword">Check</span><span class="rtext" id="r-check"></span></div>
+        <div class="rrow"><span class="tagword">The fix</span><span class="rtext" id="r-fix"></span></div>
+        <div class="act"><a class="btn btn-primary" id="r-text" href="#">Text Paul about this</a></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:22px;">Guesswork is free. The fix is fair. Either way you'll know what you're dealing with.</p>
+  </div>
+</section>
+
+
+<section>
+  <div class="wrap">
+    <div class="kicker">On the job</div>
+    <h2>Real work, done right</h2>
+    <div class="gal" id="c-gallery"></div>
+  </div>
+</section>
+
+<section class="who">
+  <div class="wrap">
+    <div class="kicker">Who shows up</div>
+    <h2 id="c-whoname"></h2>
+    <div class="who-grid">
+      <img id="c-headshot" alt="" src="">
+      <p id="c-bio"></p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="kicker">Neighbors talking</div>
+    <h2>What people say</h2>
+    <div class="rev-grid" id="c-reviews"></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="kicker">Get on the schedule</div>
+  <h2 id="c-close"></h2>
+  <div class="area" id="c-area"></div>
+  <div class="btns">
+    <a class="btn btn-primary" id="c-cta2" href="#">Text us</a>
+    <a class="btn btn-ghost" id="c-cta-email" href="#">Email</a>
+  </div>
+  <div class="links" id="c-links"></div>
+  <div class="fine">Design preview by Mot Buchanan. Sample copy, prices, and reviews shown are placeholders to confirm before launch.</div>
+</footer>
+
+<div class="vbadge" id="vbadge">v5 · Jul 19</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ================= CONFIG =================
+   ARCHETYPE: "Water Pro" (well & water service).
+   CONFIDENCE THESIS: the hero gauge sweeps to GOOD to say "we get your water
+   flowing again." The diagnostic traces a live water system and always ends on
+   the outcome, not the problem.
+   ========================================== */
+var CONFIG = {
+  name: "Rock Solid Services",
+  eyebrow: "Well & water service · Ashland, Ohio",
+  tag: "Well pumps, water lines, treatment, and the trenching to reach them. One call, done right the first time.",
+  fmCap: "We get your water flowing again. <b>Pressure back to good.</b>",
+  promise: "We get your water flowing again.",
+  trust: ["<b>Licensed & insured</b>", "Same-day when we can", "We don't leave until it flows"],
+  phone: "4195550100",                 // PLACEHOLDER — swap for Paul's real number
+  email: "rsservices20@gmail.com",
+  closeLine: "Water trouble doesn't wait. Neither do we.",
+  area: "Serving Ashland County and the neighbors \u2014 Loudonville, Perrysville, Jeromesville, Savannah, Polk, and out to Mansfield and Wooster.",
+
+  services: [
+    { title: "Well Pumps & Pressure Tanks",
+      desc: "Lost your water or your pressure? We diagnose, repair, and replace pumps and tanks, and get you running again fast.",
+      tick: "Repair or full replacement",
+      photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/207817c6-7e08-47e1-92f6-fb6d4adebc4e/PXL_20250424_201608435.jpg" },
+    { title: "Water Lines & Trenching",
+      desc: "New line from the well or meter to the house, yard hydrants, and clean trenching to get there without wrecking the yard.",
+      tick: "Lines, hydrants, trenching",
+      photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/5f7a69c3-5f6a-49b8-9035-fc11b7b0df0c/545913879_122142387218804695_4050206806843302217_n.jpg" },
+    { title: "Plumbing Repairs",
+      desc: "Leaks, pipe replacement, and the everyday fixes. We find the problem instead of guessing at it.",
+      tick: "Leak detection & repair",
+      photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/186788ac-6793-40ea-82e0-4332993e59d0/PXL_20250428_175923083.jpg" },
+    { title: "Water Treatment & Filtration",
+      desc: "Hard water, iron stains, sediment, or a smell you can't place. We test it and put in the right treatment, not more than you need.",
+      tick: "Tested, then treated",
+      photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/29748cb3-c7ba-466c-a03b-2df4b9491a84/main+image.jpeg" }
+  ],
+
+  symptoms: [
+    { label: "No water at all", code: "RS-01", part: "well", flow: "stop", urgent: true, gauge: -60,
+      title: "The pump, the power, or the pressure switch",
+      body: "When everything goes dry at once, it's almost always the well pump, a tripped breaker, or the pressure switch that tells the pump when to run.",
+      check: "Look at your breaker panel for a tripped well breaker first. Then check the pressure switch for burnt or corroded contacts.",
+      fix: "Often a switch or a wiring fault. If the pump itself has failed, that means pulling and replacing it, which we quote after we see the setup.",
+      outcome: "We get you flowing again, often same day." },
+    { label: "Low or dropping pressure", code: "RS-02", part: "tank", gauge: -35,
+      title: "A waterlogged tank or a tiring pump",
+      body: "Pressure that fades or drops off is most often a pressure tank that's lost its air charge, or a pump starting to wear out.",
+      check: "Tap the tank. The top should sound hollow and the bottom solid. All-solid usually means it's waterlogged.",
+      fix: "Recharge or replace the tank, or test the pump's output to see which one is tired.",
+      outcome: "Steady pressure back, and a fair price." },
+    { label: "Air spitting from faucets", code: "RS-03", part: "well", gauge: -15,
+      title: "Air getting into the line",
+      body: "Sputtering taps usually mean air in the system, often from a dropping water level in the well or a pump losing its prime.",
+      check: "Notice if it's worse after heavy use or during a dry stretch. That points toward the water level in the well.",
+      fix: "We find where it's drawing air: a check valve, a leak on the suction side, or lowering the pump.",
+      outcome: "We chase down the air and get it running smooth." },
+    { label: "Pump runs constantly", code: "RS-04", part: "tank", gauge: 40,
+      title: "The tank or the pressure switch",
+      body: "A pump that never shuts off, or clicks on and off every few seconds, is almost always the pressure tank or the switch. Running it like that wears the pump out, so don't sit on it.",
+      check: "Watch the gauge. If it swings fast between two pressures, the tank has likely lost its air charge.",
+      fix: "Recharge or replace the tank, or swap the pressure switch.",
+      outcome: "Quick to fix, and it saves your pump." },
+    { label: "Rusty or staining water", code: "RS-05", part: "treatment", clean: true, gauge: 20,
+      title: "Iron or hard water",
+      body: "Orange stains and a metallic taste point to iron or hardness. That's a treatment question, not a plumbing one.",
+      check: "Note where it stains: fixtures, laundry, or everywhere. That helps size the right fix.",
+      fix: "A water test first, then the right filter or softener for what your water actually has, not more than you need.",
+      outcome: "Right-sized treatment, and your water runs clean." },
+    { label: "Cloudy or smelly water", code: "RS-06", part: "treatment", clean: true, gauge: 20,
+      title: "Sediment, sulfur, or something to treat",
+      body: "Cloudy, gritty, or a rotten-egg smell can be sediment, sulfur, or bacteria in the water.",
+      check: "Let a glass sit a minute. Cloudy that settles is often air or sediment. A smell that lingers is worth testing.",
+      fix: "We test it first, then match filtration or treatment to what the test actually shows.",
+      outcome: "Tested and treated. Clear water again." },
+    { label: "Wet spot in the yard", code: "RS-07", part: "line", seep: true, gauge: -25,
+      title: "A possible water-line leak",
+      body: "A soft or wet patch near the well or along the run to the house can be a leaking water line underground.",
+      check: "Watch your pump. If it kicks on when no water is running inside, that supports a buried leak.",
+      fix: "We locate the leak and repair it with as little digging as we can manage.",
+      outcome: "We find it and fix it, minimal digging." },
+    { label: "Something else", code: "RS-00", part: "all",
+      title: "Tell us what you're seeing",
+      body: "If it doesn't fit a box, that's fine. Describe it in a text and we'll help you figure out what's going on before anyone comes out.",
+      check: "", fix: "", outcome: "Whatever it is, we'll get it sorted." }
+  ],
+
+  gallery: [
+    { photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/5f7a69c3-5f6a-49b8-9035-fc11b7b0df0c/545913879_122142387218804695_4050206806843302217_n.jpg", cap: "Water line & trenching" },
+    { photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/207817c6-7e08-47e1-92f6-fb6d4adebc4e/PXL_20250424_201608435.jpg", cap: "Pressure tank & pump" },
+    { photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/186788ac-6793-40ea-82e0-4332993e59d0/PXL_20250428_175923083.jpg", cap: "Plumbing & trenching" },
+    { photo: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/29748cb3-c7ba-466c-a03b-2df4b9491a84/main+image.jpeg", cap: "On site" }
+  ],
+
+  whoName: "Paul James",
+  headshot: "https://images.squarespace-cdn.com/content/v1/67dc550166a7a678e3eb6908/51def884-cd05-4ad3-9e3f-f8993171b53c/paul+james.jpg",
+  bio: "Rock Solid Services is <b>Paul James</b>, and the whole point is that the person who answers the phone is the person who shows up and does the work. No call center, no rotating crew. Wells and water are what he knows, and he treats your home like his own. <b>Licensed and insured.</b>",
+
+  reviews: [
+    { q: "Woke up to no water before work. Paul had us running again by lunch and showed me what went wrong.", who: "Homeowner, Savannah" },
+    { q: "Replaced our pressure tank and cleaned up like he was never here. Fair price and no upsell.", who: "Well owner, Jeromesville" },
+    { q: "Ran a new water line out to the barn, trenched and done in a day. Would call again in a heartbeat.", who: "Loudonville customer" }
+  ],
+
+  facebookUrl: "https://www.facebook.com/profile.php?id=61574140871060",
+  googleUrl: "https://www.google.com/search?q=RSservices",
+  version: "v5 · Jul 19"
+};
+/* ========================================== */
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+function build(){
+  document.title = CONFIG.name;
+  $("c-eyebrow").textContent = CONFIG.eyebrow;
+  $("c-tag").textContent = CONFIG.tag;
+  $("c-promise").textContent = CONFIG.promise;
+  $("c-area").textContent = CONFIG.area;
+  $("c-close").textContent = CONFIG.closeLine;
+
+  var trust = "";
+  for (var ti=0; ti<CONFIG.trust.length; ti++){
+    trust += "<span>" + CONFIG.trust[ti] + "</span>";
+  }
+  $("c-trust").innerHTML = trust;
+
+  var sms = "sms:" + CONFIG.phone, tel = "tel:" + CONFIG.phone;
+  $("c-cta1").href = sms; $("c-cta2").href = sms;
+  $("c-cta-call").href = tel;
+  $("c-cta-email").href = "mailto:" + CONFIG.email;
+
+  // services
+  var s = "";
+  for (var i=0;i<CONFIG.services.length;i++){
+    var it = CONFIG.services[i];
+    s += '<div class="svc"><img class="thumb" alt="" src="'+esc(it.photo)+'">'
+       + '<div class="body"><h3>'+esc(it.title)+'</h3><p>'+esc(it.desc)+'</p>'
+       + '<span class="tick">'+esc(it.tick)+'</span></div></div>';
+  }
+  $("c-services").innerHTML = s;
+
+  // chips
+  var chips = "";
+  for (var k=0;k<CONFIG.symptoms.length;k++){
+    chips += '<button class="chip" type="button" data-idx="'+k+'" aria-pressed="false">'+esc(CONFIG.symptoms[k].label)+'</button>';
+  }
+  $("c-chips").innerHTML = chips;
+
+  var sysdiag = $("sysdiag");
+  var parts = document.querySelectorAll(".part");
+  var needle2 = $("needle2");
+  var seep = $("seep");
+  var trace = $("trace");
+  var waterUp = $("water-up");
+  var statusEl = $("c-status");
+  var statusText = $("c-status-text");
+  var chipEls = document.querySelectorAll(".chip");
+
+  function setNeedle(sym){
+    var ang = (typeof sym.gauge === "number") ? sym.gauge : 0;
+    needle2.style.transform = "rotate(" + ang + "deg)";
+  }
+  function runTrace(){
+    trace.classList.remove("run"); void trace.getBoundingClientRect(); trace.classList.add("run");
+  }
+
+  for (var c=0;c<chipEls.length;c++){
+    chipEls[c].addEventListener("click", function(){
+      var idx = parseInt(this.getAttribute("data-idx"),10);
+      var sym = CONFIG.symptoms[idx];
+      for (var j=0;j<chipEls.length;j++) chipEls[j].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+
+      // scanning state
+      statusEl.className = "status busy";
+      statusText.textContent = "Tracing your system…";
+      runTrace();
+
+      // highlight the suspect part
+      for (var p=0;p<parts.length;p++){
+        var pn = parts[p].getAttribute("data-part");
+        parts[p].classList.remove("active","dim");
+        if (sym.part === "all"){ /* neutral */ }
+        else if (pn === sym.part){ parts[p].classList.add("active"); }
+        else { parts[p].classList.add("dim"); }
+      }
+      // flow / water color / seep
+      sysdiag.classList.toggle("paused", sym.flow === "stop");
+      waterUp.classList.toggle("murky", !!sym.clean);
+      seep.classList.toggle("on", !!sym.seep);
+      if (sym.seep){ seep.querySelector("circle").setAttribute("cx", "300"); }
+      setNeedle(sym);
+
+      // result after a beat
+      var self = sym;
+      setTimeout(function(){
+        statusEl.className = self.urgent ? "status alert" : "status";
+        statusText.textContent = self.part === "all" ? "Tell us more" : "Suspect: " + self.title;
+        $("r-empty").style.display = "none";
+        $("r-content").style.display = "block";
+        $("r-title").textContent = self.title;
+        $("r-body").textContent = self.body;
+        var u = $("r-urgent");
+        if (self.urgent){ u.style.display="inline-block"; u.textContent="Urgent — no-water calls jump the line"; }
+        else { u.style.display="none"; }
+        $("r-outcome").textContent = self.outcome || "We'll get it sorted.";
+        setRow("r-check", self.check);
+        setRow("r-fix", self.fix);
+        var msg = "Hi Paul, from your website. Water issue: " + self.label + " (" + self.code + "). My address is ";
+        $("r-text").href = "sms:" + CONFIG.phone + "?&body=" + encodeURIComponent(msg);
+      }, 950);
+    });
+  }
+  function setRow(id, val){
+    var el = $(id); var row = el.parentNode;
+    if (val){ el.textContent = val; row.style.display = "flex"; }
+    else { row.style.display = "none"; }
+  }
+
+  // gallery
+  var g = "";
+  for (var q=0;q<CONFIG.gallery.length;q++){
+    g += '<div class="gcard"><img alt="" src="'+esc(CONFIG.gallery[q].photo)+'"><div class="cap">'+esc(CONFIG.gallery[q].cap)+'</div></div>';
+  }
+  $("c-gallery").innerHTML = g;
+
+  // who
+  $("c-whoname").textContent = CONFIG.whoName;
+  $("c-bio").innerHTML = CONFIG.bio;
+  $("c-headshot").src = CONFIG.headshot;
+
+  // reviews
+  var r = "";
+  for (var v=0;v<CONFIG.reviews.length;v++){
+    r += '<div class="rcard"><div class="q">\u201C'+esc(CONFIG.reviews[v].q)+'\u201D</div>'
+       + '<div class="who2">'+esc(CONFIG.reviews[v].who)+'</div></div>';
+  }
+  $("c-reviews").innerHTML = r;
+
+  // links
+  var links = "";
+  if (CONFIG.facebookUrl) links += '<a href="'+esc(CONFIG.facebookUrl)+'" target="_blank" rel="noopener">Facebook</a>';
+  if (CONFIG.googleUrl) links += '<a href="'+esc(CONFIG.googleUrl)+'" target="_blank" rel="noopener">Google profile</a>';
+  if (CONFIG.email) links += '<a href="mailto:'+esc(CONFIG.email)+'">'+esc(CONFIG.email)+'</a>';
+  $("c-links").innerHTML = links;
+
+  // version badge
+  $("vbadge").textContent = CONFIG.version;
+  $("vbadge").addEventListener("click", function(){
+    var t = $("toast"); t.textContent = "Rock Solid comp " + CONFIG.version;
+    t.classList.add("show"); setTimeout(function(){ t.classList.remove("show"); }, 1600);
+  });
+
+  startHeroWater();
+}
+
+/* ---------- hero rising water: smooth refraction, surface, caustics ---------- */
+function startHeroWater(){
+  var clip=$("clip-below"), surf=$("surf"), glow=$("surf-glow"), foam=$("surf-foam"),
+      disp=$("disp"), noff=$("noff");
+  var H=300, W=600, yStart=304, yRest=150;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function wave(y, phase){
+    var pts=[], amp1=4.2, amp2=2.0;
+    for (var x=-40; x<=640; x+=16){
+      var yy = y + amp1*Math.sin(x*0.020 + phase) + amp2*Math.sin(x*0.045 - phase*0.7);
+      pts.push(x.toFixed(0)+" "+yy.toFixed(1));
+    }
+    return pts;
+  }
+  function surfacePath(y, phase){ return "M " + wave(y,phase).join(" L "); }
+  function clipPath(y, phase){ return "M " + wave(y,phase).join(" L ") + " L 640 320 L -40 320 Z"; }
+
+  function paint(y, phase, scale){
+    clip.setAttribute("d", clipPath(y, phase));
+    surf.setAttribute("d", surfacePath(y, phase));
+    glow.setAttribute("d", surfacePath(y, phase));
+    foam.setAttribute("d", surfacePath(y-1.5, phase+0.4));
+    disp.setAttribute("scale", scale.toFixed(2));
+  }
+
+  if (reduce){ paint(yRest, 0, 5); return; }
+
+  var t0=null, DUR=2400;
+  function easeOut(x){ return 1 - Math.pow(1-x, 3); }
+  function frame(ts){
+    if (t0===null) t0=ts;
+    var s=(ts-t0)/1000;
+    var prog=Math.min((ts-t0)/DUR, 1);
+    var y = yStart + (yRest - yStart)*easeOut(prog);
+    if (prog>=1){ y = yRest + Math.sin(s*0.9)*3.2; }        // gentle settle undulation
+    var phase = s*1.5;
+    var scale = 7*easeOut(prog) + (prog>=1 ? Math.sin(s*1.7)*1.3 : 0);
+    // smooth "flowing" refraction: oscillate the noise offset, don't scroll off-edge
+    noff.setAttribute("dx", (Math.sin(s*0.8)*5).toFixed(2));
+    noff.setAttribute("dy", (Math.sin(s*0.55)*3).toFixed(2));
+    paint(y, phase, scale);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+build();
+</script>
+</body>
+</html>

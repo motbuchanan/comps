@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Solid Services — the full overhaul</title>
+<style>
+  :root{
+    --b1:#4ec6d9; --b1m:#2f9bb4; --b1l:#7fdcea; --b1xl:#bff0f7;
+    --b2:#c07a44; --b2d:#a8641f; --b2l:#e0a066;
+    --deep:#08222e; --deeper:#061a24; --panel:#0e2f3f; --panel2:#123a4d;
+    --clear:#4ec6d9; --clear2:#7fdcea; --clay:#c07a44; --clay2:#e0a066;
+    --green:#4fbf7a; --foam:#eaf6f8; --mute:#9db8c2; --line:#1c4a5e; --soil:#2a2018;
+  }
+  *{box-sizing:border-box; margin:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--deep); color:var(--foam);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  img{max-width:100%; display:block;}
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif; font-weight:700; letter-spacing:-.01em; line-height:1.08;}
+  section{padding:58px 18px; position:relative;}
+  .wrap{max-width:940px; margin:0 auto;}
+  .kicker{color:var(--clear); letter-spacing:.24em; text-transform:uppercase;
+    font-size:11.5px; font-weight:700; margin-bottom:8px; text-align:center;
+    font-family:system-ui,sans-serif;}
+  .depth{display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;}
+  .depth .dline{width:34px; height:1px; background:var(--line);}
+  .depth .dchip{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line);
+    border-radius:999px; padding:4px 12px; font-size:11px; font-weight:800; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--clay2); background:rgba(8,34,46,.6);}
+  .depth .dchip svg{width:10px; height:12px;}
+  h2{font-size:clamp(28px,6vw,44px); text-align:center;}
+  .sub{color:var(--mute); text-align:center; max-width:640px; margin:16px auto 0; font-size:15.5px;}
+  a{color:inherit;}
+  .btn{display:inline-block; font-weight:700; font-size:16px; padding:15px 26px; border-radius:10px;
+    text-decoration:none; border:none; cursor:pointer; font-family:system-ui,sans-serif;
+    transition:transform .12s ease, box-shadow .12s ease;}
+  .btn-primary{background:var(--clear); color:#062029; box-shadow:0 6px 20px rgba(78,198,217,.28);}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{background:transparent; color:var(--foam); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--clear);}
+  .btn-sm{font-size:13.5px; padding:10px 16px;}
+  .btns{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:18px; position:relative; overflow:hidden;}
+  .card::before{content:""; position:absolute; top:0; left:0; right:0; height:4px; z-index:2;
+    background:linear-gradient(90deg,#8a5a30 0%,#c07a44 28%,#134a5e 62%,#4ec6d9 100%);}
+
+  /* strata dividers */
+  .strata{display:block; width:100%; height:44px; margin:-1px 0;}
+  .strata path{stroke:none;}
+
+  /* ---------- hero ---------- */
+  header{position:relative; overflow:hidden; padding:60px 18px 0; text-align:center;
+    background:radial-gradient(130% 100% at 50% -14%, #1c5266 0%, #103a4d 46%, #08222e 86%);}
+  .eyebrow{display:inline-block; border:1px solid var(--line); color:var(--clear2);
+    border-radius:999px; padding:6px 16px; font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; margin-bottom:18px; background:rgba(8,34,46,.5); font-family:system-ui,sans-serif;}
+  header h1{font-size:clamp(32px,8vw,60px); max-width:780px; margin:0 auto;}
+  header h1 em{font-style:italic; color:var(--clear);}
+  .free-tag{display:inline-flex; align-items:baseline; gap:12px; margin-top:22px;
+    background:rgba(79,191,122,.12); border:1px solid var(--green); border-radius:14px; padding:12px 20px;}
+  .free-tag .was{color:var(--mute); font-size:17px; font-weight:700;}
+  .free-tag .now{color:var(--green); font-size:26px; font-weight:800; font-family:Georgia,serif;}
+  .heroletter{max-width:640px; margin:26px auto 0; text-align:left; background:rgba(8,34,46,.55);
+    border:1px solid var(--line); border-radius:16px; padding:22px 24px;}
+  .heroletter p{color:var(--mute); font-size:15.5px; margin-top:10px;}
+  .heroletter p:first-child{margin-top:0;}
+  .heroletter b{color:var(--foam);}
+  .hero-btns{margin-top:28px; margin-bottom:38px;}
+  .seawrap{position:relative; height:78px; margin-top:4px;}
+  .seawrap svg{position:absolute; left:0; bottom:0; width:100%; height:78px;}
+
+  /* ---------- toc ---------- */
+  .tocbar{position:sticky; top:0; z-index:40; background:rgba(6,26,36,.94);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:10px 12px;
+    overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .tocin{display:flex; gap:8px; width:max-content; margin:0 auto;}
+  .toc{flex:0 0 auto; background:var(--panel); border:1px solid var(--line); color:var(--foam);
+    border-radius:999px; padding:9px 15px; font-size:13px; font-weight:700; text-decoration:none; white-space:nowrap;}
+  .toc:hover{border-color:var(--clear);}
+
+  /* ---------- why free ---------- */
+  .trade-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:28px;}
+  @media(min-width:700px){ .trade-grid{grid-template-columns:repeat(4,1fr);} }
+  .tcard{padding:18px 14px; text-align:center;}
+  .tcard .tic{width:44px; height:44px; margin:0 auto; border-radius:11px; background:#0b2836;
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;}
+  .tcard .tic svg{width:24px; height:24px;}
+  .tcard h3{font-size:16px; margin-top:12px;}
+  .tcard p{margin-top:6px; color:var(--mute); font-size:13px;}
+
+  /* ---------- logos ---------- */
+  .logo-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:30px;}
+  @media(min-width:640px){ .logo-grid{grid-template-columns:1fr 1fr;} }
+  @media(min-width:900px){ .logo-grid{grid-template-columns:repeat(3,1fr);} .logo-grid .lcard:nth-child(4),.logo-grid .lcard:nth-child(5){grid-column:span 1;} }
+  .lcard .stage{height:180px; display:flex; align-items:center; justify-content:center;
+    transition:background .3s ease; border-bottom:1px solid var(--line); cursor:pointer;}
+  .lcard .stage.dark{background:#0b2836;}
+  .lcard .stage.light{background:#eef4f6;}
+  .lcard .stage svg{height:126px; width:auto;}
+  .lcard .body{padding:16px 16px 18px;}
+  .lcard h3{font-size:18px;}
+  .lcard .why{margin-top:6px; color:var(--mute); font-size:13.5px;}
+  .lcard .best{margin-top:10px; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:800; color:var(--clay2); font-family:system-ui,sans-serif;}
+  .lcard .hint{margin-top:10px; font-size:11.5px; color:#5b7f8c;}
+
+  /* ---------- sites ---------- */
+  .site-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:30px;}
+  @media(min-width:760px){ .site-grid{grid-template-columns:repeat(3,1fr);} }
+  .scard{display:flex; flex-direction:column;}
+  .scard .shot{height:300px; position:relative; border-bottom:1px solid var(--line); overflow:hidden;}
+  .mini-site{position:absolute; inset:14px 24px 0; border-radius:14px 14px 0 0; overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.5); display:flex; flex-direction:column; font-size:8px;}
+  .ms-head{padding:16px 10px 12px; text-align:center;}
+  .ms-name{font-weight:800; font-size:13px; letter-spacing:-.01em; font-family:Georgia,serif;}
+  .ms-tag{margin-top:3px; font-size:8.5px; opacity:.8;}
+  .ms-cta{display:inline-block; margin-top:8px; border-radius:6px; padding:5px 10px; font-weight:800; font-size:8.5px;}
+  .ms-body{flex:1; padding:8px 10px; display:flex; flex-direction:column; gap:6px;}
+  .ms-row{border-radius:6px; padding:6px 8px; font-weight:700; font-size:8px; display:flex; justify-content:space-between;}
+  .ms-pics{display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px;}
+  .ms-pic{aspect-ratio:1; border-radius:4px;}
+  .scard .body{padding:16px; display:flex; flex-direction:column; flex:1;}
+  .scard h3{font-size:18px;}
+  .scard .note{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:800; margin-top:4px; font-family:system-ui,sans-serif;}
+  .scard p{margin-top:8px; color:var(--mute); font-size:13.5px; flex:1;}
+  .scard .act{margin-top:14px;}
+  .livechip,.conceptchip{position:absolute; top:22px; right:32px; z-index:5; font-size:10.5px; font-weight:800;
+    letter-spacing:.1em; text-transform:uppercase; border-radius:999px; padding:4px 10px; font-family:system-ui,sans-serif;}
+  .livechip{color:#062029; background:var(--green);}
+  .conceptchip{color:var(--clay2); background:rgba(8,34,46,.85); border:1px solid var(--clay);}
+
+  /* ---------- water tool (full diagnostic) ---------- */
+  .status{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:24px;
+    font-size:13px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--mute);
+    font-family:system-ui,sans-serif;}
+  .status .dot{width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green);}
+  .status.busy .dot{background:var(--clay2); box-shadow:0 0 8px var(--clay2); animation:blink .6s linear infinite;}
+  .status.alert .dot{background:var(--clay); box-shadow:0 0 8px var(--clay);}
+  @keyframes blink{ 50%{opacity:.3;} }
+  .chips{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:22px;}
+  .chip{background:var(--panel); border:1px solid var(--line); color:var(--foam);
+    border-radius:999px; padding:12px 18px; font-size:14.5px; font-weight:600; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, color .15s ease; font-family:system-ui,sans-serif; min-height:44px;}
+  .chip:hover{border-color:var(--clear);}
+  .chip[aria-pressed="true"]{background:var(--clear); color:#062029; border-color:var(--clear);}
+  .system{padding:14px 12px 8px; margin-top:24px;}
+  .system svg{width:100%; height:auto; display:block;}
+  .part{transition:opacity .3s ease;}
+  .part .glow{opacity:0; transition:opacity .3s ease;}
+  .part.active .glow{opacity:.9;}
+  .part.active .lbl{fill:var(--clear2); font-weight:700;}
+  .part.dim{opacity:.38;}
+  .pulse{transform-box:fill-box; transform-origin:center;}
+  .part.active .pulse{animation:pulse 1.5s ease-in-out infinite;}
+  @keyframes pulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+  .droplet{offset-path:path('M79 262 V168 H636'); animation:travel 3.4s linear infinite;}
+  @keyframes travel{ from{offset-distance:0%;} to{offset-distance:100%;} }
+  .paused .droplet{animation-play-state:paused; opacity:.12;}
+  .trace{offset-path:path('M79 262 V168 H636'); offset-distance:0%; opacity:0;}
+  .trace.run{animation:scan 1s ease-out;}
+  @keyframes scan{ 0%{offset-distance:0%; opacity:1;} 95%{opacity:1;} 100%{offset-distance:100%; opacity:0;} }
+  .pumpbox{transform-box:fill-box; transform-origin:center; animation:hum .18s ease-in-out infinite alternate;}
+  .paused .pumpbox{animation:none;}
+  @keyframes hum{ from{transform:translateY(0);} to{transform:translateY(.6px);} }
+  .table-water{animation:shimmer 3s ease-in-out infinite;}
+  @keyframes shimmer{ 0%,100%{opacity:.5;} 50%{opacity:.72;} }
+  .mainpipe{stroke:#4a6470; stroke-width:8; fill:none; stroke-linecap:round;}
+  .mainwater{stroke:#4ec6d9; stroke-width:3.5; fill:none; stroke-linecap:round; opacity:.7; transition:stroke .4s ease;}
+  .mainwater.murky{stroke:#b3763f;}
+  .seep{opacity:0;}
+  .seep.on{opacity:1;}
+  .seep circle{animation:seepgrow 2.4s ease-out infinite;}
+  @keyframes seepgrow{ 0%{r:2; opacity:.7;} 100%{r:26; opacity:0;} }
+  .gneedle2{transform-box:fill-box; transform-origin:center bottom; transition:transform .8s cubic-bezier(.5,-.3,.4,1.4);}
+  .result{border-left:4px solid var(--clear); padding:22px; margin-top:20px;}
+  .result::before{display:none;}
+  .result .likely{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--clear); font-weight:700; font-family:system-ui,sans-serif;}
+  .result h3{font-size:21px; margin-top:8px;}
+  .result .rbody{margin-top:10px; color:var(--mute); font-size:15px;}
+  .badgesrow{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;}
+  .badgesrow .b{font-weight:700; font-size:12.5px; padding:6px 13px; border-radius:999px; font-family:system-ui,sans-serif;}
+  .badge-u{background:rgba(192,122,68,.16); border:1px solid var(--clay); color:var(--clay2);}
+  .badge-g{background:rgba(79,191,122,.14); border:1px solid var(--green); color:#9fe6bd;}
+  .rrow{display:flex; gap:10px; margin-top:14px; align-items:flex-start; font-size:14px;}
+  .rrow .tagword{flex:0 0 auto; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+    color:var(--clear2); background:rgba(78,198,217,.12); border:1px solid var(--line); border-radius:6px; padding:4px 8px; margin-top:1px;
+    font-family:system-ui,sans-serif;}
+  .rrow .rtext{color:var(--foam);}
+  .placeholder-note{color:var(--mute); text-align:center; font-size:14px; padding:14px;}
+
+  /* ---------- social ---------- */
+  .fb{margin-top:30px;}
+  .fb-cover{padding:0; overflow:visible; border-radius:18px 18px 0 0;}
+  .fb-cover svg{width:100%; height:auto; display:block; border-radius:17px 17px 0 0;}
+  .fb-bar{background:var(--panel); border:1px solid var(--line); border-top:none; border-radius:0 0 18px 18px;
+    padding:14px 18px 18px 128px; position:relative; min-height:74px;}
+  .fb-ava{position:absolute; left:20px; top:-44px; width:88px; height:88px; border-radius:50%;
+    background:#0b2836; border:4px solid var(--panel); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .fb-ava svg{width:60px; height:60px;}
+  .fb-name{font-family:Georgia,serif; font-weight:700; font-size:19px;}
+  .fb-meta{color:var(--mute); font-size:12.5px; margin-top:2px;}
+  .fb-btns{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;}
+  .fb-btn{font-size:12px; font-weight:800; border-radius:8px; padding:7px 14px; font-family:system-ui,sans-serif;}
+  .fb-btn.b1{background:var(--clear); color:#062029;}
+  .fb-btn.b2{background:#0b2836; border:1px solid var(--line); color:var(--foam);}
+  @media(max-width:520px){ .fb-bar{padding:52px 18px 18px;} }
+  .post-grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:22px;}
+  @media(min-width:700px){ .post-grid{grid-template-columns:repeat(3,1fr);} }
+  .post{overflow:hidden;}
+  .post .pvis{height:150px; position:relative; border-bottom:1px solid var(--line);}
+  .post .pbody{padding:14px;}
+  .post .pbody h3{font-size:14.5px; font-family:system-ui,sans-serif; font-weight:800;}
+  .post .pbody p{margin-top:5px; color:var(--mute); font-size:12.5px;}
+  .ba-split{position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr;}
+  .ba-split div{display:flex; align-items:flex-end; padding:10px; font-size:10px; font-weight:800;
+    letter-spacing:.1em; text-transform:uppercase; font-family:system-ui,sans-serif;}
+  .ba-split .b4{background:linear-gradient(160deg,#5a4632,#2a2018); color:#c9b393;}
+  .ba-split .af{background:linear-gradient(160deg,#1e6d82,#0e3546); color:#bff0f7;}
+  .tipvis{position:absolute; inset:0; background:linear-gradient(150deg,#134a5e,#0b2836);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;}
+  .tipvis .tno{font-size:11px; letter-spacing:.24em; font-weight:800; color:var(--clay2); font-family:system-ui,sans-serif;}
+  .tipvis .tq{font-family:Georgia,serif; font-style:italic; font-size:14px; color:var(--foam); text-align:center; padding:0 16px;}
+  .revvis{position:absolute; inset:0; background:linear-gradient(150deg,#0e3546,#061a24);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;}
+  .revvis .stars{color:var(--clay2); letter-spacing:4px; font-size:16px;}
+  .revvis .rq{font-family:Georgia,serif; font-style:italic; font-size:13px; color:var(--foam); text-align:center; padding:0 18px;}
+
+  /* ---------- gear ---------- */
+  .gear-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:30px;}
+  @media(min-width:760px){ .gear-grid{grid-template-columns:1fr 1fr;} .gear-grid .wide{grid-column:1 / -1;} }
+  .gcard2 .stage{background:#0b2836; border-bottom:1px solid var(--line); padding:20px 14px; display:flex; align-items:center; justify-content:center;}
+  .gcard2 .stage svg{width:100%; max-width:540px; height:auto;}
+  .gcard2 .body{padding:16px;}
+  .gcard2 h3{font-size:18px;}
+  .gcard2 p{margin-top:6px; color:var(--mute); font-size:13.5px;}
+  .gpick{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;}
+  .swapbtn{background:#0b2836; border:1px solid var(--line); color:var(--mute); border-radius:999px;
+    padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer; font-family:system-ui,sans-serif; min-height:36px;}
+  .swapbtn:hover{border-color:var(--clear); color:var(--foam);}
+  .swapbtn[aria-pressed="true"]{border-color:var(--clear); color:var(--foam); background:#123a4d;}
+
+  /* ---------- price list ---------- */
+  .pricelist{margin-top:28px; padding:10px 20px;}
+  .prow{display:flex; align-items:baseline; gap:10px; padding:14px 0; border-bottom:1px solid #16404f; font-size:15px;}
+  .prow:last-child{border-bottom:none;}
+  .prow .pn{font-weight:700;}
+  .prow .pdesc{color:var(--mute); font-size:13px; margin-top:2px;}
+  .prow .dots{flex:1; border-bottom:2px dotted #234a59; transform:translateY(-4px); min-width:20px;}
+  .prow .pp{font-weight:800; color:var(--clear2); white-space:nowrap;}
+  .totalrow{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px;
+    background:rgba(79,191,122,.1); border:1px solid var(--green); border-radius:16px; padding:18px 20px;}
+  .totalrow .tl{font-size:14px; color:var(--mute); font-weight:700;}
+  .totalrow .tl .strike{text-decoration:line-through;}
+  .totalrow .tr2{font-size:32px; font-weight:800; color:var(--green); font-family:Georgia,serif;}
+
+  /* ---------- how ---------- */
+  .steps{display:grid; grid-template-columns:1fr; gap:14px; margin-top:28px; counter-reset:st;}
+  @media(min-width:700px){ .steps{grid-template-columns:repeat(4,1fr);} }
+  .step{padding:20px 18px 18px; counter-increment:st;}
+  .step::after{content:counter(st); position:absolute; top:-13px; left:14px; width:28px; height:28px; border-radius:50%;
+    background:var(--clear); color:#062029; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center;
+    font-family:Georgia,serif;}
+  .step h3{font-size:16px; margin-top:6px;}
+  .step p{margin-top:6px; color:var(--mute); font-size:13.5px;}
+  .two{display:grid; grid-template-columns:1fr; gap:16px; margin-top:28px;}
+  @media(min-width:700px){ .two{grid-template-columns:1fr 1fr;} }
+  .listcard{padding:22px;}
+  .listcard h3{font-size:18px;}
+  .listcard ul{margin-top:12px; padding:0; list-style:none;}
+  .listcard li{padding:9px 0 9px 26px; position:relative; font-size:14.5px; color:var(--mute); border-bottom:1px solid #16404f;}
+  .listcard li:last-child{border-bottom:none;}
+  .listcard li::after{position:absolute; left:0; top:9px; font-weight:800;}
+  .keep li::after{content:"✓"; color:var(--green);}
+  .nope li::after{content:"—"; color:var(--clay);}
+
+  footer{background:radial-gradient(120% 100% at 50% 130%, #16506a 0%, #061a24 68%);
+    text-align:center; padding:66px 18px 72px; border-top:1px solid var(--line);}
+  footer h2{color:var(--foam);}
+  footer .fsum{margin-top:14px; color:var(--mute); font-size:15px; max-width:560px; margin-left:auto; margin-right:auto;}
+  .fine{margin-top:28px; font-size:12px; color:#5b7f8c; max-width:560px; margin-left:auto; margin-right:auto;}
+
+  .vbadge{position:fixed; left:10px; bottom:10px; z-index:50; background:rgba(8,34,46,.85);
+    border:1px solid var(--line); color:var(--mute); font-size:11px; padding:5px 9px; border-radius:8px; cursor:pointer;}
+  .toast{position:fixed; left:50%; bottom:52px; transform:translateX(-50%); background:var(--clear); color:#062029;
+    font-weight:700; font-size:13px; padding:9px 16px; border-radius:10px; z-index:60; opacity:0;
+    transition:opacity .25s ease; pointer-events:none;}
+  .toast.show{opacity:1;}
+
+
+  .seo-card{margin-top:16px; padding:24px 22px;}
+  .seo-card h3{font-size:21px; text-align:center;}
+  .seo-card .sub{margin-top:8px;}
+  .seolist{margin:18px 0 0; padding:0; list-style:none; display:grid; grid-template-columns:1fr; gap:0 26px;}
+  @media(min-width:680px){ .seolist{grid-template-columns:1fr 1fr;} }
+  .seolist li{padding:10px 0 10px 26px; position:relative; font-size:14px; color:var(--mute); border-bottom:1px solid #16404f;}
+  .seolist li b{color:var(--foam);}
+  .seolist li::before{content:"\2713"; position:absolute; left:0; top:10px; color:var(--clear); font-weight:800;}
+
+
+  .season-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+  @media(min-width:700px){ .season-grid{grid-template-columns:repeat(4,1fr);} }
+  .season{background:#0b2836; border:1px solid var(--line); border-radius:12px; padding:14px;}
+  .season .s-tag{font-size:10.5px; letter-spacing:.2em; font-weight:800; font-family:system-ui,sans-serif;}
+  .season .s-q{margin-top:8px; font-family:Georgia,serif; font-style:italic; font-size:13px; color:var(--foam); line-height:1.5;}
+
+
+  .terr-card{margin-top:26px; padding:24px 16px 16px;}
+  .terr-card svg{width:100%; max-width:400px; margin:0 auto; display:block;}
+  .terr-note{text-align:center; color:var(--mute); font-size:13.5px; padding:14px 8px 6px; max-width:560px; margin:0 auto;}
+  .basepulse{transform-box:fill-box; transform-origin:center; animation:basep 2.2s ease-out infinite;}
+  @keyframes basep{ 0%{transform:scale(1); opacity:.9;} 100%{transform:scale(3.4); opacity:0;} }
+  .ring{transform-box:fill-box; transform-origin:center;}
+  .ring.r1{animation:ringspin 60s linear infinite;}
+  .ring.r2{animation:ringspin 90s linear infinite reverse;}
+  .ring.r3{animation:ringspin 130s linear infinite;}
+  @keyframes ringspin{ to{transform:rotate(360deg);} }
+
+
+  .office-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:28px;}
+  @media(min-width:700px){ .office-grid{grid-template-columns:1fr 1fr;} }
+  .ocard .ovis{background:#0d2c3a; border-bottom:1px solid var(--line); padding:14px; display:flex; justify-content:center;}
+  .ocard .ovis svg{width:100%; max-width:230px; height:auto;}
+  .ocard .obody{padding:16px;}
+  .ocard h3{font-size:17px;}
+  .ocard p{margin-top:6px; color:var(--mute); font-size:13.5px;}
+
+
+  .pal-row{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:18px;}
+  .pal{display:inline-flex; align-items:center; gap:9px; background:#0b2836; border:1px solid var(--line);
+    color:var(--foam); border-radius:999px; padding:10px 16px; font-size:13.5px; font-weight:700;
+    cursor:pointer; font-family:system-ui,sans-serif; min-height:44px;
+    transition:border-color .15s ease, background .15s ease;}
+  .pal[aria-pressed="true"]{border-color:var(--clear); background:#123a4d; box-shadow:0 0 0 1px var(--clear);}
+  .pal .sw{display:inline-flex; gap:3px;}
+  .pal .sw i{width:13px; height:13px; border-radius:50%; display:inline-block;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition-duration:.001s !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ logo symbol library: five concepts ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- A: The Stone Drop -->
+    <g id="logoA">
+      <path d="M60 8 C60 8 24 54 24 82 a36 36 0 0 0 72 0 C96 54 60 8 60 8 Z" fill="var(--b1m)"/>
+      <path d="M60 8 C60 8 24 54 24 82 a36 36 0 0 0 12 27 L60 70 Z" fill="var(--b1)" opacity="0.9"/>
+      <ellipse cx="44" cy="52" rx="7" ry="14" transform="rotate(-18 44 52)" fill="var(--b1xl)" opacity="0.75"/>
+      <path d="M25 90 L42 80 L60 92 L78 78 L95 90 A36 36 0 0 1 25 90 Z" fill="var(--b2)"/>
+      <path d="M60 92 L78 78 L95 90 A36 36 0 0 1 60 118 Z" fill="var(--b2d)"/>
+    </g>
+    <!-- B: The Badge -->
+    <g id="logoB">
+      <path d="M60 6 L106 31 L106 89 L60 114 L14 89 L14 31 Z" fill="#0e3546" stroke="var(--b1)" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M60 14 L99 35 L99 85 L60 106 L21 85 L21 35 Z" fill="none" stroke="#1c4a5e" stroke-width="2"/>
+      <path d="M14 70 Q37 62 60 70 T106 70 L106 89 L60 114 L14 89 Z" fill="#134a5e"/>
+      <path d="M14 70 Q37 62 60 70 T106 70" fill="none" stroke="var(--b1l)" stroke-width="4"/>
+      <text x="60" y="60" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="40" letter-spacing="2" fill="#eaf6f8">RS</text>
+    </g>
+    <!-- C: The Strata -->
+    <g id="logoC">
+      <circle cx="60" cy="60" r="53" fill="#0e3546"/>
+      <path d="M10 78 a53 53 0 0 0 100 0 Z" fill="#134a5e"/>
+      <path d="M10 78 Q35 70 60 78 T110 78" fill="none" stroke="var(--b1)" stroke-width="4"/>
+      <line x1="18" y1="42" x2="102" y2="42" stroke="#1c4a5e" stroke-width="2"/>
+      <line x1="53" y1="24" x2="53" y2="86" stroke="var(--b2l)" stroke-width="4" stroke-linecap="round"/>
+      <line x1="67" y1="24" x2="67" y2="86" stroke="var(--b2l)" stroke-width="4" stroke-linecap="round"/>
+      <rect x="45" y="14" width="30" height="10" rx="3" fill="var(--b2)"/>
+      <rect x="53" y="82" width="14" height="14" rx="3" fill="var(--b2)"/>
+      <circle cx="60" cy="60" r="53" fill="none" stroke="var(--b2)" stroke-width="6"/>
+    </g>
+    <!-- D: The Pump — hand well pump over water -->
+    <g id="logoD">
+      <path d="M12 104 Q36 96 60 104 T108 104 L108 118 L12 118 Z" fill="#134a5e"/>
+      <path d="M12 104 Q36 96 60 104 T108 104" fill="none" stroke="var(--b1)" stroke-width="4"/>
+      <rect x="46" y="92" width="40" height="9" rx="3" fill="var(--b2d)"/>
+      <rect x="56" y="38" width="18" height="58" rx="5" fill="var(--b2)"/>
+      <rect x="66" y="40" width="8" height="54" rx="4" fill="var(--b2d)"/>
+      <ellipse cx="65" cy="38" rx="11" ry="7" fill="var(--b2)"/>
+      <path d="M56 50 L40 50 Q32 50 32 58 L32 66 L42 66 L42 60 Q42 58 46 58 L56 58 Z" fill="var(--b2)"/>
+      <line x1="74" y1="46" x2="100" y2="22" stroke="var(--b2d)" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="100" cy="22" r="5" fill="var(--b2)"/>
+      <path d="M37 74 C37 74 31 82 31 86 a6 6 0 0 0 12 0 C43 82 37 74 37 74 Z" fill="var(--b1)"/>
+    </g>
+    <!-- E: The Wordmark -->
+    <g id="logoE">
+      <text x="60" y="40" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="29" letter-spacing="3" fill="#eaf6f8">ROCK</text>
+      <text x="60" y="72" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="29" letter-spacing="3" fill="var(--b1)">SOLID</text>
+      <path d="M16 80 Q38 74 60 80 T104 80" fill="none" stroke="var(--b1l)" stroke-width="3.5"/>
+      <line x1="14" y1="97" x2="34" y2="97" stroke="#1c4a5e" stroke-width="2"/>
+      <line x1="86" y1="97" x2="106" y2="97" stroke="#1c4a5e" stroke-width="2"/>
+      <text x="60" y="101" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="11" letter-spacing="5" fill="var(--b2l)">SERVICES</text>
+    </g>
+    <!-- QR mark (mock pattern; real code generated at build) -->
+    <g id="qrmark">
+      <rect width="100" height="100" rx="8" fill="#eaf6f8"/>
+      <g fill="#08222e">
+        <rect x="10" y="10" width="24" height="24"/><rect x="66" y="10" width="24" height="24"/><rect x="10" y="66" width="24" height="24"/>
+        <rect x="42" y="10" width="8" height="8"/><rect x="54" y="22" width="8" height="8"/><rect x="42" y="34" width="8" height="8"/>
+        <rect x="10" y="42" width="8" height="8"/><rect x="22" y="52" width="8" height="8"/><rect x="34" y="42" width="8" height="8"/>
+        <rect x="46" y="50" width="8" height="8"/><rect x="58" y="42" width="8" height="8"/><rect x="70" y="52" width="8" height="8"/>
+        <rect x="82" y="42" width="8" height="8"/><rect x="46" y="66" width="8" height="8"/><rect x="58" y="76" width="8" height="8"/>
+        <rect x="70" y="66" width="8" height="8"/><rect x="82" y="80" width="8" height="8"/><rect x="46" y="82" width="8" height="8"/>
+      </g>
+      <g fill="#eaf6f8"><rect x="16" y="16" width="12" height="12"/><rect x="72" y="16" width="12" height="12"/><rect x="16" y="72" width="12" height="12"/></g>
+      <g fill="#08222e"><rect x="19" y="19" width="6" height="6"/><rect x="75" y="19" width="6" height="6"/><rect x="19" y="75" width="6" height="6"/></g>
+    </g>
+  </defs>
+</svg>
+
+<header>
+  <span class="eyebrow" id="c-eyebrow"></span>
+  <h1 id="c-h1"></h1>
+  <div class="free-tag"><span class="was">The whole overhaul</span><span class="now">Free</span></div>
+  <div class="heroletter" id="c-letter"></div>
+  <div class="btns hero-btns">
+    <a class="btn btn-primary" href="#offer" id="c-cta1"></a>
+    <a class="btn btn-ghost" href="#why" id="c-cta2"></a>
+  </div>
+  <div class="seawrap">
+    <svg viewBox="0 0 600 78" preserveAspectRatio="none" aria-hidden="true">
+      <path id="wv1" d="" fill="#4ec6d9" opacity="0.16"/>
+      <path id="wv2" d="" fill="#2f9bb4" opacity="0.22"/>
+    </svg>
+  </div>
+</header>
+
+<div class="tocbar"><div class="tocin">
+  <a class="toc" href="#logos">Logo</a>
+  <a class="toc" href="#sites">Website</a>
+  <a class="toc" href="#tool">Water tool</a>
+  <a class="toc" href="#social">Social</a>
+  <a class="toc" href="#funnel">Getting found</a>
+  <a class="toc" href="#area">Territory</a>
+  <a class="toc" href="#gear">Truck &amp; gear</a>
+  <a class="toc" href="#office">Back office</a>
+  <a class="toc" href="#offer">The numbers</a>
+</div></div>
+
+<section id="why" style="background:#0a2836;">
+  <div class="wrap">
+    <div class="kicker" id="k-why"></div>
+    <h2 id="h-why"></h2>
+    <p class="sub" id="s-why"></p>
+    <div class="trade-grid" id="c-trades"></div>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#0c2b39"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0e3040" opacity=".8"/>
+</svg>
+
+<section id="logos" style="background:#0c2b39; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece one · 10 ft</span><span class="dline"></span></div>
+    <h2 id="h-logo"></h2>
+    <p class="sub" id="s-logo"></p>
+    <div class="logo-grid" id="c-logos"></div>
+
+    <div class="card" style="margin-top:16px; padding:24px 20px;">
+      <h3 style="font-size:20px; text-align:center; font-family:Georgia,serif;">About these colors</h3>
+      <p class="sub" style="margin-top:8px; font-size:14.5px;">Every palette on this page is my pick, not gospel. Tap one and watch the whole brand change — the logos, the truck, the sign, all of it. And if you've already got colors — the truck, your card, a team — those win. It's one of the first things the questionnaire asks.</p>
+      <div class="pal-row" id="c-palettes"></div>
+    </div>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#09242f"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0a2836" opacity=".8"/>
+</svg>
+
+<section id="sites" style="background:#09242f; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece two · 25 ft</span><span class="dline"></span></div>
+    <h2 id="h-site"></h2>
+    <p class="sub" id="s-site"></p>
+    <div class="site-grid" id="c-sites"></div>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#0c2b39"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0b2a38" opacity=".8"/>
+</svg>
+
+<section id="tool" style="background:linear-gradient(180deg,#0c2b39,#08222e); padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece three · 60 ft</span><span class="dline"></span></div>
+    <h2 id="h-tool"></h2>
+    <p class="sub" id="s-tool"></p>
+
+    <div class="status" id="c-status"><span class="dot"></span><span id="c-status-text">System ready — tap a symptom</span></div>
+    <div class="chips" id="c-chips" role="group" aria-label="Water symptoms"></div>
+
+    <div class="system card" aria-hidden="true">
+      <svg viewBox="0 0 680 300" id="sysdiag">
+        <rect x="0" y="0" width="680" height="150" fill="#0c2f3f"/>
+        <rect x="0" y="150" width="680" height="150" fill="#1a2830"/>
+        <line x1="0" y1="150" x2="680" y2="150" stroke="#3a4a52" stroke-width="2"/>
+        <path class="mainpipe" d="M79 262 V168 H636"/>
+        <path class="mainwater" id="water-up" d="M79 262 V168 H523"/>
+        <path class="mainwater" id="water-down" d="M523 168 H636"/>
+        <g class="seep" id="seep"><circle cx="300" cy="168" r="2" fill="#7fdcea"/></g>
+        <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:0s"></circle>
+        <circle class="droplet" r="3" fill="#8fe3ef" style="animation-delay:-.8s"></circle>
+        <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:-1.6s"></circle>
+        <circle class="droplet" r="2.6" fill="#8fe3ef" style="animation-delay:-2.4s"></circle>
+        <circle class="trace" id="trace" r="6" fill="#eafcff"></circle>
+        <g class="part" data-part="well">
+          <rect class="glow pulse" x="46" y="90" width="66" height="192" rx="8" fill="#7fdcea" opacity="0"/>
+          <rect x="54" y="98" width="50" height="180" rx="4" fill="#2a3a44" stroke="#4a6470" stroke-width="2"/>
+          <rect x="50" y="90" width="58" height="14" rx="3" fill="#4a6470"/>
+          <rect class="table-water" x="56" y="186" width="46" height="88" fill="#2f8ba4"/>
+          <line x1="56" y1="186" x2="102" y2="186" stroke="#7fdcea" stroke-width="2"/>
+          <rect class="pumpbox" x="69" y="244" width="20" height="26" rx="3" fill="#c07a44"/>
+          <text class="lbl" x="79" y="294" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">WELL &amp; PUMP</text>
+        </g>
+        <g class="part" data-part="line">
+          <rect class="glow" x="120" y="158" width="300" height="20" rx="10" fill="#7fdcea" opacity="0"/>
+          <text class="lbl" x="270" y="200" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">SUPPLY LINE</text>
+        </g>
+        <g class="part" data-part="tank">
+          <rect class="glow pulse" x="410" y="66" width="84" height="104" rx="10" fill="#7fdcea" opacity="0"/>
+          <rect x="428" y="80" width="44" height="88" rx="12" fill="#2f7d9a" stroke="#4a6470" stroke-width="2"/>
+          <rect x="428" y="80" width="14" height="88" rx="7" fill="#4fa6c4" opacity="0.5"/>
+          <g transform="translate(484,74)">
+            <circle cx="0" cy="0" r="15" fill="#0c2f3f" stroke="#4a6470" stroke-width="2"/>
+            <line id="needle2" class="gneedle2" x1="0" y1="0" x2="0" y2="-10" stroke="#e0a066" stroke-width="2.4"/>
+            <circle cx="0" cy="0" r="2.2" fill="#e0a066"/>
+          </g>
+          <text class="lbl" x="450" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">PRESSURE TANK</text>
+        </g>
+        <g class="part" data-part="treatment">
+          <rect class="glow pulse" x="506" y="74" width="46" height="96" rx="8" fill="#7fdcea" opacity="0"/>
+          <rect x="518" y="88" width="24" height="80" rx="10" fill="#3a5a52" stroke="#4a6470" stroke-width="2"/>
+          <ellipse cx="530" cy="88" rx="12" ry="5" fill="#4a7a6e"/>
+          <text class="lbl" x="530" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">TREATMENT</text>
+        </g>
+        <g class="part" data-part="house">
+          <rect class="glow" x="586" y="80" width="82" height="90" rx="6" fill="#7fdcea" opacity="0"/>
+          <rect x="600" y="112" width="56" height="46" fill="#24414f" stroke="#4a6470" stroke-width="2"/>
+          <path d="M596 112 L628 86 L660 112 Z" fill="#2f5b6c" stroke="#4a6470" stroke-width="2"/>
+          <rect x="620" y="128" width="16" height="30" fill="#0c2f3f"/>
+          <text class="lbl" x="628" y="186" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">HOME</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="result card" id="c-result" aria-live="polite">
+      <div class="placeholder-note" id="r-empty">Pick a symptom above and watch it trace through the system.</div>
+      <div id="r-content" style="display:none;">
+        <div class="likely">Likely cause</div>
+        <h3 id="r-title"></h3>
+        <div class="rbody" id="r-body"></div>
+        <div class="badgesrow">
+          <span class="b badge-u" id="r-urgent" style="display:none;"></span>
+          <span class="b badge-g" id="r-outcome"></span>
+        </div>
+        <div class="rrow"><span class="tagword">Check</span><span class="rtext" id="r-check"></span></div>
+        <div class="rrow"><span class="tagword">The fix</span><span class="rtext" id="r-fix"></span></div>
+      </div>
+    </div>
+    <p class="sub" id="s-toolnote"></p>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#0a2836"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0b2a38" opacity=".8"/>
+</svg>
+
+<section id="social" style="background:#0a2836; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece four · 80 ft</span><span class="dline"></span></div>
+    <h2 id="h-soc"></h2>
+    <p class="sub" id="s-soc"></p>
+
+    <div class="fb">
+      <div class="card fb-cover">
+        <svg viewBox="0 0 360 110" aria-hidden="true">
+          <defs><linearGradient id="covg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#134a5e"/><stop offset="1" stop-color="#08222e"/>
+          </linearGradient></defs>
+          <rect width="360" height="110" fill="url(#covg)"/>
+          <path d="M0 88 Q45 80 90 88 T180 88 T270 88 T360 88 L360 110 L0 110 Z" fill="#0e3546"/>
+          <path d="M0 88 Q45 80 90 88 T180 88 T270 88 T360 88" fill="none" stroke="var(--b1)" stroke-width="2" opacity=".7"/>
+          <text x="200" y="46" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="22" fill="#eaf6f8">Rock Solid Services</text>
+          <text x="200" y="66" text-anchor="middle" font-family="system-ui" font-weight="700" font-size="10" letter-spacing="2" fill="var(--b1l)">WELL &amp; WATER · NORTHEAST OHIO</text>
+          <use class="fb-logo" href="#logoA" transform="translate(28,22) scale(0.55)"/>
+        </svg>
+      </div>
+      <div class="fb-bar">
+        <div class="fb-ava"><svg viewBox="0 0 120 120"><use class="fb-logo" href="#logoA"/></svg></div>
+        <div class="fb-name" id="fb-name"></div>
+        <div class="fb-meta" id="fb-meta"></div>
+        <div class="fb-btns"><span class="fb-btn b1">Message</span><span class="fb-btn b2">Call now</span><span class="fb-btn b2">Website</span></div>
+      </div>
+    </div>
+
+    <div class="post-grid" id="c-posts"></div>
+
+    <div class="card" style="margin-top:16px; padding:20px 18px;">
+      <h3 style="font-size:18px; text-align:center;">A year of posts, already written</h3>
+      <p class="sub" style="font-size:14px; margin-top:8px;">Well problems follow the calendar. So do the posts — one pack, queued by season:</p>
+      <div class="season-grid">
+        <div class="season"><div class="s-tag" style="color:#8fbc6a;">SPRING</div><div class="s-q">“Snowmelt taste in your water? Time for the spring well check.”</div></div>
+        <div class="season"><div class="s-tag" style="color:#e0a066;">SUMMER</div><div class="s-q">“Pump running long in a dry spell? Your water table dropped.”</div></div>
+        <div class="season"><div class="s-tag" style="color:#c07a44;">FALL</div><div class="s-q">“Winterize the yard hydrant before the first hard freeze.”</div></div>
+        <div class="season"><div class="s-tag" style="color:#7fdcea;">WINTER</div><div class="s-q">“Frozen line? Don't take a torch to it — text me first.”</div></div>
+      </div>
+    </div>
+    <p class="sub" id="s-socnote"></p>
+  </div>
+</section>
+
+<section id="funnel" style="background:#09242f; border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece five · 100 ft</span><span class="dline"></span></div>
+    <h2 id="h-fn"></h2>
+    <p class="sub" id="s-fn"></p>
+    <div class="card" style="margin-top:26px; padding:20px 14px 8px;">
+      <svg viewBox="0 0 680 210" aria-hidden="true">
+        <path class="fn-path" d="M70 60 H610 Q640 60 640 95 V115 Q640 150 610 150 H70 Q40 150 40 115 V95 Q40 60 70 60 Z" style="stroke:#1c4a5e; stroke-width:2.5; fill:none; stroke-dasharray:1 9; stroke-linecap:round;"/>
+        <g><rect x="26" y="30" width="96" height="58" rx="10" fill="#0b2836" stroke="#1c4a5e"/><text x="74" y="55" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">Google</text><text x="74" y="72" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">search</text></g>
+        <g><rect x="168" y="30" width="96" height="58" rx="10" fill="#0b2836" stroke="#1c4a5e"/><text x="216" y="55" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">Your</text><text x="216" y="72" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">listing</text></g>
+        <g><rect x="310" y="30" width="96" height="58" rx="10" fill="#0b2836" stroke="#1c4a5e"/><text x="358" y="55" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">The</text><text x="358" y="72" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">website</text></g>
+        <g><rect x="452" y="30" width="96" height="58" rx="10" fill="#0b2836" stroke="#1c4a5e"/><text x="500" y="55" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">A text</text><text x="500" y="72" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">to you</text></g>
+        <g><rect x="452" y="122" width="96" height="58" rx="10" fill="#0b2836" stroke="#1c4a5e"/><text x="500" y="147" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">Job</text><text x="500" y="164" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">done</text></g>
+        <g><rect x="168" y="122" width="238" height="58" rx="10" fill="#0b2836" stroke="#1c4a5e"/><text x="287" y="147" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">Review card in their hand</text><text x="287" y="164" text-anchor="middle" font-size="12" fill="#9db8c2" font-family="system-ui" font-weight="700">→ 5 stars back on Google</text></g>
+        <circle r="6" fill="#7fdcea" style="offset-path:path('M70 60 H610 Q640 60 640 95 V115 Q640 150 610 150 H70 Q40 150 40 115 V95 Q40 60 70 60 Z'); animation:travel2 7s linear infinite;"></circle>
+        <circle r="5" fill="#4ec6d9" style="offset-path:path('M70 60 H610 Q640 60 640 95 V115 Q640 150 610 150 H70 Q40 150 40 115 V95 Q40 60 70 60 Z'); animation:travel2 7s linear infinite; animation-delay:-2.3s;"></circle>
+        <circle r="4" fill="#bff0f7" style="offset-path:path('M70 60 H610 Q640 60 640 95 V115 Q640 150 610 150 H70 Q40 150 40 115 V95 Q40 60 70 60 Z'); animation:travel2 7s linear infinite; animation-delay:-4.6s;"></circle>
+      </svg>
+      <div style="text-align:center; color:var(--mute); font-size:13.5px; padding:12px 10px 14px;" id="c-fnnote"></div>
+    </div>
+      <div class="card seo-card">
+        <h3 id="seo-h"></h3>
+        <p class="sub" id="seo-s"></p>
+        <ul class="seolist" id="c-seo"></ul>
+      </div>
+  </div>
+</section>
+<style>@keyframes travel2{ from{offset-distance:0%;} to{offset-distance:100%;} }</style>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#0a2a36"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0b2e3c" opacity=".8"/>
+</svg>
+
+<section id="area" style="background:#0a2a36; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece six · 110 ft</span><span class="dline"></span></div>
+    <h2>Your territory</h2>
+    <p class="sub">Ohio runs on over a million private wells, and Ashland County is prime well country — past the city line, everything's on a well. Here's your range, drawn like a customer would see it:</p>
+    <div class="card terr-card">
+      <svg viewBox="0 0 300 340" aria-hidden="true">
+        <!-- stylized Ashland County outline -->
+        <path class="county" d="M92 22 L210 22 L210 210 L204 214 L204 318 L132 318 L132 214 L92 210 Z"
+              fill="#0e3546" stroke="#1c4a5e" stroke-width="2"/>
+        <!-- drive-time rings -->
+        <circle class="ring r1" cx="150" cy="118" r="56" fill="none" stroke="#4ec6d9" stroke-width="1.6" stroke-dasharray="4 7" opacity=".8"/>
+        <circle class="ring r2" cx="150" cy="118" r="104" fill="none" stroke="#4ec6d9" stroke-width="1.3" stroke-dasharray="3 9" opacity=".45"/>
+        <circle class="ring r3" cx="150" cy="118" r="150" fill="none" stroke="#4ec6d9" stroke-width="1" stroke-dasharray="2 11" opacity=".25"/>
+        <text x="150" y="56" text-anchor="middle" font-size="8.5" fill="#7fdcea" font-family="system-ui" font-weight="700">≈ 20 MIN</text>
+        <text x="150" y="9" text-anchor="middle" font-size="8.5" fill="#5b8fa0" font-family="system-ui" font-weight="700">≈ 40 MIN</text>
+        <!-- home base -->
+        <circle class="basepulse" cx="150" cy="118" r="6" fill="none" stroke="#e0a066" stroke-width="2"/>
+        <circle cx="150" cy="118" r="5.5" fill="#e0a066"/>
+        <text x="150" y="105" text-anchor="middle" font-size="12" font-weight="800" fill="#eaf6f8" font-family="Georgia,serif">Ashland</text>
+        <!-- in-county towns -->
+        <g font-family="system-ui" font-size="9" fill="#9db8c2">
+          <circle cx="120" cy="42" r="3" fill="#7fdcea"/><text x="120" y="34" text-anchor="middle">Nova</text>
+          <circle cx="190" cy="44" r="3" fill="#7fdcea"/><text x="190" y="36" text-anchor="middle">Sullivan</text>
+          <circle cx="150" cy="76" r="3" fill="#7fdcea"/><text x="150" y="68" text-anchor="middle">Bailey Lakes</text>
+          <circle cx="122" cy="90" r="3" fill="#7fdcea"/><text x="112" y="84" text-anchor="middle">Savannah</text>
+          <circle cx="196" cy="102" r="3" fill="#7fdcea"/><text x="196" y="94" text-anchor="middle">Polk</text>
+          <circle cx="118" cy="152" r="3" fill="#7fdcea"/><text x="112" y="164" text-anchor="middle">Mifflin</text>
+          <circle cx="178" cy="160" r="3" fill="#7fdcea"/><text x="186" y="172" text-anchor="middle">Jeromesville</text>
+          <circle cx="156" cy="182" r="3" fill="#7fdcea"/><text x="148" y="194" text-anchor="middle">Hayesville</text>
+          <circle cx="158" cy="236" r="3" fill="#7fdcea"/><text x="158" y="250" text-anchor="middle">Perrysville</text>
+          <circle cx="172" cy="282" r="3" fill="#7fdcea"/><text x="172" y="296" text-anchor="middle">Loudonville</text>
+        </g>
+        <!-- neighbors outside the county -->
+        <g font-family="system-ui" font-size="9" fill="#5b7f8c">
+          <circle cx="58" cy="214" r="3" fill="#5b7f8c"/><text x="58" y="228" text-anchor="middle">Mansfield</text>
+          <circle cx="264" cy="152" r="3" fill="#5b7f8c"/><text x="264" y="166" text-anchor="middle">Wooster</text>
+          <circle cx="244" cy="58" r="3" fill="#5b7f8c"/><text x="244" y="50" text-anchor="middle">West Salem</text>
+        </g>
+      </svg>
+      <div class="terr-note">Every dot becomes a search phrase and a service-area line on the site — “well pump repair Loudonville” is a search with almost nobody answering it. That's the SEO section, working this map.</div>
+    </div>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#0c2b39"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0e3040" opacity=".8"/>
+</svg>
+
+<section id="gear" style="background:#0c2b39; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece seven · 130 ft</span><span class="dline"></span></div>
+    <h2 id="h-gear"></h2>
+    <p class="sub" id="s-gear"></p>
+    <div class="gpick" id="g-pick" style="justify-content:center;"></div>
+    <div class="gear-grid">
+      <div class="gcard2 card wide">
+        <div class="stage">
+          <svg viewBox="0 0 560 230" aria-hidden="true">
+            <rect x="0" y="206" width="560" height="4" rx="2" fill="#1c4a5e"/>
+            <!-- pickup body, facing right -->
+            <path d="M64 168 L64 96 L286 96 L292 66 Q294 58 302 58 L396 58 Q404 58 408 64 L442 96 L498 96 Q514 96 517 112 L520 138 Q521 152 508 154 L488 156 A34 34 0 0 0 420 158 L186 158 A34 34 0 0 0 118 158 L76 156 Q64 154 64 142 Z" fill="#dfe6ee"/>
+            <!-- glass -->
+            <path d="M302 66 L392 66 L420 96 L302 96 Z" fill="#9fc2d3"/>
+            <!-- bed rail + tailgate lines -->
+            <rect x="64" y="96" width="222" height="6" fill="#c7d2da"/>
+            <line x1="74" y1="104" x2="74" y2="146" stroke="#c7d2da" stroke-width="3"/>
+            <!-- door seam + handle + mirror -->
+            <path d="M340 96 L340 152" stroke="#b9c6cf" stroke-width="2.5" fill="none"/>
+            <rect x="348" y="104" width="18" height="5" rx="2.5" fill="#8fa5b1"/>
+            <rect x="296" y="54" width="10" height="14" rx="3" fill="#8fa5b1"/>
+            <!-- rocker -->
+            <rect x="76" y="150" width="424" height="8" fill="#b9c6cf"/>
+            <!-- headlight + bumper -->
+            <rect x="506" y="104" width="12" height="10" rx="3" fill="#ffe9b8"/>
+            <rect x="500" y="150" width="30" height="10" rx="4" fill="#8fa5b1"/>
+            <!-- wheels -->
+            <circle cx="152" cy="172" r="32" fill="#22313a"/><circle cx="152" cy="172" r="14" fill="#5c7884"/><circle cx="152" cy="172" r="5" fill="#22313a"/>
+            <circle cx="454" cy="172" r="32" fill="#22313a"/><circle cx="454" cy="172" r="14" fill="#5c7884"/><circle cx="454" cy="172" r="5" fill="#22313a"/>
+            <!-- magnet on the door -->
+            <rect x="224" y="102" width="170" height="46" rx="8" fill="#08222e" stroke="var(--b1)" stroke-width="2"/>
+            <use class="gear-logo" href="#logoA" transform="translate(230,107) scale(0.3)"/>
+            <text x="272" y="119" font-family="Georgia,serif" font-weight="700" font-size="13" fill="#eaf6f8">Rock Solid</text>
+            <text x="272" y="131" font-family="system-ui" font-weight="700" font-size="7.5" letter-spacing="0.4" fill="var(--b1l)">WELL &amp; WATER SERVICE</text>
+            <text x="272" y="143" font-family="system-ui" font-weight="800" font-size="9" fill="var(--b2l)">(419) 555-0100</text>
+            <use href="#qrmark" transform="translate(356,106) scale(0.38)"/>
+          </svg>
+        </div>
+        <div class="body"><h3 id="g1h"></h3><p id="g1p"></p></div>
+      </div>
+
+      <div class="gcard2 card">
+        <div class="stage">
+          <svg viewBox="0 0 340 200" aria-hidden="true">
+            <rect x="20" y="30" width="300" height="140" rx="10" fill="#08222e" stroke="#1c4a5e"/>
+            <use class="gear-logo" href="#logoA" transform="translate(36,56) scale(0.72)"/>
+            <text x="146" y="84" font-family="Georgia,serif" font-weight="700" font-size="21" fill="#eaf6f8">Paul James</text>
+            <text x="146" y="104" font-family="system-ui" font-weight="700" font-size="10.5" letter-spacing="1" fill="var(--b1l)">ROCK SOLID SERVICES</text>
+            <text x="146" y="124" font-family="system-ui" font-size="11" fill="#9db8c2">Wells · Water lines · Treatment</text>
+            <text x="146" y="148" font-family="system-ui" font-weight="700" font-size="12" fill="var(--b2l)">(419) 555-0100</text>
+          </svg>
+        </div>
+        <div class="body"><h3 id="g2h"></h3><p id="g2p"></p></div>
+      </div>
+
+      <div class="gcard2 card">
+        <div class="stage">
+          <svg viewBox="0 0 360 252" aria-hidden="true">
+            <path d="M140 40 C124 43 108 47 97 53 L52 86 Q47 91 50 97 L66 122 Q70 129 77 126 L116 104 C118 142 120 182 120 220 Q120 228 128 228 L232 228 Q240 228 240 220 C240 182 242 142 244 104 L283 126 Q290 129 294 122 L310 97 Q313 91 308 86 L263 53 C252 47 236 43 220 40 C211 53 197 60 180 60 C163 60 149 53 140 40 Z"
+                  fill="#123a4d" stroke="#1c4a5e" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M151 37 C161 31 199 31 209 37" fill="none" stroke="#0e3040" stroke-width="4" stroke-linecap="round"/>
+            <path d="M143 43 C153 55 166 61 180 61 C194 61 207 55 217 43" fill="none" stroke="#0e3040" stroke-width="7" stroke-linecap="round"/>
+            <path d="M60 94 L76 118 M300 94 L284 118" stroke="#0e3040" stroke-width="2.5" opacity=".7" fill="none"/>
+            <line x1="126" y1="221" x2="234" y2="221" stroke="#0e3040" stroke-width="2" opacity=".6"/>
+            <use class="gear-logo" href="#logoA" transform="translate(150,96) scale(0.5)"/>
+          </svg>
+        </div>
+        <div class="body"><h3 id="g3h"></h3><p id="g3p"></p></div>
+      </div>
+
+      <div class="gcard2 card wide">
+        <div class="stage">
+          <svg viewBox="0 0 560 210" aria-hidden="true">
+            <rect x="0" y="186" width="560" height="4" rx="2" fill="#1c4a5e"/>
+            <line x1="218" y1="146" x2="218" y2="188" stroke="#8fa5b1" stroke-width="5"/>
+            <line x1="342" y1="146" x2="342" y2="188" stroke="#8fa5b1" stroke-width="5"/>
+            <g><line x1="120" y1="188" x2="126" y2="182" stroke="#3f5233" stroke-width="3"/><line x1="132" y1="188" x2="136" y2="181" stroke="#3f5233" stroke-width="3"/><line x1="428" y1="188" x2="433" y2="181" stroke="#3f5233" stroke-width="3"/><line x1="440" y1="188" x2="444" y2="183" stroke="#3f5233" stroke-width="3"/></g>
+            <rect x="150" y="28" width="260" height="122" rx="10" fill="#08222e" stroke="var(--b1)" stroke-width="3"/>
+            <use class="gear-logo" href="#logoA" transform="translate(162,44) scale(0.55)"/>
+            <text x="240" y="64" font-family="system-ui" font-weight="700" font-size="11" letter-spacing="3" fill="var(--b1l)">WATER BY</text>
+            <text x="240" y="92" font-family="Georgia,serif" font-weight="700" font-size="24" fill="#eaf6f8">Rock Solid</text>
+            <text x="240" y="112" font-family="system-ui" font-weight="800" font-size="12" fill="var(--b2l)">(419) 555-0100</text>
+            <use href="#qrmark" transform="translate(352,88) scale(0.5)"/>
+            <text x="240" y="134" font-family="system-ui" font-weight="700" font-size="8" fill="#9db8c2">Scan to check your water →</text>
+          </svg>
+        </div>
+        <div class="body"><h3>Yard signs</h3><p>A trench job is visible to every neighbor for a week — free advertising currently going to waste. Sign goes in when the job's done, QR points at the water tool, and the neighbors with the same rusty water scan it.</p></div>
+      </div>
+
+      <div class="gcard2 card wide">
+        <div class="stage" style="padding:16px 10px;">
+          <svg viewBox="0 0 560 170" aria-hidden="true">
+            <!-- letterhead -->
+            <g transform="translate(14,12)">
+              <rect width="110" height="146" rx="4" fill="#f4f6f7" stroke="#c7d2da"/>
+              <use class="gear-logo" href="#logoA" transform="translate(8,8) scale(0.2)"/>
+              <text x="36" y="18" font-family="Georgia,serif" font-weight="700" font-size="9" fill="#12303c">Rock Solid</text>
+              <text x="36" y="27" font-family="system-ui" font-size="5" fill="#5f7c88">WELL &amp; WATER SERVICE</text>
+              <g stroke="#c7d2da" stroke-width="3" stroke-linecap="round"><line x1="12" y1="52" x2="98" y2="52"/><line x1="12" y1="64" x2="98" y2="64"/><line x1="12" y1="76" x2="84" y2="76"/><line x1="12" y1="88" x2="98" y2="88"/><line x1="12" y1="100" x2="70" y2="100"/></g>
+              <rect x="0" y="134" width="110" height="12" fill="#134a5e"/>
+              <text x="55" y="142" text-anchor="middle" font-family="system-ui" font-size="4.6" fill="#7fdcea">(419) 555-0100 · rocksolidservice.com</text>
+            </g>
+            <text x="69" y="166" text-anchor="middle" font-family="system-ui" font-size="9" font-weight="700" fill="#9db8c2">Letterhead</text>
+            <!-- envelope -->
+            <g transform="translate(146,34)">
+              <rect width="150" height="82" rx="4" fill="#f4f6f7" stroke="#c7d2da"/>
+              <path d="M0 0 L75 40 L150 0" fill="none" stroke="#c7d2da" stroke-width="2"/>
+              <use class="gear-logo" href="#logoA" transform="translate(7,48) scale(0.16)"/>
+              <text x="30" y="58" font-family="Georgia,serif" font-weight="700" font-size="7.5" fill="#12303c">Rock Solid</text>
+              <text x="30" y="66" font-family="system-ui" font-size="4.6" fill="#5f7c88">ASHLAND, OHIO</text>
+              <rect x="126" y="8" width="16" height="18" fill="#e6ecef" stroke="#c7d2da"/>
+            </g>
+            <text x="221" y="140" text-anchor="middle" font-family="system-ui" font-size="9" font-weight="700" fill="#9db8c2">Envelopes</text>
+            <!-- fridge magnet -->
+            <g transform="translate(314,40)">
+              <rect width="114" height="66" rx="8" fill="#08222e" stroke="var(--b1)" stroke-width="2"/>
+              <use class="gear-logo" href="#logoA" transform="translate(6,14) scale(0.3)"/>
+              <text x="43" y="22" font-family="system-ui" font-weight="800" font-size="6.8" fill="#eaf6f8">WATER TROUBLE?</text>
+              <text x="43" y="35" font-family="system-ui" font-weight="800" font-size="7" fill="var(--b2l)">(419) 555-0100</text>
+              <text x="44" y="50" font-family="system-ui" font-size="5.6" fill="#7fdcea">Text a photo anytime</text>
+            </g>
+            <text x="370" y="140" text-anchor="middle" font-family="system-ui" font-size="9" font-weight="700" fill="#9db8c2">Fridge magnets</text>
+            <!-- hat -->
+            <g transform="translate(446,30)">
+              <path d="M12 62 C12 26 34 12 54 12 C74 12 96 26 96 62 Z" fill="#123a4d" stroke="#1c4a5e" stroke-width="2"/>
+              <path d="M54 12 L54 62" stroke="#0e3040" stroke-width="2"/>
+              <path d="M33 17 C28 34 26 48 26 62" fill="none" stroke="#0e3040" stroke-width="1.6" opacity=".8"/>
+              <path d="M75 17 C80 34 82 48 82 62" fill="none" stroke="#0e3040" stroke-width="1.6" opacity=".8"/>
+              <circle cx="54" cy="12" r="3.5" fill="#0e3040"/>
+              <path d="M6 62 Q54 50 102 62 Q94 80 54 80 Q14 80 6 62 Z" fill="#0e3040" stroke="#1c4a5e" stroke-width="2"/>
+              <use class="gear-logo" href="#logoA" transform="translate(42,24) scale(0.2)"/>
+            </g>
+            <text x="500" y="140" text-anchor="middle" font-family="system-ui" font-size="9" font-weight="700" fill="#9db8c2">Hats</text>
+          </svg>
+        </div>
+        <div class="body"><h3>The rest of the kit</h3><p>Once the logo exists, everything else is cheap to spin out — letterhead and envelopes for quotes that go in the mail, fridge magnets that live where the next no-water morning happens, and hats so the guy at the supply counter asks who did them. Print-ready files for all of it; you order what you want, when you want.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#0b2836"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0c2b3a" opacity=".8"/>
+</svg>
+
+<section id="office" style="background:#0b2836; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="#e0a066" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece eight · 150 ft</span><span class="dline"></span></div>
+    <h2>The back office</h2>
+    <p class="sub">The part customers never see and you feel every week. Nothing fancy — Google Docs and Sheets in your own account, branded, set up once:</p>
+    <div class="office-grid">
+      <div class="ocard card">
+        <div class="ovis">
+          <svg viewBox="0 0 200 120" aria-hidden="true">
+            <rect x="30" y="8" width="140" height="106" rx="6" fill="#f4f6f7" stroke="#c7d2da"/>
+            <use class="gear-logo" href="#logoA" transform="translate(40,16) scale(0.16)"/>
+            <text x="64" y="26" font-family="Georgia,serif" font-weight="700" font-size="9" fill="#12303c">Estimate</text>
+            <g stroke="#c7d2da" stroke-width="3" stroke-linecap="round"><line x1="42" y1="48" x2="158" y2="48"/><line x1="42" y1="62" x2="158" y2="62"/><line x1="42" y1="76" x2="140" y2="76"/></g>
+            <rect x="42" y="88" width="116" height="16" rx="3" fill="#134a5e"/>
+            <text x="52" y="99" font-family="system-ui" font-weight="800" font-size="8" fill="#7fdcea">TOTAL</text>
+            <text x="148" y="99" text-anchor="end" font-family="system-ui" font-weight="800" font-size="8" fill="#eaf6f8">$1,240</text>
+          </svg>
+        </div>
+        <div class="obody"><h3>Quote &amp; invoice kit</h3><p>Branded templates in your Google account. Fill four blanks on your phone, send as a PDF by text. Quotes stop looking like a napkin.</p></div>
+      </div>
+      <div class="ocard card">
+        <div class="ovis">
+          <svg viewBox="0 0 200 120" aria-hidden="true">
+            <rect x="18" y="14" width="164" height="94" rx="6" fill="#f4f6f7" stroke="#c7d2da"/>
+            <g stroke="#dde5e9" stroke-width="1"><line x1="18" y1="38" x2="182" y2="38"/><line x1="18" y1="58" x2="182" y2="58"/><line x1="18" y1="78" x2="182" y2="78"/><line x1="72" y1="14" x2="72" y2="108"/><line x1="126" y1="14" x2="126" y2="108"/></g>
+            <text x="24" y="30" font-family="system-ui" font-weight="800" font-size="7.5" fill="#12303c">JOB</text>
+            <text x="78" y="30" font-family="system-ui" font-weight="800" font-size="7.5" fill="#12303c">STATUS</text>
+            <text x="132" y="30" font-family="system-ui" font-weight="800" font-size="7.5" fill="#12303c">PAID</text>
+            <rect x="76" y="44" width="42" height="10" rx="5" fill="#4fbf7a"/><text x="97" y="52" text-anchor="middle" font-size="6.5" font-weight="800" fill="#0b2419" font-family="system-ui">DONE</text>
+            <rect x="76" y="64" width="42" height="10" rx="5" fill="#e0a066"/><text x="97" y="72" text-anchor="middle" font-size="6.5" font-weight="800" fill="#2a1608" font-family="system-ui">QUOTED</text>
+            <rect x="76" y="84" width="42" height="10" rx="5" fill="#4ec6d9"/><text x="97" y="92" text-anchor="middle" font-size="6.5" font-weight="800" fill="#062029" font-family="system-ui">BOOKED</text>
+          </svg>
+        </div>
+        <div class="obody"><h3>Job &amp; money tracker</h3><p>One sheet: the job, the status, what's quoted, what's paid, who to follow up with. The totals add themselves. Tax season stops being archaeology.</p></div>
+      </div>
+      <div class="ocard card">
+        <div class="ovis">
+          <svg viewBox="0 0 200 120" aria-hidden="true">
+            <rect x="66" y="6" width="68" height="108" rx="10" fill="#0a2531" stroke="#35525f" stroke-width="2"/>
+            <text x="100" y="30" text-anchor="middle" font-family="system-ui" font-size="7" fill="#c98a7d">Missed call · now</text>
+            <rect x="74" y="40" width="52" height="30" rx="6" fill="#17475c"/>
+            <text x="100" y="52" text-anchor="middle" font-family="system-ui" font-size="6" fill="#eaf6f8">On a job — text me</text>
+            <text x="100" y="61" text-anchor="middle" font-family="system-ui" font-size="6" fill="#eaf6f8">what's going on and</text>
+            <text x="100" y="70" text-anchor="middle" font-family="system-ui" font-size="6" fill="#eaf6f8">I'll call right back.</text>
+            <text x="100" y="86" text-anchor="middle" font-family="system-ui" font-size="6.5" fill="#5b7f8c">sent automatically</text>
+          </svg>
+        </div>
+        <div class="obody"><h3>Missed-call auto-text</h3><p>You're in a crawlspace; the phone rings; the job goes to whoever answers. This texts back for you, free, with what your phone already has. I set it up.</p></div>
+      </div>
+      <div class="ocard card">
+        <div class="ovis">
+          <svg viewBox="0 0 200 120" aria-hidden="true">
+            <rect x="30" y="14" width="140" height="94" rx="8" fill="#0b2836" stroke="#1c4a5e"/>
+            <text x="100" y="34" text-anchor="middle" font-family="system-ui" font-weight="800" font-size="9" fill="#7fdcea">MARCH</text>
+            <g font-family="system-ui" font-size="7" fill="#9db8c2">
+              <circle cx="46" cy="52" r="2.5" fill="#4ec6d9"/><text x="56" y="55">Hendersons — water test due</text>
+              <circle cx="46" cy="70" r="2.5" fill="#4ec6d9"/><text x="56" y="73">Rt. 60 farm — tank check, yr 2</text>
+              <circle cx="46" cy="88" r="2.5" fill="#e0a066"/><text x="56" y="91">Millers — softener media, yr 3</text>
+            </g>
+          </svg>
+        </div>
+        <div class="obody"><h3>Service reminders</h3><p>A customer list with last-service dates. Ten minutes a month sending “it's been a year since your water test” texts — booked work in the slow weeks, from people who already trust you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="strata" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 10 Q75 2 150 10 T300 10 T450 10 T600 10 L600 44 L0 44 Z" fill="#08222e"/>
+  <path d="M0 24 Q75 17 150 24 T300 24 T450 24 T600 24 L600 44 L0 44 Z" fill="#0a2632" opacity=".8"/>
+</svg>
+
+<section id="offer" style="background:#08222e; padding-top:40px;">
+  <div class="wrap">
+    <div class="depth"><span class="dline"></span><span class="dchip" style="color:#7fdcea; border-color:#2a5f72;"><svg viewBox="0 0 10 12" fill="none" stroke="#7fdcea" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Water table · the numbers</span><span class="dline"></span></div>
+    <h2 id="h-off"></h2>
+    <p class="sub" id="s-off"></p>
+    <div class="pricelist card" id="c-prices"></div>
+    <div class="totalrow">
+      <div class="tl">Hired out, a package like this typically starts around <b style="color:var(--foam);">$3,000</b></div>
+      <div class="tr2">$0</div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#061a24; border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="kicker" id="k-how"></div>
+    <h2 id="h-how"></h2>
+    <div class="steps" id="c-steps"></div>
+    <div class="two">
+      <div class="listcard card keep"><h3 id="keeph"></h3><ul id="c-keep"></ul></div>
+      <div class="listcard card nope"><h3 id="nopeh"></h3><ul id="c-nope"></ul></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="kicker" id="k-end"></div>
+  <h2 id="h-end"></h2>
+  <div class="fsum" id="c-fsum"></div>
+  <div class="btns" style="margin-top:24px;">
+    <a class="btn btn-primary" id="c-cta-text" href="#">Text me</a>
+  </div>
+  <div class="fine" id="c-fine"></div>
+</footer>
+
+<div class="vbadge" id="vbadge">v8 · Jul 19</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ================= CONFIG ================= */
+var CONFIG = {
+  eyebrow: "For Paul James · Rock Solid Services",
+  h1: 'I want to rebuild your whole setup. <em>All of it.</em> On me.',
+  letter: [
+    "Paul — it's Mot. I've been building websites and tools on the side, and I want to start doing it for real businesses. You have a real business.",
+    "So here's the deal, straight: <b>everything on this page, done properly, free.</b> No invoice at the end, no catch buried anywhere. I get the experience and finished work I can show; you hopefully get a phone that rings more. If it doesn't help, you've lost nothing.",
+    "Scroll down — this page goes the same direction your work does. Everything on it is a working example you can tap, not a promise. And it's all a starting point: if you already have a logo you love or a company whose website you like, we start from that instead. If you're in, I'll send a short questionnaire and we nail down the details."
+  ],
+  cta1: "See everything",
+  cta2: "Why free?",
+  myPhone: "3305550100",          // PLACEHOLDER — Mot's number
+
+  kWhy: "The honest part", hWhy: "Why free?",
+  sWhy: "You'd be my first client like this, and I'm not going to pretend otherwise. I'm doing it for the experience and to build something I can show. Here's the entire deal:",
+  trades: [
+    { ic: "recycle", h: "What I get", p: "Real reps on a real business, and finished work I can point to." },
+    { ic: "star", h: "If you're happy", p: "A Google review of my work. Only if you actually like it." },
+    { ic: "share", h: "If someone asks", p: "You pass my name along. That's it — the whole list." }
+  ],
+
+  hLogo: "Five logo directions",
+  sLogo: "Five directions, all starting points — if you already have a logo you love, we skip this entirely and I make clean print-ready files of yours instead. Tap any tile to flip the background; a logo has to work on a dark truck and a white invoice.",
+  logos: [
+    { id: "A", name: "The Stone Drop",
+      why: "A water drop with a faceted rock base — the whole name in one shape. Water on top, solid underneath.",
+      best: "Best for: truck doors, app icon" },
+    { id: "B", name: "The Badge",
+      why: "An RS monogram in a hex badge with a waterline through it. Badges read official; people trust a crest on a work truck.",
+      best: "Best for: shirts, embroidery, stickers" },
+    { id: "C", name: "The Strata",
+      why: "A cross-section in a circle: earth layers, the well dropping down, water at the bottom. It literally draws what you do.",
+      best: "Best for: signage, invoices, the story" },
+    { id: "D", name: "The Pump",
+      why: "The old hand well pump, over open water, one drop from the spout. Nothing says 'well guy' faster, from across a parking lot.",
+      best: "Best for: magnets, yard signs" },
+    { id: "E", name: "The Wordmark",
+      why: "No symbol, just the name set strong with the waterline running through it. The quiet-confidence option; nothing to explain.",
+      best: "Best for: website header, estimates" }
+  ],
+
+  hSite: "Three takes on the website",
+  sSite: "Three directions, not three shades of the same one. The first is fully built — open it and tap around. And if there's another company whose site you like the look of, send it to me; that beats any of my guesses. We can build on the Squarespace you already own, or if you're open to other hosting there's more room (more on that below).",
+  sites: [
+    { name: "Deep Water", status: "live — open it", live: true, href: "rocksolid-v4.html",
+      p: "Dark, modern, water everywhere, the diagnostic front and center. Built to make you look like the biggest operation in the county.",
+      mini: { bg:"#0a2b3a", head:"#0f3547", name:"#7fdcea", text:"#9db8c2", cta:"#4ec6d9", ctaText:"#062029", row:"#123a4d", pics:["#134a5e","#2f9bb4","#c07a44"] } },
+    { name: "Clean & Clear", status: "direction preview — open it", live: false, href: "rocksolid-clean.html",
+      p: "Bright and simple, like clear water. Big type, white space, your photos doing the talking. The trustworthy-neighbor look.",
+      mini: { bg:"#f4f9fa", head:"#ffffff", name:"#0e3546", text:"#5f7c88", cta:"#1e8fae", ctaText:"#ffffff", row:"#e6f1f4", pics:["#bfe3ec","#8fcede","#e0b58a"] } },
+    { name: "Workhorse", status: "direction preview — open it", live: false, href: "rocksolid-workhorse.html",
+      p: "Blunt and industrial. Steel, clay, big block letters, prices up front. For customers who want it fixed, not sold.",
+      mini: { bg:"#221f1c", head:"#2b2724", name:"#e0a066", text:"#a89a8c", cta:"#c07a44", ctaText:"#1a1512", row:"#332e29", pics:["#4a3f32","#c07a44","#5c7884"] } }
+  ],
+
+  hTool: "The water tool, live",
+  sTool: "This is the piece nobody else around here has, and it's running right now on this page. Tap what a customer would tap:",
+  toolNote: "On your site this ends with one more button: \"Text Paul about this\" — and the text arrives with the symptom and a reference code already written in. You triage from the truck.",
+  symptoms: [
+    { label: "No water at all", part: "well", flow: "stop", urgent: true, gauge: -60,
+      title: "The pump, the power, or the pressure switch",
+      body: "When everything goes dry at once, it's almost always the well pump, a tripped breaker, or the pressure switch that tells the pump when to run.",
+      check: "Look for a tripped well breaker first, then check the pressure switch contacts.",
+      fix: "Often a switch or wiring. A failed pump means pulling and replacing it — quoted after we see the setup.",
+      outcome: "Flowing again, often same day." },
+    { label: "Low or dropping pressure", part: "tank", gauge: -35,
+      title: "A waterlogged tank or a tiring pump",
+      body: "Pressure that fades is most often a pressure tank that's lost its air charge, or a pump starting to wear out.",
+      check: "Tap the tank — hollow up top, solid at the bottom is healthy. Solid all the way up means waterlogged.",
+      fix: "Recharge or replace the tank, or test the pump's output.",
+      outcome: "Steady pressure back." },
+    { label: "Air spitting from faucets", part: "well", gauge: -15,
+      title: "Air getting into the line",
+      body: "Sputtering taps usually mean air in the system — a dropping water level or a pump losing prime.",
+      check: "Worse after heavy use or in a dry stretch points to the well's water level.",
+      fix: "Find where it draws air: check valve, suction-side leak, or lowering the pump.",
+      outcome: "Running smooth again." },
+    { label: "Pump runs constantly", part: "tank", gauge: 40,
+      title: "The tank or the pressure switch",
+      body: "A pump that never shuts off, or clicks on and off fast, is almost always the tank or the switch — and it's wearing your pump out.",
+      check: "Watch the gauge. Fast swings between two pressures means the tank lost its charge.",
+      fix: "Recharge or replace the tank, or swap the switch.",
+      outcome: "Quick fix that saves the pump." },
+    { label: "Rusty or staining water", part: "treatment", clean: true, gauge: 20,
+      title: "Iron or hard water",
+      body: "Orange stains and metallic taste point to iron or hardness — a treatment question, not a plumbing one.",
+      check: "Note where it stains: fixtures, laundry, everywhere. That sizes the fix.",
+      fix: "Test first, then the right filter or softener — not more than the water needs.",
+      outcome: "Water runs clean." },
+    { label: "Cloudy or smelly water", part: "treatment", clean: true, gauge: 20,
+      title: "Sediment, sulfur, or something to treat",
+      body: "Cloudy, gritty, or rotten-egg smell can be sediment, sulfur, or bacteria.",
+      check: "Let a glass sit. Cloudy that settles is air or sediment; a smell that stays gets tested.",
+      fix: "Test, then match treatment to what it actually shows.",
+      outcome: "Tested, treated, clear." },
+    { label: "Wet spot in the yard", part: "line", seep: true, gauge: -25,
+      title: "A possible water-line leak",
+      body: "A soft or wet patch along the run to the house can be a leaking line underground.",
+      check: "If the pump kicks on when nothing's running inside, that supports a buried leak.",
+      fix: "Locate and repair with as little digging as possible.",
+      outcome: "Found and fixed, minimal digging." },
+    { label: "Something else", part: "all",
+      title: "Tell us what you're seeing",
+      body: "If it doesn't fit a box, describe it in a text and we'll figure it out before anyone drives out.",
+      check: "", fix: "", outcome: "We'll get it sorted." }
+  ],
+
+  hSoc: "Your Facebook, rebranded",
+  sSoc: "Right now your page is where your customers already are — it just doesn't match the rest. New profile mark, new cover, and a set of post templates you can reuse forever:",
+  fbName: "Rock Solid Services",
+  fbMeta: "Well & water service · Ashland, Ohio · ★★★★★",
+  posts: [
+    { kind: "ba", h: "The before/after post", p: "Same tap, before and after treatment — or the trench, dug and gone. The highest-engagement post a trade can make, templated so it takes two minutes." },
+    { kind: "tip", h: "The well tip post", p: "A dozen written for you. Useful posts keep the page alive between jobs and make you the guy who knows wells." },
+    { kind: "rev", h: "The review repost", p: "Every Google review becomes a post. Proof, recycled, zero writing." }
+  ],
+  socNote: "The kit: profile mark and cover sized right, a pinned intro post, and twelve fill-in-the-blank templates. Same look as the truck, the site, and the cards.",
+
+  hFn: "The loop that keeps the phone ringing",
+  sFn: "Email at your own domain, a filled-out Google listing, a review card you hand over when you pack up. Each job feeds the next:",
+  fnNote: "Every finished job puts a review card in their hand — every review pushes your listing higher for the next search. That's the machine.",
+  seoH: "SEO, baked into the build",
+  seoS: "Not a paid ad, and not a bolt-on service later — it's how the site gets written so Google can actually read it. In practice:",
+  seoItems: [
+    "<b>Pages titled the way people search</b> — “well pump repair Ashland,” not “Services.”",
+    "<b>A page per service</b>, so every search has somewhere to land.",
+    "<b>Photos tagged with what's in them</b> — Google reads the tags, not the pictures.",
+    "<b>Schema markup</b> — code that hands Google your hours, service area, and stars so they show right in the results.",
+    "<b>Same name and number everywhere</b> — site, Facebook, Google. Mismatches quietly cost rank.",
+    "<b>Well tips written as real questions</b> people type, with answers Google can lift into results."
+  ],
+
+  hGear: "The truck and the gear",
+  sGear: "Whichever logo you pick flows onto everything. Tap one and watch it swap across the truck, the card, and the shirt. I hand you print-ready files; the print shop's bill is the only money involved.",
+  g1h: "Truck door magnets",
+  g1p: "Magnets first — cheap, removable, and the truck becomes a rolling ad at every job site. If the business grows, the same art scales to a partial wrap.",
+  g2h: "Business cards",
+  g2p: "For the supply-house counter and every hand you shake. Print-ready, any shop can run them.",
+  g3h: "Shirts",
+  g3p: "Look like a company at the front door. One chest mark, works on any color they stock.",
+
+  hOff: "What this kind of work usually costs",
+  sOff: "So the free part means something, here's the typical market range when small businesses hire this kind of work out:",
+  prices: [
+    { n: "Logo design + file kit", d: "What design shops charge for a mark plus every format", p: "$200–$600" },
+    { n: "Small-business website", d: "A custom build like the demo, from a freelancer or shop", p: "$1,500–$5,000" },
+    { n: "A custom tool like the diagnostic", d: "Interactive, built for one business", p: "$500–$2,000" },
+    { n: "Brand & social kit", d: "Facebook rebrand, post templates, cover art", p: "$300–$800" },
+    { n: "Google listing + review setup", d: "Claimed, filled out, cards and templates", p: "$200–$500" },
+    { n: "Local SEO setup", d: "Search-titled pages, schema, photo tags, service-area targeting", p: "$400–$1,200" },
+    { n: "Vehicle, print & apparel kit", d: "Magnets, yard signs, cards, letterhead, fridge magnets, hats", p: "$300–$800" },
+    { n: "Back-office kit", d: "Branded quotes & invoices, job tracker, auto-text, reminder list", p: "$150–$600" }
+  ],
+
+  kHow: "How it works", hHow: "Your accounts, your passwords, start to finish",
+  steps: [
+    { h: "The questionnaire", p: "A short one, phone-friendly — your services, real prices, what you like, what you already have (logo, sites you admire). Same process the pros use. Start snapping job photos too; they fill the gallery." },
+    { h: "You open the accounts", p: "Anything new — email, Google, hosting — you sign up for yourself with my cheat sheet next to you. I never have your passwords. Ever." },
+    { h: "I build, you watch", p: "I build everything on my side and send links as it comes together. One round of changes after you look it over." },
+    { h: "Handoff together", p: "We sit down once and put it live on your accounts, together. You keep a one-page cheat sheet for editing every piece yourself." }
+  ],
+  keepHead: "What you keep",
+  keep: [
+    "Everything. The accounts, the domain, the files, the logo.",
+    "Your passwords — I never have them, so there's nothing to hand back.",
+    "The ability to edit the site yourself, same as now.",
+    "No monthly fee to me, ever. Hosting and Google's own fees stay yours, same as today."
+  ],
+  nopeHead: "Straight about the limits",
+  nope: [
+    "One round of changes after launch. Bigger asks later are a new conversation.",
+    "No promises about rankings or call volume — nobody honest can promise that.",
+    "Printing costs for magnets, cards, and shirts are yours; I hand you the files.",
+    "On your current Squarespace, the water tool needs their Core plan. If you're open to other hosting, that limit disappears and hosting can cost less — your call, and it's a question on the questionnaire."
+  ],
+
+  kEnd: "That's the pitch", hEnd: "Want it?",
+  fsum: "Text me and I'll send the questionnaire — ten minutes on your phone, then I start building. Or call and I'll walk you through any of it.",
+  fine: "Figures shown are typical market ranges. Sample phone numbers, reviews, and prices in the demos are placeholders replaced with your real ones before anything goes live.",
+  version: "v8 · Jul 19"
+};
+/* ========================================== */
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function money(n){ return "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+var ICONS = {
+  camera: '<svg viewBox="0 0 24 24" fill="none" stroke="#7fdcea" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="none" stroke="#7fdcea" stroke-width="1.8"><path d="M12 3.6l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9z"/></svg>',
+  share: '<svg viewBox="0 0 24 24" fill="none" stroke="#7fdcea" stroke-width="1.8"><circle cx="6" cy="12" r="2.6"/><circle cx="17.5" cy="5.5" r="2.6"/><circle cx="17.5" cy="18.5" r="2.6"/><path d="M8.3 10.7l6.9-4M8.3 13.3l6.9 4"/></svg>',
+  recycle: '<svg viewBox="0 0 24 24" fill="none" stroke="#7fdcea" stroke-width="1.8"><path d="M4 10a8 8 0 0 1 14-3l2 2.5M20 14a8 8 0 0 1-14 3l-2-2.5"/><path d="M20 5v4.5h-4.5M4 19v-4.5h4.5"/></svg>'
+};
+
+function build(){
+  $("c-eyebrow").textContent = CONFIG.eyebrow;
+  $("c-h1").innerHTML = CONFIG.h1;
+  var letter = "";
+  for (var li=0; li<CONFIG.letter.length; li++) letter += "<p>"+CONFIG.letter[li]+"</p>";
+  $("c-letter").innerHTML = letter;
+  $("c-cta1").textContent = CONFIG.cta1;
+  $("c-cta2").textContent = CONFIG.cta2;
+  $("c-cta-text").href = "sms:" + CONFIG.myPhone;
+
+  $("k-why").textContent = CONFIG.kWhy; $("h-why").textContent = CONFIG.hWhy; $("s-why").textContent = CONFIG.sWhy;
+  var tg = "";
+  for (var t=0;t<CONFIG.trades.length;t++){
+    var tr = CONFIG.trades[t];
+    tg += '<div class="tcard card"><div class="tic">'+(ICONS[tr.ic]||"")+'</div><h3>'+esc(tr.h)+'</h3><p>'+esc(tr.p)+'</p></div>';
+  }
+  $("c-trades").innerHTML = tg;
+
+  /* logos */
+  $("h-logo").textContent = CONFIG.hLogo; $("s-logo").textContent = CONFIG.sLogo;
+  var lg = "";
+  for (var l=0;l<CONFIG.logos.length;l++){
+    var lo = CONFIG.logos[l];
+    lg += '<div class="lcard card"><div class="stage dark" data-flip="1">'
+        + '<svg viewBox="0 0 120 120"><use href="#logo'+lo.id+'"/></svg></div>'
+        + '<div class="body"><h3>'+esc(lo.id)+'. '+esc(lo.name)+'</h3>'
+        + '<div class="why">'+esc(lo.why)+'</div>'
+        + '<div class="best">'+esc(lo.best)+'</div>'
+        + '<div class="hint">Tap the tile to flip the background</div>'
+        + '</div></div>';
+  }
+  $("c-logos").innerHTML = lg;
+  // palettes: swap the brand vars live
+  var PALETTES = [
+    { name:"Deep Water", v:{b1:"#4ec6d9",b1m:"#2f9bb4",b1l:"#7fdcea",b1xl:"#bff0f7",b2:"#c07a44",b2d:"#a8641f",b2l:"#e0a066"} },
+    { name:"Lake Erie", v:{b1:"#5aa7d6",b1m:"#3d7fae",b1l:"#8cc6e8",b1xl:"#cfe9f8",b2:"#d97b2f",b2d:"#a85a17",b2l:"#f09a55"} },
+    { name:"Hunter & Brass", v:{b1:"#45b08c",b1m:"#2f8a6b",b1l:"#7fd3b4",b1xl:"#c3eedb",b2:"#b9975a",b2d:"#8a6c34",b2l:"#d8b878"} },
+    { name:"Navy & Red", v:{b1:"#5b8ce4",b1m:"#3a63b8",b1l:"#8fb2ef",b1xl:"#ccdcf9",b2:"#c8452f",b2d:"#992f1d",b2l:"#e2705a"} }
+  ];
+  var prow = "";
+  for (var pa=0; pa<PALETTES.length; pa++){
+    var P = PALETTES[pa];
+    prow += '<button class="pal" type="button" data-p="'+pa+'" aria-pressed="'+(pa===0?"true":"false")+'">'
+          + '<span class="sw"><i style="background:'+P.v.b1+'"></i><i style="background:'+P.v.b2+'"></i></span>'
+          + esc(P.name) + '</button>';
+  }
+  $("c-palettes").innerHTML = prow;
+  var palBtns = document.querySelectorAll(".pal");
+  for (var pb=0; pb<palBtns.length; pb++){
+    palBtns[pb].addEventListener("click", function(){
+      var P = PALETTES[parseInt(this.getAttribute("data-p"),10)];
+      for (var q2=0;q2<palBtns.length;q2++) palBtns[q2].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      var rootStyle = document.documentElement.style;
+      rootStyle.setProperty("--b1",P.v.b1); rootStyle.setProperty("--b1m",P.v.b1m);
+      rootStyle.setProperty("--b1l",P.v.b1l); rootStyle.setProperty("--b1xl",P.v.b1xl);
+      rootStyle.setProperty("--b2",P.v.b2); rootStyle.setProperty("--b2d",P.v.b2d);
+      rootStyle.setProperty("--b2l",P.v.b2l);
+    });
+  }
+
+  var stages = document.querySelectorAll('.stage[data-flip]');
+  for (var sf=0; sf<stages.length; sf++){
+    stages[sf].addEventListener("click", function(){
+      this.classList.toggle("dark"); this.classList.toggle("light");
+    });
+  }
+
+  /* sites */
+  $("h-site").textContent = CONFIG.hSite; $("s-site").textContent = CONFIG.sSite;
+  var sg = "";
+  for (var s=0;s<CONFIG.sites.length;s++){
+    var si = CONFIG.sites[s], m = si.mini;
+    sg += '<div class="scard card"><div class="shot" style="background:'+m.bg+';">'
+        + (si.live ? '<span class="livechip">Live demo</span>' : '<span class="conceptchip">Preview</span>')
+        + '<div class="mini-site" style="background:'+m.bg+';">'
+        + '<div class="ms-head" style="background:'+m.head+';">'
+        + '<div class="ms-name" style="color:'+m.name+';">Rock Solid</div>'
+        + '<div class="ms-tag" style="color:'+m.text+';">Well &amp; water service</div>'
+        + '<span class="ms-cta" style="background:'+m.cta+'; color:'+m.ctaText+';">Text us</span></div>'
+        + '<div class="ms-body">'
+        + '<div class="ms-row" style="background:'+m.row+'; color:'+m.name+';"><span>Well pumps</span><span>→</span></div>'
+        + '<div class="ms-row" style="background:'+m.row+'; color:'+m.name+';"><span>Water lines</span><span>→</span></div>'
+        + '<div class="ms-pics">'
+        + '<div class="ms-pic" style="background:'+m.pics[0]+';"></div>'
+        + '<div class="ms-pic" style="background:'+m.pics[1]+';"></div>'
+        + '<div class="ms-pic" style="background:'+m.pics[2]+';"></div>'
+        + '</div></div></div></div>'
+        + '<div class="body"><h3>'+esc(si.name)+'</h3>'
+        + '<div class="note" style="color:'+(si.live?'var(--green)':'var(--clay2)')+';">'+esc(si.status)+'</div>'
+        + '<p>'+esc(si.p)+'</p>'
+        + (si.href ? '<div class="act"><a class="btn btn-primary btn-sm" href="'+esc(si.href)+'">Open it</a></div>' : '')
+        + '</div></div>';
+  }
+  $("c-sites").innerHTML = sg;
+
+  /* tool — full diagnostic */
+  $("h-tool").textContent = CONFIG.hTool; $("s-tool").textContent = CONFIG.sTool;
+  $("s-toolnote").textContent = CONFIG.toolNote;
+  var chips = "";
+  for (var k=0;k<CONFIG.symptoms.length;k++){
+    chips += '<button class="chip" type="button" data-idx="'+k+'" aria-pressed="false">'+esc(CONFIG.symptoms[k].label)+'</button>';
+  }
+  $("c-chips").innerHTML = chips;
+
+  var sysdiag = $("sysdiag");
+  var parts = document.querySelectorAll(".part");
+  var needle2 = $("needle2");
+  var seep = $("seep");
+  var trace = $("trace");
+  var waterUp = $("water-up");
+  var statusEl = $("c-status");
+  var statusText = $("c-status-text");
+  var chipEls = document.querySelectorAll(".chip");
+
+  function setNeedle(sym){
+    var ang = (typeof sym.gauge === "number") ? sym.gauge : 0;
+    needle2.style.transform = "rotate(" + ang + "deg)";
+  }
+  function runTrace(){
+    trace.classList.remove("run"); void trace.getBoundingClientRect(); trace.classList.add("run");
+  }
+  for (var c=0;c<chipEls.length;c++){
+    chipEls[c].addEventListener("click", function(){
+      var idx = parseInt(this.getAttribute("data-idx"),10);
+      var sym = CONFIG.symptoms[idx];
+      for (var j=0;j<chipEls.length;j++) chipEls[j].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      statusEl.className = "status busy";
+      statusText.textContent = "Tracing the system…";
+      runTrace();
+      for (var p=0;p<parts.length;p++){
+        var pn = parts[p].getAttribute("data-part");
+        parts[p].classList.remove("active","dim");
+        if (sym.part === "all"){ }
+        else if (pn === sym.part){ parts[p].classList.add("active"); }
+        else { parts[p].classList.add("dim"); }
+      }
+      sysdiag.classList.toggle("paused", sym.flow === "stop");
+      waterUp.classList.toggle("murky", !!sym.clean);
+      seep.classList.toggle("on", !!sym.seep);
+      setNeedle(sym);
+      var self = sym;
+      setTimeout(function(){
+        statusEl.className = self.urgent ? "status alert" : "status";
+        statusText.textContent = self.part === "all" ? "Tell us more" : "Suspect: " + self.title;
+        $("r-empty").style.display = "none";
+        $("r-content").style.display = "block";
+        $("r-title").textContent = self.title;
+        $("r-body").textContent = self.body;
+        var u = $("r-urgent");
+        if (self.urgent){ u.style.display="inline-block"; u.textContent="Urgent — no-water calls jump the line"; }
+        else { u.style.display="none"; }
+        $("r-outcome").textContent = self.outcome || "We'll get it sorted.";
+        setRow("r-check", self.check);
+        setRow("r-fix", self.fix);
+      }, 950);
+    });
+  }
+  function setRow(id, val){
+    var el = $(id); var row = el.parentNode;
+    if (val){ el.textContent = val; row.style.display = "flex"; }
+    else { row.style.display = "none"; }
+  }
+
+  /* social */
+  $("h-soc").textContent = CONFIG.hSoc; $("s-soc").textContent = CONFIG.sSoc;
+  $("fb-name").textContent = CONFIG.fbName;
+  $("fb-meta").textContent = CONFIG.fbMeta;
+  $("s-socnote").textContent = CONFIG.socNote;
+  var pg = "";
+  for (var po=0; po<CONFIG.posts.length; po++){
+    var pp = CONFIG.posts[po], vis = "";
+    if (pp.kind === "ba"){
+      vis = '<svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;">'
+          + '<rect width="150" height="150" fill="#241c14"/><rect x="150" width="150" height="150" fill="#0d3140"/>'
+          + '<line x1="150" y1="0" x2="150" y2="150" stroke="#1c4a5e" stroke-width="2"/>'
+          + '<path d="M52 30 L98 30 L92 112 L58 112 Z" fill="#151007" stroke="#5a4a38" stroke-width="2"/>'
+          + '<path d="M55 42 L95 42 L90.5 108 L59.5 108 Z" fill="#b3763f" opacity=".92"/>'
+          + '<ellipse cx="75" cy="42" rx="20" ry="4" fill="#c98d55"/>'
+          + '<circle cx="66" cy="100" r="2.2" fill="#7a4e22"/><circle cx="80" cy="104" r="2.6" fill="#7a4e22"/><circle cx="73" cy="94" r="1.7" fill="#7a4e22"/><circle cx="85" cy="96" r="1.4" fill="#7a4e22"/>'
+          + '<text x="75" y="134" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="2" fill="#c9b393" font-family="system-ui">BEFORE</text>'
+          + '<path d="M202 30 L248 30 L242 112 L208 112 Z" fill="#0a1e28" stroke="#3a6a7d" stroke-width="2"/>'
+          + '<path d="M205 42 L245 42 L240.5 108 L209.5 108 Z" fill="#4ec6d9" opacity=".85"/>'
+          + '<ellipse cx="225" cy="42" rx="20" ry="4" fill="#9fe8f2"/>'
+          + '<path d="M212 50 L216 50 L212.5 100 L209.8 100 Z" fill="#bff0f7" opacity=".8"/>'
+          + '<path d="M236 58 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2 Z" fill="#eafcff"/>'
+          + '<text x="225" y="134" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="2" fill="#bff0f7" font-family="system-ui">AFTER</text>'
+          + '</svg>';
+    } else if (pp.kind === "tip"){
+      vis = '<div class="tipvis"><div class="tno">WELL TIP · No. 3</div><div class="tq">"Hear the pump clicking on and off? That’s your pressure tank talking."</div></div>';
+    } else {
+      vis = '<div class="revvis"><div class="stars">★★★★★</div><div class="rq">"Woke up to no water. Running again by lunch."</div></div>';
+    }
+    pg += '<div class="post card"><div class="pvis">'+vis+'</div><div class="pbody"><h3>'+esc(pp.h)+'</h3><p>'+esc(pp.p)+'</p></div></div>';
+  }
+  $("c-posts").innerHTML = pg;
+
+  /* funnel */
+  $("h-fn").textContent = CONFIG.hFn; $("s-fn").textContent = CONFIG.sFn;
+  $("c-fnnote").textContent = CONFIG.fnNote;
+  $("seo-h").textContent = CONFIG.seoH;
+  $("seo-s").textContent = CONFIG.seoS;
+  var se = "";
+  for (var so=0; so<CONFIG.seoItems.length; so++) se += "<li>"+CONFIG.seoItems[so]+"</li>";
+  $("c-seo").innerHTML = se;   // trusted config
+
+  /* gear */
+  $("h-gear").textContent = CONFIG.hGear; $("s-gear").textContent = CONFIG.sGear;
+  $("g1h").textContent = CONFIG.g1h; $("g1p").textContent = CONFIG.g1p;
+  $("g2h").textContent = CONFIG.g2h; $("g2p").textContent = CONFIG.g2p;
+  $("g3h").textContent = CONFIG.g3h; $("g3p").textContent = CONFIG.g3p;
+  var gp = "";
+  for (var gi=0; gi<CONFIG.logos.length; gi++){
+    var glo = CONFIG.logos[gi];
+    gp += '<button class="swapbtn" type="button" data-logo="'+glo.id+'" aria-pressed="'+(glo.id==="A"?"true":"false")+'">'+glo.id+' · '+esc(glo.name.replace("The ",""))+'</button>';
+  }
+  $("g-pick").innerHTML = gp;
+  var picks = $("g-pick").querySelectorAll(".swapbtn");
+  for (var pk=0; pk<picks.length; pk++){
+    picks[pk].addEventListener("click", function(){
+      var idg = this.getAttribute("data-logo");
+      for (var q=0;q<picks.length;q++) picks[q].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      var uses = document.querySelectorAll(".gear-logo, .fb-logo");
+      for (var r=0;r<uses.length;r++) uses[r].setAttribute("href", "#logo"+idg);
+    });
+  }
+
+  /* prices */
+  $("h-off").textContent = CONFIG.hOff; $("s-off").textContent = CONFIG.sOff;
+  var pl = "";
+  for (var pr=0; pr<CONFIG.prices.length; pr++){
+    var row = CONFIG.prices[pr];
+    pl += '<div class="prow"><div><div class="pn">'+esc(row.n)+'</div><div class="pdesc">'+esc(row.d)+'</div></div>'
+        + '<div class="dots"></div><div class="pp">'+esc(row.p)+'</div></div>';
+  }
+  $("c-prices").innerHTML = pl;
+
+  /* how */
+  $("k-how").textContent = CONFIG.kHow; $("h-how").textContent = CONFIG.hHow;
+  var stp = "";
+  for (var st2=0; st2<CONFIG.steps.length; st2++){
+    stp += '<div class="step card"><h3>'+esc(CONFIG.steps[st2].h)+'</h3><p>'+esc(CONFIG.steps[st2].p)+'</p></div>';
+  }
+  $("c-steps").innerHTML = stp;
+  $("keeph").textContent = CONFIG.keepHead; $("nopeh").textContent = CONFIG.nopeHead;
+  var kp = "";
+  for (var ki=0;ki<CONFIG.keep.length;ki++) kp += "<li>"+esc(CONFIG.keep[ki])+"</li>";
+  $("c-keep").innerHTML = kp;
+  var np = "";
+  for (var ni=0;ni<CONFIG.nope.length;ni++) np += "<li>"+esc(CONFIG.nope[ni])+"</li>";
+  $("c-nope").innerHTML = np;
+
+  $("k-end").textContent = CONFIG.kEnd; $("h-end").textContent = CONFIG.hEnd;
+  $("c-fsum").textContent = CONFIG.fsum;
+  $("c-fine").textContent = CONFIG.fine;
+
+  startWaves();
+  $("vbadge").textContent = CONFIG.version;
+  $("vbadge").addEventListener("click", function(){
+    var to = $("toast"); to.textContent = "Rock Solid full pitch " + CONFIG.version;
+    to.classList.add("show"); setTimeout(function(){ to.classList.remove("show"); }, 1600);
+  });
+}
+
+function startWaves(){
+  var w1=$("wv1"), w2=$("wv2");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function path(base, amp, phase, freq){
+    var d = "M 0 " + (base + amp*Math.sin(phase)).toFixed(1);
+    for (var x=0; x<=600; x+=20){
+      d += " L " + x + " " + (base + amp*Math.sin(x*freq + phase)).toFixed(1);
+    }
+    return d + " L 600 78 L 0 78 Z";
+  }
+  function paint(s){
+    w1.setAttribute("d", path(36, 7, s*0.9, 0.013));
+    w2.setAttribute("d", path(48, 5, s*1.3 + 1.2, 0.019));
+  }
+  if (reduce){ paint(0); return; }
+  var t0=null;
+  function frame(ts){ if (t0===null) t0=ts; paint((ts-t0)/1000); requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+}
+
+build();
+</script>
+</body>
+</html>
