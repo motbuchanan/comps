@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Laser Engraving Handbook - Interactive Companion</title>
+<style>
+:root{
+  --ink:#0B1526; --panel:#13223C; --panel2:#1A2C4E; --card:#0F1C33;
+  --gold:#D4A93C; --gold2:#F0C75E; --cream:#F2E9D4; --dim:#AEA488;
+  --line:rgba(212,169,60,.28); --beam:#FF5C42;
+  --go:#57B682; --warn:#E4B33C; --no:#E45B4A;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--cream);
+  font-family:Georgia,'Times New Roman',serif; font-size:16px; line-height:1.55;
+  background-image:radial-gradient(1200px 500px at 50% -10%, #16294A 0%, #0B1526 60%);}
+.mono{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;}
+h1,h2,h3{font-weight:700; line-height:1.15; margin:0;}
+p{margin:.5em 0;}
+a{color:var(--gold2);}
+button{font-family:inherit;}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:10px;
+  padding:10px 14px; background:rgba(11,21,38,.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);}
+.bar .mark{width:30px; height:34px; flex:0 0 auto;}
+.bar .t{flex:1; min-width:0;}
+.bar .t b{display:block; font-size:13px; letter-spacing:.14em; color:var(--gold2); text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.bar .t span{display:block; font-size:11px; color:var(--dim); letter-spacing:.06em;}
+.vbadge{flex:0 0 auto; font-size:11px; padding:4px 9px; border:1px solid var(--line); border-radius:999px;
+  color:var(--gold); background:transparent; cursor:pointer;}
+
+/* ---------- chip rail ---------- */
+.rail{position:sticky; top:55px; z-index:49; display:flex; gap:8px; overflow-x:auto;
+  padding:9px 14px; background:rgba(11,21,38,.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(212,169,60,.15); scrollbar-width:none;}
+.rail::-webkit-scrollbar{display:none;}
+.rail a{flex:0 0 auto; font-size:12.5px; padding:7px 12px; border-radius:999px; text-decoration:none;
+  color:var(--dim); border:1px solid rgba(212,169,60,.2); background:var(--card); white-space:nowrap;}
+.rail a.on{color:#0B1526; background:var(--gold); border-color:var(--gold); font-weight:700;}
+
+/* ---------- hero ---------- */
+.hero{padding:44px 20px 34px; text-align:center; position:relative; overflow:hidden;}
+.hero .shield{width:110px; height:126px; margin:0 auto 14px; display:block;}
+.eyebrow{font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; color:var(--gold);}
+.hero h1{font-size:31px; margin:10px 0 2px; letter-spacing:.02em;}
+.hero .sub-t{font-size:19px; color:var(--gold2); font-style:italic; margin-bottom:14px;}
+.beamline{position:relative; width:min(280px,70%); height:3px; margin:0 auto 18px; background:rgba(212,169,60,.18); overflow:visible;}
+.beamline .fill{position:absolute; left:0; top:0; height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.beamline .dot{position:absolute; top:50%; left:0; width:9px; height:9px; margin:-4.5px 0 0 -4.5px; border-radius:50%;
+  background:var(--beam); box-shadow:0 0 12px 3px rgba(255,92,66,.8); opacity:0;}
+.hero.lit .fill{width:100%; transition:width 1.6s ease-out;}
+.hero.lit .dot{opacity:1; animation:sweep 1.6s ease-out forwards;}
+@keyframes sweep{from{left:0;} to{left:100%; opacity:0;}}
+.hero p.lede{max-width:520px; margin:0 auto; color:var(--cream); font-size:16.5px;}
+.hero .cta{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px;}
+.btn{border:none; border-radius:10px; padding:13px 18px; font-size:15px; font-weight:700; cursor:pointer;}
+.btn.gold{background:var(--gold); color:#0B1526;}
+.btn.ghost{background:transparent; color:var(--gold2); border:1px solid var(--line);}
+.hero .fineprint{margin-top:16px; font-size:12.5px; color:var(--dim); font-style:italic;}
+
+/* ---------- chapters ---------- */
+main{max-width:680px; margin:0 auto; padding:0 14px 60px;}
+.ch{margin:34px 0; scroll-margin-top:110px;}
+.ch-head{border-left:3px solid var(--gold); padding-left:14px; margin-bottom:16px;}
+.ch-num{font-size:12px; letter-spacing:.3em; color:var(--gold); font-family:ui-monospace,Menlo,monospace;}
+.ch-head h2{font-size:23px; margin:3px 0 4px;}
+.ch-sub{color:var(--dim); font-size:14.5px; font-style:italic; margin:0;}
+.reveal{opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease;}
+.reveal.in{opacity:1; transform:none;}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .reveal{opacity:1; transform:none; transition:none;}
+  .hero.lit .fill{transition:none; width:100%;}
+  .hero.lit .dot{animation:none; opacity:0;}
+  .stamp{animation:none !important;}
+}
+
+/* ---------- shared components ---------- */
+.panel{background:var(--panel); border:1px solid rgba(212,169,60,.18); border-radius:14px; padding:16px; margin:14px 0;}
+.tip{border-left:3px solid var(--gold); background:var(--card); border-radius:0 12px 12px 0; padding:12px 14px; margin:14px 0; font-size:14.5px;}
+.tip b{color:var(--gold2);}
+.danger{border-left-color:var(--no);}
+.danger b{color:#F09A8E;}
+.safe{border-left-color:var(--go);}
+.safe b{color:#8CD6AF;}
+.smallcaps{font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+@media(max-width:430px){.grid2{grid-template-columns:1fr;}}
+
+/* expandable cards */
+.xcard{background:var(--card); border:1px solid rgba(212,169,60,.2); border-radius:12px; margin:8px 0; overflow:hidden;}
+.xcard>button{display:flex; width:100%; align-items:center; gap:10px; background:none; border:none; color:var(--cream);
+  padding:13px 14px; font-size:15.5px; font-weight:700; text-align:left; cursor:pointer;}
+.xcard>button .chev{margin-left:auto; color:var(--gold); transition:transform .25s; flex:0 0 auto;}
+.xcard.open>button .chev{transform:rotate(90deg);}
+.xcard .body{display:none; padding:0 14px 13px; font-size:14.5px; color:var(--cream);}
+.xcard.open .body{display:block;}
+.xcard .body .k{color:var(--gold2); font-weight:700;}
+
+/* checklists */
+.ck{display:flex; align-items:flex-start; gap:11px; width:100%; background:none; border:none; color:var(--cream);
+  text-align:left; font-size:14.5px; padding:9px 4px; cursor:pointer; border-bottom:1px dashed rgba(212,169,60,.14);}
+.ck:last-child{border-bottom:none;}
+.ck .box{flex:0 0 auto; width:21px; height:21px; margin-top:1px; border:2px solid var(--gold); border-radius:6px;
+  display:flex; align-items:center; justify-content:center; font-size:13px; color:#0B1526; background:transparent;}
+.ck.done .box{background:var(--go); border-color:var(--go);}
+.ck.done .box::after{content:"✓"; font-weight:900;}
+.ck.done span{color:var(--dim); text-decoration:line-through;}
+.progress{height:8px; border-radius:99px; background:rgba(212,169,60,.15); overflow:hidden; margin:10px 0 2px;}
+.progress i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--go)); transition:width .4s;}
+.progress-label{font-size:12.5px; color:var(--dim);}
+
+/* chips */
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
+.chip{border:1px solid rgba(212,169,60,.35); background:var(--card); color:var(--cream); border-radius:999px;
+  padding:9px 14px; font-size:14px; cursor:pointer;}
+.chip.on{background:var(--gold); color:#0B1526; font-weight:700; border-color:var(--gold);}
+.chip.never{border-color:rgba(228,91,74,.6);}
+.chip.never.on{background:var(--no); border-color:var(--no); color:#fff;}
+
+/* verdict banners */
+.verdict{border-radius:10px; padding:11px 14px; font-weight:700; font-size:15px; display:flex; align-items:center; gap:10px; margin:10px 0;}
+.verdict.v-verify{background:rgba(228,179,60,.14); color:var(--warn); border:1px solid rgba(228,179,60,.5);}
+.verdict.v-go{background:rgba(87,182,130,.14); color:#8CD6AF; border:1px solid rgba(87,182,130,.5);}
+.verdict.v-no{background:rgba(228,91,74,.14); color:#F09A8E; border:1px solid rgba(228,91,74,.5);}
+.stamp{animation:stampin .3s cubic-bezier(.2,1.4,.5,1);}
+@keyframes stampin{from{transform:scale(1.25); opacity:0;} to{transform:scale(1); opacity:1;}}
+
+/* ---------- test grid sim ---------- */
+.simwrap{position:relative;}
+.simgrid{display:grid; grid-template-columns:52px repeat(5,1fr); gap:5px; margin-top:10px; position:relative;}
+.axis{font-size:10.5px; color:var(--dim); display:flex; align-items:center; justify-content:center; text-align:center;
+  font-family:ui-monospace,Menlo,monospace;}
+.cell{aspect-ratio:1; border-radius:8px; border:1px solid rgba(212,169,60,.18); background:#0D1830;
+  display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; overflow:hidden;
+  transition:transform .12s;}
+.cell:active{transform:scale(.94);}
+.cell .mk{font-size:17px; font-weight:900; font-family:Georgia,serif; opacity:0;}
+.cell.fired .mk{opacity:1; transition:opacity .25s;}
+.cell.picked{outline:3px solid var(--gold2); outline-offset:1px;}
+.beam-h{position:absolute; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--beam),transparent);
+  box-shadow:0 0 10px 2px rgba(255,92,66,.65); opacity:0; pointer-events:none; z-index:2;}
+.simfb{margin-top:12px; min-height:24px; font-size:14.5px;}
+.record-card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin:8px 0;
+  display:flex; align-items:center; gap:12px; font-size:14px;}
+.record-card .rc-mat{font-weight:700; color:var(--gold2);}
+.record-card .rc-x{margin-left:auto; background:none; border:none; color:var(--dim); font-size:18px; cursor:pointer; padding:4px 8px;}
+.steps7{display:flex; gap:6px; overflow-x:auto; padding:4px 0; scrollbar-width:none;}
+.steps7::-webkit-scrollbar{display:none;}
+.step7{flex:0 0 auto; width:128px; background:var(--card); border:1px solid rgba(212,169,60,.2); border-radius:10px; padding:10px;}
+.step7 b{display:block; color:var(--gold); font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.15em; margin-bottom:4px;}
+.step7 span{font-size:12.5px; line-height:1.35; display:block; color:var(--cream);}
+
+/* ---------- pricing ---------- */
+.pr-row{display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(212,169,60,.14);}
+.pr-row label{flex:1; font-size:14px;}
+.pr-row input{width:86px; background:#0D1830; color:var(--gold2); border:1px solid rgba(212,169,60,.35); border-radius:8px;
+  padding:9px 10px; font-size:15px; text-align:right; font-family:ui-monospace,Menlo,monospace;}
+.pr-row input:focus{outline:2px solid var(--gold); border-color:var(--gold);}
+.pr-total{display:flex; align-items:baseline; justify-content:space-between; padding:12px 2px 2px; font-size:15px;}
+.pr-total .big{font-size:31px; color:var(--gold2); font-family:ui-monospace,Menlo,monospace; font-weight:700;}
+.pr-bar{display:flex; height:16px; border-radius:99px; overflow:hidden; margin:10px 0 4px; border:1px solid rgba(212,169,60,.25);}
+.pr-bar i{display:block; height:100%;}
+.legend{display:flex; flex-wrap:wrap; gap:10px; font-size:12px; color:var(--dim); margin-bottom:6px;}
+.legend b{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; vertical-align:middle;}
+
+/* ---------- quiz ---------- */
+.qz-q{font-size:16.5px; font-weight:700; margin-bottom:12px;}
+.qz-opt{display:block; width:100%; text-align:left; background:var(--card); border:1px solid rgba(212,169,60,.3);
+  color:var(--cream); border-radius:10px; padding:12px 14px; font-size:14.5px; margin:7px 0; cursor:pointer;}
+.qz-opt.correct{border-color:var(--go); background:rgba(87,182,130,.14);}
+.qz-opt.wrong{border-color:var(--no); background:rgba(228,91,74,.12);}
+.qz-why{font-size:14px; color:var(--cream); background:var(--card); border-left:3px solid var(--gold); padding:10px 12px; border-radius:0 10px 10px 0; margin-top:10px;}
+.qz-meta{display:flex; justify-content:space-between; font-size:12.5px; color:var(--dim); font-family:ui-monospace,Menlo,monospace; margin-bottom:10px;}
+.qz-score{text-align:center; padding:10px 0;}
+.qz-score .n{font-size:44px; color:var(--gold2); font-family:ui-monospace,Menlo,monospace; font-weight:700;}
+
+/* text inputs (builders) */
+.tin{width:100%; background:#0D1830; color:var(--cream); border:1px solid rgba(212,169,60,.35); border-radius:8px;
+  padding:11px 12px; font-size:15px; margin:5px 0; font-family:inherit;}
+.tin:focus{outline:2px solid var(--gold); border-color:var(--gold);}
+.outbox{background:#0D1830; border:1px dashed var(--line); border-radius:10px; padding:12px 14px; font-size:14.5px; margin:10px 0; min-height:44px;}
+
+/* troubleshoot */
+.ts-item{display:block; width:100%; text-align:left; background:var(--card); border:1px solid rgba(212,169,60,.25);
+  color:var(--cream); border-radius:10px; padding:12px 14px; font-size:14.5px; margin:6px 0; cursor:pointer;}
+.ts-item.on{border-color:var(--gold); background:var(--panel2);}
+
+.toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); background:var(--gold); color:#0B1526;
+  font-weight:700; font-size:14px; padding:10px 18px; border-radius:999px; opacity:0; pointer-events:none; transition:all .3s; z-index:99;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+footer{border-top:1px solid var(--line); margin-top:40px; padding:26px 18px 46px; text-align:center; font-size:12.5px; color:var(--dim);}
+footer .motto{font-size:17px; color:var(--gold2); font-style:italic; margin-bottom:12px;}
+.svgfig{display:block; width:100%; max-width:460px; margin:6px auto;}
+</style>
+</head>
+<body>
+<!-- ============ TOP BAR ============ -->
+<div class="bar">
+  <svg class="mark" viewBox="0 0 60 68" aria-hidden="true">
+    <path d="M30 2 L56 12 V36 C56 52 44 62 30 66 C16 62 4 52 4 36 V12 Z" fill="#13223C" stroke="#D4A93C" stroke-width="2.5"/>
+    <path d="M30 8 L50 16 V35 C50 47 41 55 30 59 C19 55 10 47 10 35 V16 Z" fill="none" stroke="#F0C75E" stroke-width="1.2"/>
+    <text x="30" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#F0C75E">BH</text>
+  </svg>
+  <div class="t"><b>Laser Engraving Handbook</b><span>Interactive Companion &middot; Benchmark Handbooks</span></div>
+  <button class="vbadge mono" id="vbadge">v1.0 &middot; Aug 14</button>
+</div>
+
+<!-- ============ CHIP RAIL ============ -->
+<nav class="rail" id="rail">
+  <a href="#top" class="on">Start</a>
+  <a href="#ch1">01 Your Laser</a>
+  <a href="#ch2">02 Safety</a>
+  <a href="#ch3">03 Materials</a>
+  <a href="#ch4">04 Settings</a>
+  <a href="#ch5">05 Artwork</a>
+  <a href="#ch6">06 Products</a>
+  <a href="#ch7">07 Finish</a>
+  <a href="#ch8">08 Pricing</a>
+  <a href="#ch9">09 Listing</a>
+  <a href="#ch10">10 Customers</a>
+  <a href="#ch11">11 Troubleshoot</a>
+  <a href="#ch12">12 The 30-Day Plan</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <svg class="shield" viewBox="0 0 120 136" aria-hidden="true">
+    <path d="M60 4 L112 24 V72 C112 104 88 124 60 132 C32 124 8 104 8 72 V24 Z" fill="#13223C" stroke="#D4A93C" stroke-width="3.5"/>
+    <path d="M60 14 L102 30 V70 C102 96 82 113 60 121 C38 113 18 96 18 70 V30 Z" fill="none" stroke="#F0C75E" stroke-width="1.5"/>
+    <text x="60" y="72" text-anchor="middle" font-family="Georgia,serif" font-size="40" font-weight="bold" fill="#F0C75E">BH</text>
+    <text x="60" y="96" text-anchor="middle" font-family="Georgia,serif" font-size="9" letter-spacing="3" fill="#D4A93C">BENCHMARK</text>
+    <text x="60" y="107" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" letter-spacing="2" fill="#AEA488">HANDBOOKS</text>
+  </svg>
+  <div class="eyebrow">Reader Bonus &middot; 2026 Edition</div>
+  <h1>The Laser Engraving Handbook</h1>
+  <div class="sub-t">Interactive Companion</div>
+  <div class="beamline"><i class="fill"></i><i class="dot"></i></div>
+  <p class="lede">You read the book. This is your practice bench: run a simulated test grid, screen materials, price a real job, and test yourself before you press Start on the real thing.</p>
+  <div class="cta">
+    <button class="btn gold" onclick="goTo('ch4')">Run a test grid</button>
+    <button class="btn ghost" onclick="goTo('quiz')">Take the quiz</button>
+  </div>
+  <p class="fineprint">Best used with the handbook beside you. Your machine manual always controls.</p>
+</header>
+
+<main>
+
+<!-- ============ CH 1 ============ -->
+<section class="ch reveal" id="ch1">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 01</div><h2>Know What Kind of Laser You Have</h2>
+  <p class="ch-sub">The brand name matters less than the source, work area, safety design, and material.</p></div>
+
+  <div class="smallcaps">Tap your laser type</div>
+  <div id="laserCards"></div>
+
+  <div class="tip"><b>Wattage is not a score.</b> Two 40-watt machines can need completely different settings. Wavelength, spot size, focus, lens, motion system, air assist, and the material itself all matter more than the number on the box.</div>
+
+  <div class="panel">
+    <div class="smallcaps">Learn these controls &mdash; tap each</div>
+    <div class="chips" id="ctrlChips"></div>
+    <div id="ctrlDetail" class="outbox" style="display:none;"></div>
+    <svg class="svgfig" viewBox="0 0 300 110" aria-hidden="true">
+      <rect x="120" y="8" width="60" height="26" rx="4" fill="#1A2C4E" stroke="#D4A93C" stroke-width="1.5"/>
+      <text x="150" y="25" text-anchor="middle" font-size="9" fill="#F0C75E" font-family="Georgia,serif">LENS</text>
+      <path d="M128 34 L150 78 L172 34" fill="rgba(255,92,66,0.16)" stroke="#FF5C42" stroke-width="1.4"/>
+      <circle cx="150" cy="78" r="3.4" fill="#FF5C42"/>
+      <rect x="40" y="78" width="220" height="12" rx="2" fill="#C89A63"/>
+      <rect x="40" y="90" width="220" height="6" rx="2" fill="#8A5A2B"/>
+      <text x="150" y="104" text-anchor="middle" font-size="8.5" fill="#AEA488" font-family="Georgia,serif">Focus puts the smallest spot exactly at the surface</text>
+      <line x1="196" y1="34" x2="196" y2="78" stroke="#D4A93C" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="203" y="58" font-size="8" fill="#D4A93C" font-family="Georgia,serif">focal</text>
+      <text x="203" y="67" font-size="8" fill="#D4A93C" font-family="Georgia,serif">distance</text>
+    </svg>
+  </div>
+
+  <div class="tip safe"><b>Beginner rule:</b> copy the process, not the number. A manufacturer setting is a starting range. Your verified test result is the production setting.</div>
+</section>
+
+<!-- ============ CH 2 ============ -->
+<section class="ch reveal" id="ch2">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 02</div><h2>Build a Safe, Reliable Workspace</h2>
+  <p class="ch-sub">Good work begins before the beam turns on.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">A room fan is not ventilation</div>
+    <svg class="svgfig" viewBox="0 0 320 120" aria-hidden="true">
+      <rect x="10" y="14" width="140" height="92" rx="6" fill="#0F1C33" stroke="#E45B4A" stroke-width="1.4"/>
+      <path d="M40 84 q10 -14 0 -26 q-10 -12 4 -22" fill="none" stroke="#AEA488" stroke-width="2" opacity="0.8"/>
+      <path d="M66 88 q12 -12 2 -26 q-8 -12 6 -20" fill="none" stroke="#AEA488" stroke-width="2" opacity="0.6"/>
+      <path d="M94 86 q-12 -14 -2 -28 q8 -10 -4 -18" fill="none" stroke="#AEA488" stroke-width="2" opacity="0.7"/>
+      <circle cx="122" cy="44" r="13" fill="none" stroke="#AEA488" stroke-width="2"/>
+      <path d="M122 33 v22 M111 44 h22" stroke="#AEA488" stroke-width="2"/>
+      <text x="80" y="30" text-anchor="middle" font-size="9" fill="#F09A8E" font-family="Georgia,serif" font-weight="bold">ROOM FAN: smoke stays</text>
+      <text x="80" y="116" text-anchor="middle" font-size="10" fill="#E45B4A" font-family="Georgia,serif" font-weight="bold">&#10007; Not source capture</text>
+      <rect x="170" y="14" width="140" height="92" rx="6" fill="#0F1C33" stroke="#57B682" stroke-width="1.4"/>
+      <rect x="196" y="62" width="52" height="30" rx="4" fill="#1A2C4E" stroke="#D4A93C" stroke-width="1.2"/>
+      <path d="M222 62 q0 -18 26 -20 h34" fill="none" stroke="#57B682" stroke-width="7" opacity="0.85"/>
+      <path d="M212 58 q1 -6 4 -9 M232 58 q1 -6 -2 -10" fill="none" stroke="#AEA488" stroke-width="1.6"/>
+      <text x="240" y="30" text-anchor="middle" font-size="9" fill="#8CD6AF" font-family="Georgia,serif" font-weight="bold">EXHAUST: captured at source</text>
+      <text x="240" y="116" text-anchor="middle" font-size="10" fill="#57B682" font-family="Georgia,serif" font-weight="bold">&#10003; Routed out or filtered</text>
+    </svg>
+    <p style="font-size:13.5px; color:var(--dim); margin:6px 0 0;">Odor reduction is not proof that exposure is controlled. Confirm airflow before every run.</p>
+  </div>
+
+  <div class="panel">
+    <div class="smallcaps">Fire-prevention routine</div>
+    <div class="chips" id="fireTabs"></div>
+    <div id="fireBody" class="outbox"></div>
+  </div>
+
+  <div class="panel">
+    <div class="smallcaps">Non-negotiable habits &mdash; check them off</div>
+    <div id="habitList"></div>
+    <div class="progress"><i id="habitBar"></i></div>
+    <div class="progress-label" id="habitLabel"></div>
+  </div>
+
+  <div class="tip danger"><b>Emergency-stop mindset.</b> Know the stop, pause, power, and disconnect controls before starting. Stop laser output immediately for persistent flame. After any fire or abnormal heat event, do not resume until the machine has cooled and been inspected.</div>
+</section>
+
+<!-- ============ CH 3 ============ -->
+<section class="ch reveal" id="ch3">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 03</div><h2>Choose Materials Without Guessing</h2>
+  <p class="ch-sub">The name on the package is not enough. Composition and coating decide.</p></div>
+
+  <div class="tip danger"><b>The rule: unknown means no.</b> Never process a mystery plastic, unknown coating, or thrift-store find just because it resembles something you have used before.</div>
+
+  <div class="panel">
+    <div class="smallcaps">Go / No-Go checker &mdash; tap a material</div>
+    <div class="chips" id="matChips"></div>
+    <div id="matDetail"></div>
+  </div>
+</section>
+
+<!-- ============ CH 4 ============ -->
+<section class="ch reveal" id="ch4">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 04</div><h2>Find Settings That Work on Your Machine</h2>
+  <p class="ch-sub">A controlled test grid turns guesswork into a repeatable recipe.</p></div>
+
+  <div class="panel simwrap">
+    <div class="smallcaps">Test-grid simulator</div>
+    <p style="font-size:14px; margin-top:0;">Pick a material, fire the grid on scrap, then tap the cell you would record as your production setting.</p>
+    <div class="chips" id="simMats"></div>
+    <button class="btn gold" id="simRun" style="width:100%; margin-top:4px;">Run test grid on scrap</button>
+    <div class="simgrid" id="simGrid"></div>
+    <div class="simfb" id="simFb"></div>
+    <div id="recWrap" style="display:none;">
+      <div class="smallcaps" style="margin-top:14px;">Your material records</div>
+      <div id="recList"></div>
+    </div>
+  </div>
+
+  <div class="smallcaps">The seven-step method</div>
+  <div class="steps7" id="steps7"></div>
+
+  <div class="tip"><b>Change one thing at a time.</b> If you change speed, power, focus, air assist, and masking all at once, you may fix the problem, but you will never know why.</div>
+</section>
+
+<!-- ============ CH 5 ============ -->
+<section class="ch reveal" id="ch5">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 05</div><h2>Prepare Artwork That Engraves Cleanly</h2>
+  <p class="ch-sub">Clean files reduce burn time and prevent rejected orders.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">Raster vs. vector &mdash; the plain-English difference</div>
+    <svg class="svgfig" viewBox="0 0 320 120" aria-hidden="true">
+      <text x="80" y="16" text-anchor="middle" font-size="10" fill="#F0C75E" font-family="Georgia,serif" font-weight="bold">RASTER (pixels)</text>
+      <g>
+        <rect x="52" y="26" width="10" height="10" fill="#8A5A2B"/><rect x="62" y="26" width="10" height="10" fill="#C89A63"/>
+        <rect x="72" y="26" width="10" height="10" fill="#8A5A2B"/><rect x="82" y="26" width="10" height="10" fill="#5C3A1B"/>
+        <rect x="42" y="36" width="10" height="10" fill="#C89A63"/><rect x="52" y="36" width="10" height="10" fill="#5C3A1B"/>
+        <rect x="62" y="36" width="10" height="10" fill="#8A5A2B"/><rect x="72" y="36" width="10" height="10" fill="#C89A63"/>
+        <rect x="82" y="36" width="10" height="10" fill="#8A5A2B"/><rect x="92" y="36" width="10" height="10" fill="#5C3A1B"/>
+        <rect x="42" y="46" width="10" height="10" fill="#5C3A1B"/><rect x="52" y="46" width="10" height="10" fill="#8A5A2B"/>
+        <rect x="62" y="46" width="10" height="10" fill="#C89A63"/><rect x="72" y="46" width="10" height="10" fill="#8A5A2B"/>
+        <rect x="82" y="46" width="10" height="10" fill="#5C3A1B"/><rect x="92" y="46" width="10" height="10" fill="#C89A63"/>
+        <rect x="52" y="56" width="10" height="10" fill="#8A5A2B"/><rect x="62" y="56" width="10" height="10" fill="#5C3A1B"/>
+        <rect x="72" y="56" width="10" height="10" fill="#C89A63"/><rect x="82" y="56" width="10" height="10" fill="#8A5A2B"/>
+      </g>
+      <text x="80" y="86" text-anchor="middle" font-size="8.5" fill="#AEA488" font-family="Georgia,serif">Photos, shading, filled areas</text>
+      <text x="80" y="97" text-anchor="middle" font-size="8.5" fill="#AEA488" font-family="Georgia,serif">Watch: low resolution, muddy contrast</text>
+      <text x="240" y="16" text-anchor="middle" font-size="10" fill="#F0C75E" font-family="Georgia,serif" font-weight="bold">VECTOR (paths)</text>
+      <path d="M196 62 C210 20 270 20 284 62" fill="none" stroke="#D4A93C" stroke-width="2.5"/>
+      <circle cx="196" cy="62" r="4" fill="#0B1526" stroke="#F0C75E" stroke-width="1.6"/>
+      <circle cx="284" cy="62" r="4" fill="#0B1526" stroke="#F0C75E" stroke-width="1.6"/>
+      <circle cx="222" cy="30" r="3" fill="#FF5C42"/><circle cx="258" cy="30" r="3" fill="#FF5C42"/>
+      <line x1="196" y1="62" x2="222" y2="30" stroke="#AEA488" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="284" y1="62" x2="258" y2="30" stroke="#AEA488" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="240" y="86" text-anchor="middle" font-size="8.5" fill="#AEA488" font-family="Georgia,serif">Cut lines, outlines, logos, text</text>
+      <text x="240" y="97" text-anchor="middle" font-size="8.5" fill="#AEA488" font-family="Georgia,serif">Watch: doubled lines, open paths</text>
+    </svg>
+  </div>
+
+  <div class="panel">
+    <div class="smallcaps">Artwork preflight &mdash; before every job</div>
+    <div id="artList"></div>
+    <div class="progress"><i id="artBar"></i></div>
+    <div class="progress-label" id="artLabel"></div>
+  </div>
+
+  <div class="tip"><b>Design for the viewing distance.</b> A coaster is read at arm's length; an ornament across a room. Thin script that looks great on a monitor often disappears on the product.</div>
+
+  <div class="panel">
+    <div class="smallcaps">Proof language that protects both sides</div>
+    <p id="proofText" style="font-style:italic; font-size:14.5px;">"Please review spelling, dates, layout, and all personalization. Approval confirms the information and arrangement shown. Natural variation in wood, stone, leather, and other materials is expected."</p>
+    <button class="btn ghost" onclick="copyProof()">Copy proof language</button>
+  </div>
+</section>
+
+<!-- ============ CH 6 ============ -->
+<section class="ch reveal" id="ch6">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 06</div><h2>Five Beginner Products Worth Testing</h2>
+  <p class="ch-sub">Forgiving, photographs well, repeatable without complicated customization.</p></div>
+
+  <div id="prodCards"></div>
+
+  <div class="panel">
+    <div class="smallcaps">Project scorecard &mdash; answer honestly for one product idea</div>
+    <div id="scoreList"></div>
+    <div id="scoreVerdict"></div>
+  </div>
+</section>
+<!-- ============ CH 7 ============ -->
+<section class="ch reveal" id="ch7">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 07</div><h2>Finish, Inspect, and Package Like a Seller</h2>
+  <p class="ch-sub">Customers judge the finished piece, not how hard the machine worked.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">The seven-point quality check</div>
+    <div id="qcList"></div>
+    <div class="progress"><i id="qcBar"></i></div>
+    <div class="progress-label" id="qcLabel"></div>
+  </div>
+
+  <div class="tip safe"><b>Create a golden sample.</b> Keep your best finished piece or a clearly lit reference photo, and compare every batch to it. It stops quality from slowly drifting when you get busy or switch suppliers.</div>
+
+  <div class="tip danger"><b>When to remake:</b> if the defect is obvious, changes personalization, weakens the item, or makes the work look careless &mdash; remake it. Do not ship a defect and hope the buyer overlooks it. The correct engraving on the wrong blank is still a wrong order.</div>
+</section>
+
+<!-- ============ CH 8 ============ -->
+<section class="ch reveal" id="ch8">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 08</div><h2>Price for Profit Without Fooling Yourself</h2>
+  <p class="ch-sub">The blank is only one part of the cost. Price the entire job.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">Pricing calculator</div>
+    <div id="prRows"></div>
+    <div class="pr-total"><span>Total job cost</span><span class="mono" id="prCost" style="font-size:19px; color:var(--cream);">$0.00</span></div>
+    <div class="pr-total" style="padding-top:0;"><span style="color:var(--gold2); font-weight:700;">Starting selling price</span><span class="big" id="prPrice">$0.00</span></div>
+    <div class="legend">
+      <span><b style="background:#C89A63;"></b>Materials</span>
+      <span><b style="background:#D4A93C;"></b>Labor</span>
+      <span><b style="background:#AEA488;"></b>Waste + overhead</span>
+      <span><b style="background:#E45B4A;"></b>Fees + shipping</span>
+      <span><b style="background:#57B682;"></b>Profit</span>
+    </div>
+    <div class="pr-bar" id="prBar"></div>
+    <button class="btn ghost" style="width:100%; margin-top:10px;" onclick="loadCoasterExample()">Load the book's coaster example</button>
+    <p style="font-size:12.5px; color:var(--dim); font-style:italic;">The example is an illustration, not a recommended market price. Replace every number with your own costs and local demand. Platform fees change &mdash; verify before listing.</p>
+  </div>
+
+  <div class="smallcaps">Three pricing traps</div>
+  <div class="tip danger"><b>"The laser did it in five minutes."</b> Setup, design, cleaning, messaging, testing, and packaging still took time.</div>
+  <div class="tip danger"><b>"The blank only cost $1."</b> A low material cost does not make labor and overhead free.</div>
+  <div class="tip danger"><b>"Someone online sells it for less."</b> Their materials, quality, labor target, and business model may be completely different.</div>
+  <div class="tip safe"><b>A healthy price does three things:</b> covers the real cost, pays for the work, and leaves enough profit to make the next order worth accepting.</div>
+</section>
+
+<!-- ============ CH 9 ============ -->
+<section class="ch reveal" id="ch9">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 09</div><h2>Photograph and List Products Clearly</h2>
+  <p class="ch-sub">Buyers cannot touch the item. Photos and specific wording remove uncertainty.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">Five useful photos</div>
+    <div id="photoList"></div>
+  </div>
+
+  <div class="panel">
+    <div class="smallcaps">Title builder &mdash; item + occasion + material + personalization</div>
+    <input class="tin" id="tb1" placeholder="Item (e.g., Slate Coaster Set)">
+    <input class="tin" id="tb2" placeholder="Recipient or occasion (e.g., Housewarming Gift)">
+    <input class="tin" id="tb3" placeholder="Material or key feature (optional)">
+    <input class="tin" id="tb4" placeholder="Personalization (e.g., with Family Name)">
+    <div class="outbox" id="tbOut">Your listing title appears here&hellip;</div>
+    <button class="btn ghost" onclick="copyTitle()">Copy title</button>
+  </div>
+
+  <div class="tip danger"><b>Avoid claims you cannot support.</b> Never call a product "food safe," "dishwasher safe," "weatherproof," "non-toxic," "permanent," or "child safe" unless the exact materials, finish, and supplier documentation back it up. Describe what you know; give accurate care guidance.</div>
+</section>
+
+<!-- ============ CH 10 ============ -->
+<section class="ch reveal" id="ch10">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 10</div><h2>Find Your First Customers</h2>
+  <p class="ch-sub">Start near trust. One paid order teaches more than weeks of random inventory.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">Good first customer groups &mdash; tap one</div>
+    <div class="chips" id="custChips"></div>
+    <div id="custDetail" class="outbox" style="display:none;"></div>
+  </div>
+
+  <div class="panel">
+    <div class="smallcaps">Sample-first outreach message</div>
+    <input class="tin" id="om1" placeholder="Your product (e.g., slate coaster sets)">
+    <input class="tin" id="om2" placeholder="Buyer or occasion (e.g., closing gifts)">
+    <input class="tin" id="om3" placeholder="What a set includes (e.g., four coasters, gift box)">
+    <input class="tin" id="om4" placeholder="Starting price (e.g., $30)">
+    <div class="outbox" id="omOut">Your message appears here&hellip;</div>
+    <button class="btn ghost" onclick="copyOutreach()">Copy message</button>
+  </div>
+
+  <div class="tip safe"><b>Do not ask for a giant commitment.</b> The first goal is one paid order, one clear photo, one honest review, and one lesson that improves the next offer.</div>
+</section>
+
+<!-- ============ CH 11 ============ -->
+<section class="ch reveal" id="ch11">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 11</div><h2>Troubleshoot Results Systematically</h2>
+  <p class="ch-sub">A changed result usually has a changed cause. Compare against the last good job.</p></div>
+
+  <div class="panel">
+    <div class="smallcaps">What went wrong? Tap the symptom</div>
+    <div id="tsList"></div>
+    <div id="tsDetail"></div>
+  </div>
+
+  <div class="tip danger"><b>Stop immediately for:</b> unknown material, sustained flame, loss of exhaust or cooling, unusual sound, visible damage, electrical odor, or smoke escaping into the room.</div>
+</section>
+
+<!-- ============ CH 12 ============ -->
+<section class="ch reveal" id="ch12">
+  <div class="ch-head"><div class="ch-num mono">CHAPTER 12</div><h2>Your 30-Day First-Sale Plan</h2>
+  <p class="ch-sub">One product. One buyer. One month of focused action.</p></div>
+
+  <div class="panel">
+    <div class="pr-total" style="padding-top:0;"><span style="color:var(--gold2); font-weight:700;">Day-30 readiness</span><span class="mono" id="planPct" style="font-size:22px; color:var(--gold2);">0%</span></div>
+    <div class="progress"><i id="planBar"></i></div>
+  </div>
+  <div id="planWeeks"></div>
+
+  <div class="tip safe"><b>Success at day 30:</b> a safe process, a tested product, its true cost known, a clear offer, and real customer feedback. A first sale is the goal; a repeatable system is the asset.</div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="ch reveal" id="quiz">
+  <div class="ch-head"><div class="ch-num mono">CHECKPOINT</div><h2>The Beginner's Quiz</h2>
+  <p class="ch-sub">Ten questions from the handbook. No grade drifts &mdash; retake any time.</p></div>
+
+  <div class="panel" id="quizPanel"></div>
+
+  <div class="smallcaps" style="margin-top:22px;">Shop scenarios &mdash; what would you do?</div>
+  <div id="scenCards"></div>
+</section>
+
+<!-- ============ WORKFLOW STRIP ============ -->
+<section class="ch reveal" id="tools">
+  <div class="ch-head"><div class="ch-num mono">QUICK REFERENCE</div><h2>The One-Page Workflow</h2>
+  <p class="ch-sub">Ten actions, in order, every time.</p></div>
+  <div class="steps7" id="flowStrip"></div>
+  <div class="tip"><b>The rule worth remembering:</b> never guess about material. Never leave a running laser unattended. Never accept a price that ignores your labor. Never ship work you would be disappointed to receive.</div>
+</section>
+
+</main>
+
+<footer>
+  <div class="motto">Make one thing well.</div>
+  <p>Test it carefully. Price it honestly. Offer it clearly. Improve it with every order.</p>
+  <p style="margin-top:14px;">Companion to <i>The Laser Engraving Handbook for Beginners</i><br>
+  &copy; 2026 William Nagle &middot; Benchmark Handbooks &middot; A bonus for handbook readers</p>
+  <p style="margin-top:10px; font-size:11.5px;">This companion is educational and general. Your machine manual, enclosure and exhaust instructions, material documentation, and local requirements control over anything shown here. Never bypass guards, interlocks, or safety systems. Simulated results illustrate the testing method &mdash; they do not predict your machine.</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script>
+"use strict";
+/* ================= storage (guarded) ================= */
+var KEY = "bhLaserCompanion_v1";
+var state = (function(){
+  try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; }
+})();
+state.checks = state.checks || {};
+state.records = state.records || [];
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+/* ================= helpers ================= */
+function $(id){ return document.getElementById(id); }
+function toast(msg){
+  var t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("show"); }, 1800);
+}
+function goTo(id){ var el = $(id); if(el) el.scrollIntoView({behavior:"smooth", block:"start"}); }
+function copyText(txt, msg){
+  try{
+    var ta = document.createElement("textarea");
+    ta.value = txt; ta.setAttribute("readonly","");
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, 99999);
+    var ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    toast(ok ? (msg || "Copied") : "Press and hold the text to copy");
+  }catch(e){ toast("Press and hold the text to copy"); }
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* version badge */
+$("vbadge").addEventListener("click", function(){ toast("Companion v1.0 \u00B7 Aug 14 2026"); });
+
+/* hero beam */
+window.addEventListener("load", function(){
+  setTimeout(function(){ document.querySelector(".hero").classList.add("lit"); }, 250);
+});
+
+/* reveal + rail highlight */
+(function(){
+  var sections = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, {threshold:0.08});
+    sections.forEach(function(s){ io.observe(s); });
+    var links = document.querySelectorAll("#rail a");
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute("href").slice(1)] = a; });
+    var io2 = new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){ a.classList.remove("on"); });
+          var a = map[en.target.id];
+          if(a){ a.classList.add("on"); a.scrollIntoView({block:"nearest", inline:"center", behavior:"smooth"}); }
+        }
+      });
+    }, {rootMargin:"-40% 0px -55% 0px"});
+    document.querySelectorAll("section.ch, header.hero").forEach(function(s){ io2.observe(s); });
+  } else {
+    sections.forEach(function(s){ s.classList.add("in"); });
+  }
+})();
+
+/* ================= checklist factory ================= */
+function makeChecklist(listId, items, key, barId, labelId, onChange){
+  var wrap = $(listId); if(!wrap) return;
+  var done = state.checks[key] || [];
+  function refresh(){
+    var n = done.length, total = items.length;
+    if(barId && $(barId)) $(barId).style.width = Math.round(100*n/total) + "%";
+    if(labelId && $(labelId)) $(labelId).textContent = n + " of " + total + (n===total ? " \u2014 all clear" : " checked");
+    if(onChange) onChange(n, total);
+  }
+  items.forEach(function(txt, i){
+    var b = document.createElement("button");
+    b.className = "ck" + (done.indexOf(i) > -1 ? " done" : "");
+    b.innerHTML = "<span class='box'></span><span>" + txt + "</span>";
+    b.addEventListener("click", function(){
+      var at = done.indexOf(i);
+      if(at > -1){ done.splice(at,1); b.classList.remove("done"); }
+      else { done.push(i); b.classList.add("done"); }
+      state.checks[key] = done; save(); refresh();
+    });
+    wrap.appendChild(b);
+  });
+  refresh();
+}
+
+/* ================= CH1: laser cards + controls ================= */
+var LASERS = [
+  {n:"Diode", s:"Wood, coated metals, leather-compatible blanks, slate, dark or opaque acrylics on some machines. Compact and often affordable.", l:"Clear acrylic is usually a poor fit. Results vary greatly by wavelength and actual optical power."},
+  {n:"CO2", s:"Wood, acrylic, paper, leather-compatible blanks, glass marking, many nonmetals. Strong cutting in suitable thicknesses.", l:"Requires cooling, optics, exhaust, and real maintenance."},
+  {n:"Fiber / infrared", s:"Marks or engraves many metals and selected plastics. Fast for small detailed work.", l:"Not a general substitute for CO2 or diode on wood and clear acrylic."},
+  {n:"UV", s:"Fine, low-heat marking on selected plastics, glass, and sensitive materials.", l:"Higher cost, specialized use. Material testing is still required."}
+];
+(function(){
+  var host = $("laserCards");
+  LASERS.forEach(function(lz){
+    var d = document.createElement("div");
+    d.className = "xcard";
+    d.innerHTML = "<button><span>" + lz.n + "</span><span class='chev'>\u203A</span></button>" +
+      "<div class='body'><p><span class='k'>Strengths:</span> " + lz.s + "</p><p><span class='k'>Limits:</span> " + lz.l + "</p></div>";
+    d.querySelector("button").addEventListener("click", function(){ d.classList.toggle("open"); });
+    host.appendChild(d);
+  });
+})();
+
+var CONTROLS = [
+  {n:"Power", d:"How much laser energy is delivered. Too much may char, melt, overburn, or widen a cut."},
+  {n:"Speed", d:"How long the beam acts on an area. Slower usually delivers more energy per area. Watch the units: mm/s is 60\u00D7 faster than the same number in mm/min."},
+  {n:"Passes", d:"How many times the path is repeated. Multiple controlled passes can be cleaner than one extreme pass."},
+  {n:"Focus", d:"Where the smallest beam spot sits. Incorrect focus makes lines wide, weak, or inconsistent \u2014 and it changes every time the material thickness changes."},
+  {n:"Line interval / DPI", d:"Spacing between engraved scan lines. More lines add heat and time \u2014 not automatically more quality."},
+  {n:"Air assist", d:"Airflow at the cutting or engraving point. Can reduce flame and debris; effect differs by material and task."},
+  {n:"Frequency / pulse", d:"How energy is pulsed on systems that expose the control. Use manufacturer guidance \u2014 it is not identical across laser types."}
+];
+(function(){
+  var chips = $("ctrlChips"), out = $("ctrlDetail"), cur = -1;
+  CONTROLS.forEach(function(c, i){
+    var b = document.createElement("button");
+    b.className = "chip"; b.textContent = c.n;
+    b.addEventListener("click", function(){
+      chips.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+      if(cur === i){ cur = -1; out.style.display = "none"; return; }
+      cur = i; b.classList.add("on");
+      out.style.display = "block";
+      out.innerHTML = "<b style='color:var(--gold2)'>" + c.n + ".</b> " + c.d;
+    });
+    chips.appendChild(b);
+  });
+})();
+
+/* ================= CH2 ================= */
+var FIRE = {
+  "Before":"Remove scraps and residue. Verify the material lies flat. Confirm focus, airflow, and the job path.",
+  "During":"Watch the work \u2014 especially first passes and edges. Stop for sustained flame, unusual smoke, vibration, or loss of airflow.",
+  "After":"Let the part cool on a safe surface. Clean residue, empty debris as directed, inspect the bed and exhaust path."
+};
+(function(){
+  var tabs = $("fireTabs"), body = $("fireBody"), first = true;
+  Object.keys(FIRE).forEach(function(k){
+    var b = document.createElement("button");
+    b.className = "chip" + (first ? " on" : ""); b.textContent = k;
+    if(first){ body.textContent = FIRE[k]; first = false; }
+    b.addEventListener("click", function(){
+      tabs.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); body.textContent = FIRE[k];
+    });
+    tabs.appendChild(b);
+  });
+})();
+makeChecklist("habitList", [
+  "Follow the manufacturer's installation, enclosure, cooling, electrical, eye-protection, and exhaust instructions",
+  "Keep people, kids, pets, reflective objects, and clutter out of the operating area",
+  "Stable, approved surface with clearance around vents, hoses, cooling, and moving parts",
+  "Confirm exhaust or approved filtration is operating before every run",
+  "Maintained fire extinguisher within immediate reach; know how to stop the machine fast",
+  "Stay awake, present, and close enough to stop every job \u2014 never \u201Ccheck back later\u201D"
+], "habits", "habitBar", "habitLabel");
+
+/* ================= CH3: materials go/no-go ================= */
+var MATS = [
+  {n:"Unfinished wood", c:"verify", r:"Engraves and often cuts well; contrast varies by species.", note:"Start with flat, dry, unfinished blanks. Resin, grain, and moisture change results.", v:["Species and thickness known","No unknown coating or finish","Glue system laser-approved (for ply)","Supplier approves laser use"]},
+  {n:"Plywood", c:"verify", r:"Good for signs, ornaments, boxes, layered projects.", note:"Interior glue layers and voids can cause uneven cutting or flare-ups.", v:["Laser-approved construction","Adhesive identified","Thickness consistent","Lies flat"]},
+  {n:"MDF / fiberboard", c:"verify", r:"Smooth, consistent engraving on approved products.", note:"Heavy smoke and residue \u2014 exhaust and cleaning matter.", v:["Binder / resin composition known","Manufacturer approves laser use","Exhaust confirmed strong"]},
+  {n:"Cork", c:"verify", r:"Fast engraving, strong contrast. Good for coasters.", note:"Low power may be enough. Watch for charring and crumbly edges.", v:["Natural vs. composite known","Coatings and adhesives identified","Backing checked"]},
+  {n:"Paper / cardstock", c:"verify", r:"Cuts and scores quickly; good for templates and packaging.", note:"Ignites easily. Stay present and test conservatively.", v:["No metallic films or laminates","Coatings and adhesives known","Operator staying at the machine"]},
+  {n:"Natural leather", c:"verify", r:"Rich engraving contrast; cuts on approved systems.", note:"Strong odor and smoke \u2014 needs real exhaust. Vegetable-tanned is often preferred.", v:["Tanning chemistry confirmed","Dyes and finishes identified","Supplier confirms laser use"]},
+  {n:"Slate / stone", c:"verify", r:"Surface marking with light contrast; excellent coasters and plaques.", note:"Use flat pieces and consistent focus. Natural chips and texture vary.", v:["No coating or sealer, or it is identified","Flat enough for consistent focus","Cleaning method tested"]},
+  {n:"Glass", c:"verify", r:"Usually frosts or micro-fractures the surface rather than cutting.", note:"Use the machine maker's method. Curved glass needs stable support and correct focus.", v:["Glass type and tempering known","Coatings identified","Rotary or support method ready"]},
+  {n:"Ceramic / tile", c:"verify", r:"Surface contrast with approved coatings or processes.", note:"Results depend heavily on glaze and method. Test permanence and cleanability.", v:["Glaze composition known","Marking compound approved","Intended use matches result"]},
+  {n:"Cast acrylic", c:"verify", r:"Frosted engraving and clean cuts on compatible lasers.", note:"Favored for engraving. Ventilate well; remove only approved masking. Clear acrylic is a poor fit for most diodes.", v:["Cast (not extruded) confirmed","Compatible with your laser's wavelength","No mirror backing or unknown film"]},
+  {n:"Extruded acrylic", c:"verify", r:"May cut well but engraves less white than cast.", note:"Use where the result has been tested and accepted.", v:["Exact acrylic type confirmed","Thickness and coating known","Manufacturer approves"]},
+  {n:"Anodized aluminum", c:"verify", r:"Laser removes or alters the anodized surface on compatible systems.", note:"Excellent tags and plates; results vary by color and laser source.", v:["Anodizing and seal confirmed","Alloy and coating known","Compatible with your laser source"]},
+  {n:"Painted / coated metal", c:"verify", r:"Laser may remove or discolor the coating rather than engrave metal.", note:"Test adhesion and durability after marking. Avoid unknown paints and plated finishes.", v:["Coating chemistry known","No unknown plating","Fume behavior verified"]},
+  {n:"Bare metal", c:"verify", r:"True marking depends strongly on wavelength and power.", note:"Many diode and CO2 systems need an approved marking compound; fiber/IR systems differ.", v:["Metal type and finish known","Reflectivity is safe for your machine","Maker's method followed"]},
+  {n:"Powder-coated tumbler", c:"verify", r:"Coating can be removed to expose the metal beneath.", note:"Use a stable rotary setup; confirm the vessel is empty and safe.", v:["Coating and metal type known","Rotary setup stable","No unsupported care claims planned"]},
+  {n:"Laser-safe faux leather", c:"verify", r:"Some products engrave beautifully \u2014 many contain PVC and are unsafe.", note:"Buy only from a supplier that clearly identifies the composition as laser-safe.", v:["Written PVC-free confirmation saved","Backing and adhesive identified","Heat-application instructions on file"]},
+  {n:"Laser-approved stamp rubber", c:"verify", r:"Only specialized laser rubber should be used.", note:"Ordinary rubber can produce hazardous fumes and poor results.", v:["Product sold specifically for laser stamps","Documentation saved"]},
+  {n:"PVC / vinyl", c:"never", r:"Do not process. Releases corrosive, hazardous gases and can damage your machine.", note:"This includes many vinyl sheets, decals, faux leathers, mats, cards, and flexible products. There is no setting that makes PVC safe."},
+  {n:"Unknown plastic", c:"never", r:"Unpredictable and potentially hazardous.", note:"Do not test by smell or by \u201Ctrying a corner.\u201D Reject until a safety data sheet or authoritative supplier documentation identifies it."},
+  {n:"Mystery / thrift-store item", c:"never", r:"Unknown coating, glue, laminate, or treatment.", note:"\u201CIt looks like wood\u201D is not identification. Unknown means no \u2014 until the exact composition is verified in writing."}
+];
+(function(){
+  var chips = $("matChips"), detail = $("matDetail"), cur = -1;
+  MATS.forEach(function(m, i){
+    var b = document.createElement("button");
+    b.className = "chip" + (m.c === "never" ? " never" : "");
+    b.textContent = m.n;
+    b.addEventListener("click", function(){
+      chips.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+      if(cur === i){ cur = -1; detail.innerHTML = ""; return; }
+      cur = i; b.classList.add("on"); renderMat(m);
+    });
+    chips.appendChild(b);
+  });
+  function renderMat(m){
+    if(m.c === "never"){
+      detail.innerHTML =
+        "<div class='verdict v-no stamp'>\u2715 &nbsp;DO NOT PROCESS</div>" +
+        "<p style='font-size:14.5px;'><b style='color:var(--gold2)'>" + m.n + ".</b> " + m.r + "</p>" +
+        "<p style='font-size:14px; color:var(--cream);'>" + m.note + "</p>";
+      return;
+    }
+    var boxes = m.v.map(function(t, j){
+      return "<button class='ck mv' data-j='" + j + "'><span class='box'></span><span>" + t + "</span></button>";
+    }).join("");
+    detail.innerHTML =
+      "<div class='verdict v-verify stamp' id='mVerdict'>\u26A0 &nbsp;VERIFY BEFORE USE</div>" +
+      "<p style='font-size:14.5px;'><b style='color:var(--gold2)'>" + m.n + ".</b> " + m.r + "</p>" +
+      "<p style='font-size:14px;'>" + m.note + "</p>" +
+      "<div class='smallcaps' style='margin-top:10px;'>Check each item you have actually verified</div>" + boxes +
+      "<p style='font-size:12.5px; color:var(--dim); font-style:italic; margin-top:8px;'>Re-verify every new batch. Save the supplier page or safety sheet with your material record.</p>";
+    var done = 0, total = m.v.length;
+    detail.querySelectorAll(".mv").forEach(function(bt){
+      bt.addEventListener("click", function(){
+        bt.classList.toggle("done");
+        done = detail.querySelectorAll(".mv.done").length;
+        var vd = $("mVerdict");
+        if(done === total){
+          vd.className = "verdict v-go stamp";
+          vd.innerHTML = "\u2713 &nbsp;GO \u2014 now run a test grid on scrap";
+        } else {
+          vd.className = "verdict v-verify";
+          vd.innerHTML = "\u26A0 &nbsp;VERIFY BEFORE USE (" + done + "/" + total + ")";
+        }
+      });
+    });
+  }
+})();
+/* ================= CH4: test grid simulator ================= */
+var SIM = {
+  mats: [
+    {n:"Basswood ply", bg:"#C89A63",
+      bands:[[0.28,"faint"],[0.42,"light"],[0.72,"clean"],[0.90,"dark"],[9,"char"]],
+      style:{faint:["#B98F5F","Barely there. Not enough energy for contrast at this speed.",""],
+             light:["#96683A","Visible but weak \u2014 a buyer would squint. More energy needed.",""],
+             clean:["#4A2E13","Rich, crisp, repeatable. This is the window.",""],
+             dark:["#2A1808","Readable but heavy \u2014 edges are swelling and residue is building.",""],
+             char:["#140A02","Charred. Fuzzy edges, smoke staining, wasted detail. More is not better.","txm-char"]}},
+    {n:"Slate", bg:"#3A4148",
+      bands:[[0.40,"none"],[0.58,"faint"],[0.95,"clean"],[1.06,"dark"],[9,"char"]],
+      style:{none:["#3A4148","Nothing. Slate needs more energy than wood before contrast appears.",""],
+             faint:["#6E7880","A ghost of a mark. Slow down or add power.",""],
+             clean:["#CDD2D8","Bright, even contrast against the dark stone. Record it.",""],
+             dark:["#E9E5D8","Very hot \u2014 works, but you are past the sweet spot and adding time.",""],
+             char:["#9AA0A6","Blasted surface \u2014 crumbly texture, chipping risk, muddy detail.","txm-blast"]}},
+    {n:"Cast acrylic", bg:"#25355A",
+      bands:[[0.22,"none"],[0.36,"faint"],[0.62,"clean"],[0.80,"dark"],[9,"char"]],
+      style:{none:["#25355A","No mark. (And remember: clear acrylic is a poor fit for most diode lasers.)",""],
+             faint:["#8FA2C4","A weak haze \u2014 uneven frost.",""],
+             clean:["#E8EEF8","Even, bright frost. Exactly what cast acrylic should give.",""],
+             dark:["#F4F7FC","Deep frost \u2014 acceptable, but heat is building at the edges.",""],
+             char:["#E3D290","Melted and yellowed \u2014 heat distortion, sticky residue.","txm-melt"]}}
+  ],
+  speeds:[{l:"300", f:0.45},{l:"220", f:0.60},{l:"160", f:0.78},{l:"110", f:0.95},{l:"70", f:1.15}],
+  powers:[20,40,60,80,100]
+};
+var simState = { mat:0, fired:false };
+(function(){
+  var st = document.createElement("style");
+  st.textContent = ".txm-char{text-shadow:0 0 7px rgba(255,92,66,.95); filter:blur(.4px);} .txm-blast{filter:blur(.6px); letter-spacing:1px;} .txm-melt{font-style:italic; transform:skewX(-8deg); text-shadow:0 0 5px rgba(240,199,94,.8);}";
+  document.head.appendChild(st);
+
+  var chips = $("simMats");
+  SIM.mats.forEach(function(m, i){
+    var b = document.createElement("button");
+    b.className = "chip" + (i===0 ? " on" : ""); b.textContent = m.n;
+    b.addEventListener("click", function(){
+      chips.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); simState.mat = i; buildGrid(false);
+      $("simFb").innerHTML = "";
+    });
+    chips.appendChild(b);
+  });
+  buildGrid(false);
+  renderRecords();
+  $("simRun").addEventListener("click", fireGrid);
+
+  function bandFor(e){
+    var bands = SIM.mats[simState.mat].bands;
+    for(var i=0;i<bands.length;i++){ if(e < bands[i][0]) return bands[i][1]; }
+    return bands[bands.length-1][1];
+  }
+  function energy(r,c){
+    var e = (SIM.powers[c]/100) * SIM.speeds[r].f;
+    e += (((r*7 + c*13 + simState.mat*3) % 5) - 2) * 0.018;
+    return e;
+  }
+  function buildGrid(fired){
+    var g = $("simGrid"); g.innerHTML = "";
+    g.insertAdjacentHTML("beforeend", "<div class='axis'>mm/min</div>");
+    SIM.powers.forEach(function(p){ g.insertAdjacentHTML("beforeend", "<div class='axis'>" + p + "%</div>"); });
+    var m = SIM.mats[simState.mat];
+    SIM.speeds.forEach(function(sp, r){
+      g.insertAdjacentHTML("beforeend", "<div class='axis'>" + sp.l + "</div>");
+      SIM.powers.forEach(function(p, c){
+        var cell = document.createElement("button");
+        cell.className = "cell"; cell.style.background = m.bg;
+        cell.dataset.r = r; cell.dataset.c = c;
+        var band = bandFor(energy(r,c));
+        var s = m.style[band];
+        cell.innerHTML = "<span class='mk " + (s[2]||"") + "' style='color:" + s[0] + "'>B</span>";
+        cell.addEventListener("click", function(){ judge(cell, band, r, c); });
+        g.appendChild(cell);
+      });
+    });
+    if(fired){ g.querySelectorAll(".cell").forEach(function(x){ x.classList.add("fired"); }); }
+    simState.fired = fired;
+    var beam = document.createElement("div");
+    beam.className = "beam-h"; beam.id = "beamH";
+    g.appendChild(beam);
+  }
+  function fireGrid(){
+    buildGrid(false);
+    var cells = Array.prototype.slice.call($("simGrid").querySelectorAll(".cell"));
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduce){
+      cells.forEach(function(x){ x.classList.add("fired"); });
+      simState.fired = true;
+      $("simFb").innerHTML = "<b style='color:var(--gold2)'>Grid complete.</b> Tap the cell you would record as your production setting.";
+      return;
+    }
+    var beam = $("beamH"); beam.style.opacity = "1";
+    var i = 0;
+    var iv = setInterval(function(){
+      if(i >= cells.length){
+        clearInterval(iv); beam.style.opacity = "0"; simState.fired = true;
+        $("simFb").innerHTML = "<b style='color:var(--gold2)'>Grid complete.</b> Tap the cell you would record as your production setting.";
+        return;
+      }
+      var cell = cells[i];
+      cell.classList.add("fired");
+      beam.style.top = (cell.offsetTop + cell.offsetHeight/2) + "px";
+      i++;
+    }, 55);
+    $("simFb").innerHTML = "<span style='color:var(--dim)'>Running the grid on scrap \u2014 stay with the test\u2026</span>";
+  }
+  function judge(cell, band, r, c){
+    if(!simState.fired){ $("simFb").innerHTML = "<span style='color:var(--dim)'>Fire the grid first \u2014 never judge a setting you have not run.</span>"; return; }
+    $("simGrid").querySelectorAll(".cell").forEach(function(x){ x.classList.remove("picked"); });
+    cell.classList.add("picked");
+    var m = SIM.mats[simState.mat];
+    var msg = m.style[band][1];
+    var fb = $("simFb");
+    if(band === "clean"){
+      fb.innerHTML = "<div class='verdict v-go stamp'>\u2713 &nbsp;In the window</div><p style='margin:6px 0;'>" + msg + "</p>" +
+        "<button class='btn gold' style='width:100%' id='recBtn'>Record the winner: " + SIM.powers[c] + "% at " + SIM.speeds[r].l + " mm/min</button>";
+      $("recBtn").addEventListener("click", function(){
+        state.records.unshift({m:m.n, p:SIM.powers[c], s:SIM.speeds[r].l, d:new Date().toLocaleDateString()});
+        if(state.records.length > 8) state.records.pop();
+        save(); renderRecords(); toast("Recorded \u2014 that is now your production setting");
+      });
+    } else if(band === "dark"){
+      fb.innerHTML = "<div class='verdict v-verify stamp'>\u26A0 &nbsp;Close, but hot</div><p style='margin:6px 0;'>" + msg + " Look one cell faster or lower before you commit.</p>";
+    } else {
+      fb.innerHTML = "<div class='verdict v-no stamp'>\u2715 &nbsp;Not the one</div><p style='margin:6px 0;'>" + msg + "</p>";
+    }
+  }
+  function renderRecords(){
+    var w = $("recWrap"), l = $("recList");
+    if(!state.records.length){ w.style.display = "none"; return; }
+    w.style.display = "block"; l.innerHTML = "";
+    state.records.forEach(function(rec, i){
+      var d = document.createElement("div");
+      d.className = "record-card";
+      d.innerHTML = "<span class='rc-mat'>" + rec.m + "</span><span class='mono'>" + rec.p + "% \u00B7 " + rec.s + " mm/min</span><span style='color:var(--dim); font-size:12px;'>" + rec.d + "</span><button class='rc-x' aria-label='Delete record'>\u00D7</button>";
+      d.querySelector(".rc-x").addEventListener("click", function(){ state.records.splice(i,1); save(); renderRecords(); });
+      l.appendChild(d);
+    });
+  }
+  window._renderRecords = renderRecords;
+})();
+
+/* steps + workflow strips */
+var STEPS7 = [
+  ["STEP 1","Verify the material: composition, thickness, coating."],
+  ["STEP 2","Choose a safe starting range from your machine and supplier \u2014 not a random social post."],
+  ["STEP 3","Prepare scrap from the same batch, with the same masking, focus, and airflow."],
+  ["STEP 4","Vary two controls \u2014 usually speed and power. Fix everything else."],
+  ["STEP 5","Stay with the test. Watch flame, smoke, residue, and airflow."],
+  ["STEP 6","Clean and inspect using the same finishing process as the real product."],
+  ["STEP 7","Record the winner: settings, date, batch, lens, focus, notes."]
+];
+var FLOW = [
+  ["1 \u00B7 VERIFY","Know the material and machine requirements."],
+  ["2 \u00B7 PREPARE","Clean, flatten, focus, exhaust, load safely."],
+  ["3 \u00B7 TEST","Run a controlled grid on matching scrap."],
+  ["4 \u00B7 RECORD","Save the winning setting and conditions."],
+  ["5 \u00B7 MAKE","Approved file plus the pre-flight checklist."],
+  ["6 \u00B7 INSPECT","Compare with the golden sample."],
+  ["7 \u00B7 PRICE","Include labor, waste, fees, overhead, profit."],
+  ["8 \u00B7 PRESENT","Clear photos, dimensions, personalization rules."],
+  ["9 \u00B7 DELIVER","Package correctly; include care instructions."],
+  ["10 \u00B7 IMPROVE","Record what changed; update the process."]
+];
+function fillStrip(id, data){
+  var host = $(id); if(!host) return;
+  data.forEach(function(s){
+    host.insertAdjacentHTML("beforeend", "<div class='step7'><b>" + s[0] + "</b><span>" + s[1] + "</span></div>");
+  });
+}
+fillStrip("steps7", STEPS7);
+fillStrip("flowStrip", FLOW);
+
+/* ================= CH5 / CH7 / CH9 checklists ================= */
+makeChecklist("artList", [
+  "Confirm final physical size and orientation",
+  "Convert or embed fonts; keep an editable master",
+  "Remove duplicate lines and hidden objects",
+  "Check minimum feature size on a scrap test",
+  "Use true black / grayscale / assigned colors consistently",
+  "Inspect traced logos at high zoom \u2014 auto-trace distorts small letters",
+  "Photos: crop tight, fix exposure, test the dithering mode",
+  "Save a production copy with the order number and revision"
+], "art", "artBar", "artLabel");
+
+makeChecklist("qcList", [
+  "Correct item, size, quantity, and personalization",
+  "Engraving or cut complete, centered as promised, no stray marks",
+  "Edges are safe and appropriate for handling",
+  "Smoke, dust, residue, masking, and fingerprints removed",
+  "Finish fully cured and suitable for the stated use",
+  "Hardware, ribbon, backing, or attachment secure",
+  "Packaging protects against rubbing, moisture, bending, and impact"
+], "qc", "qcBar", "qcLabel");
+
+makeChecklist("photoList", [
+  "Hero image \u2014 the finished product fills the frame",
+  "Scale image \u2014 in a hand or beside a familiar object",
+  "Detail image \u2014 engraving, finish, edge, texture",
+  "Choice image \u2014 fonts, sizes, layouts, placement options",
+  "Use or packaging image \u2014 where it belongs, how it arrives"
+], "photos", null, null);
+/* ================= CH6: products + scorecard ================= */
+var PRODS = [
+  {n:"Slate coaster set", why:"Strong gift appeal and high perceived value. Start with bold monograms, coordinates, or a simple logo.", watch:"Uneven slate, tiny script, excessive detail, weak set consistency.", offer:"A coordinated set of four with two or three approved layouts."},
+  {n:"Wood keychain / bag tag", why:"Low blank cost, easy personalization, strong group-order potential.", watch:"Weak grain near holes, sharp edges, fragile shapes, spelling errors.", offer:"One shape, two fonts, and a clear character limit."},
+  {n:"Seasonal ornament", why:"A built-in buying occasion and emotional personalization.", watch:"Designs that vanish at viewing distance, thin connectors, rushed holiday turnaround.", offer:"Three themes with the same size, material, ribbon, and packaging."},
+  {n:"Cutting / serving board", why:"Premium appearance for weddings, closings, and housewarmings.", watch:"Unknown coatings, glue gaps, warping, unsafe finishing claims, engraving the active cutting area.", offer:"A small corner or handle-area engraving with care instructions."},
+  {n:"Faux-leather patch", why:"Repeat logo orders for hats, bags, clubs, and small businesses.", watch:"Unverified \u201Cvinyl,\u201D wrong heat settings, corner peeling, low-resolution logos.", offer:"Two sizes, one-color logo prep, and a tested attachment method."}
+];
+(function(){
+  var host = $("prodCards");
+  PRODS.forEach(function(p, i){
+    var d = document.createElement("div");
+    d.className = "xcard";
+    d.innerHTML = "<button><span style='color:var(--gold); font-family:ui-monospace,Menlo,monospace; font-size:12px;'>" + (i+1) + "</span><span>" + p.n + "</span><span class='chev'>\u203A</span></button>" +
+      "<div class='body'><p><span class='k'>Why it works:</span> " + p.why + "</p><p><span class='k'>Watch for:</span> " + p.watch + "</p><p><span class='k'>Offer:</span> " + p.offer + "</p></div>";
+    d.querySelector("button").addEventListener("click", function(){ d.classList.toggle("open"); });
+    host.appendChild(d);
+  });
+})();
+var SCOREQ = [
+  "Can I verify the material?",
+  "Can I make it consistently?",
+  "Can I photograph it clearly?",
+  "Can I replace a mistake without losing the whole order?",
+  "Can I explain the buyer and occasion in one sentence?",
+  "Does the price cover labor, waste, packaging, fees, and profit?"
+];
+(function(){
+  var host = $("scoreList"), out = $("scoreVerdict");
+  var ans = SCOREQ.map(function(){ return null; });
+  SCOREQ.forEach(function(q, i){
+    var row = document.createElement("div");
+    row.style.cssText = "display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px dashed rgba(212,169,60,.14);";
+    row.innerHTML = "<span style='flex:1; font-size:14px;'>" + q + "</span>" +
+      "<button class='chip' data-v='1'>Yes</button><button class='chip' data-v='0'>No</button>";
+    row.querySelectorAll(".chip").forEach(function(b){
+      b.addEventListener("click", function(){
+        row.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+        b.classList.add("on"); ans[i] = +b.dataset.v; verdict();
+      });
+    });
+    host.appendChild(row);
+  });
+  function verdict(){
+    if(ans.some(function(a){ return a === null; })){ out.innerHTML = ""; return; }
+    var yes = ans.reduce(function(a,b){ return a+b; }, 0);
+    if(yes === 6) out.innerHTML = "<div class='verdict v-go stamp'>\u2713 &nbsp;6 of 6 \u2014 green light. Make one golden sample.</div>";
+    else if(yes >= 4) out.innerHTML = "<div class='verdict v-verify stamp'>\u26A0 &nbsp;" + yes + " of 6 \u2014 fix the \u201CNo\u201D answers before taking orders.</div>";
+    else out.innerHTML = "<div class='verdict v-no stamp'>\u2715 &nbsp;" + yes + " of 6 \u2014 not this product, not yet. Pick something more forgiving.</div>";
+  }
+})();
+
+/* ================= CH8: pricing calculator ================= */
+var PR_FIELDS = [
+  {id:"blank", l:"Blank material + components ($)", v:0, money:true},
+  {id:"mask", l:"Masking / finish / adhesive ($)", v:0, money:true},
+  {id:"pack", l:"Packaging ($)", v:0, money:true},
+  {id:"lmin", l:"Hands-on labor (minutes)", v:0},
+  {id:"dmin", l:"Design + proofing (minutes)", v:0},
+  {id:"rate", l:"Your hourly pay goal ($/hr)", v:20, money:true},
+  {id:"waste", l:"Waste + remake allowance ($)", v:0, money:true},
+  {id:"over", l:"Overhead allocation ($)", v:0, money:true},
+  {id:"ship", l:"Shipping you pay ($)", v:0, money:true},
+  {id:"fee", l:"Platform + payment fees (% of price)", v:8},
+  {id:"profit", l:"Desired profit ($)", v:0, money:true}
+];
+(function(){
+  var host = $("prRows");
+  PR_FIELDS.forEach(function(f){
+    var row = document.createElement("div");
+    row.className = "pr-row";
+    row.innerHTML = "<label for='pr_" + f.id + "'>" + f.l + "</label><input id='pr_" + f.id + "' type='number' inputmode='decimal' min='0' step='0.25' value='" + f.v + "'>";
+    host.appendChild(row);
+    row.querySelector("input").addEventListener("input", calcPrice);
+  });
+  calcPrice();
+})();
+function prVal(id){ var n = parseFloat($("pr_" + id).value); return isFinite(n) && n >= 0 ? n : 0; }
+function calcPrice(){
+  var labor = (prVal("lmin") + prVal("dmin")) / 60 * prVal("rate");
+  var mats = prVal("blank") + prVal("mask") + prVal("pack");
+  var wo = prVal("waste") + prVal("over");
+  var ship = prVal("ship");
+  var profit = prVal("profit");
+  var feePct = Math.min(prVal("fee"), 40) / 100;
+  var nonFee = mats + labor + wo + ship;
+  var price = (nonFee + profit) / (1 - feePct);
+  var fees = price * feePct;
+  var cost = nonFee + fees;
+  $("prCost").textContent = "$" + cost.toFixed(2);
+  $("prPrice").textContent = "$" + price.toFixed(2);
+  var bar = $("prBar");
+  if(price <= 0){ bar.innerHTML = ""; return; }
+  function seg(v, col){ return "<i style='width:" + (100*v/price) + "%; background:" + col + ";'></i>"; }
+  bar.innerHTML = seg(mats,"#C89A63") + seg(labor,"#D4A93C") + seg(wo,"#AEA488") + seg(fees + ship,"#E45B4A") + seg(profit,"#57B682");
+}
+function loadCoasterExample(){
+  var ex = {blank:4, mask:0.75, pack:1.25, lmin:25, dmin:0, rate:24, waste:1.5, over:1.5, ship:0, fee:8.3, profit:8.5};
+  Object.keys(ex).forEach(function(k){ $("pr_" + k).value = ex[k]; });
+  calcPrice(); toast("Book example loaded \u2014 four coasters, ~$30");
+}
+
+/* ================= CH9 + CH10 builders ================= */
+function wireBuilder(ids, outId, make){
+  ids.forEach(function(id){ $(id).addEventListener("input", function(){ $(outId).textContent = make(); }); });
+}
+function titleText(){
+  var p = [$("tb1").value.trim(), $("tb2").value.trim()].filter(Boolean);
+  var t = "Personalized " + (p[0] || "[Item]");
+  if(p[1]) t += " - " + p[1];
+  var m = $("tb3").value.trim(); if(m) t += " - " + m;
+  var per = $("tb4").value.trim(); if(per) t += " " + per;
+  return t;
+}
+wireBuilder(["tb1","tb2","tb3","tb4"], "tbOut", titleText);
+function copyTitle(){ copyText(titleText(), "Title copied"); }
+function outreachText(){
+  var pr = $("om1").value.trim() || "[product]";
+  var by = $("om2").value.trim() || "[buyer or occasion]";
+  var inc = $("om3").value.trim() || "[details]";
+  var px = $("om4").value.trim() || "[$]";
+  return "I make personalized laser-engraved " + pr + " for " + by + ". I created this sample to show the finish and size. A set includes " + inc + " and starts at " + px + ". May I send you two layout choices?";
+}
+wireBuilder(["om1","om2","om3","om4"], "omOut", outreachText);
+function copyOutreach(){ copyText(outreachText(), "Message copied"); }
+function copyProof(){ copyText($("proofText").textContent.replace(/^"|"$/g, ""), "Proof language copied"); }
+
+var CUST = [
+  {g:"Real-estate agents", a:"Closing-gift coaster sets, key tags, or serving boards."},
+  {g:"Local businesses", a:"Logo patches, counter signs, QR-code displays, branded gifts."},
+  {g:"Teams and clubs", a:"Name tags, keychains, awards, ornaments, or patches."},
+  {g:"Wedding buyers", a:"Place markers, ornaments, boards, gifts, or table details."},
+  {g:"Pet owners", a:"Memorial ornaments, tags, and portraits \u2014 after careful testing."},
+  {g:"Teachers and schools", a:"Desk signs, ornaments, awards, classroom identifiers."},
+  {g:"Local hobby groups", a:"Club logos, event pieces, display plaques, batch gifts."}
+];
+(function(){
+  var chips = $("custChips"), out = $("custDetail"), cur = -1;
+  CUST.forEach(function(c, i){
+    var b = document.createElement("button");
+    b.className = "chip"; b.textContent = c.g;
+    b.addEventListener("click", function(){
+      chips.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+      if(cur === i){ cur = -1; out.style.display = "none"; return; }
+      cur = i; b.classList.add("on"); out.style.display = "block";
+      out.innerHTML = "<b style='color:var(--gold2)'>" + c.g + ":</b> " + c.a;
+    });
+    chips.appendChild(b);
+  });
+})();
+
+/* ================= CH11: troubleshooting ================= */
+var TS = [
+  {s:"Engraving too light", c:"Focus, dirty optics, faster speed, lower power, coating change, material batch.", t:"Re-focus, clean as directed, rerun a narrow grid on the same scrap."},
+  {s:"Engraving too dark / charred", c:"Too much energy, poor airflow, dirty surface, excessive line density.", t:"Increase speed or reduce power; test lower density; compare air assist."},
+  {s:"Cut does not separate", c:"Focus, thickness, warped material, insufficient energy, dirty optics.", t:"Flatten the material, verify thickness, test slower speed or an added pass within manufacturer limits."},
+  {s:"Heavy underside burn", c:"Debris, poor support, too much energy, airflow reflection, dirty bed.", t:"Clean the bed, use an approved support method, reduce energy or change passes."},
+  {s:"Double or fuzzy lines", c:"Loose mechanics, movement, wrong focus, duplicate paths.", t:"Check artwork for duplicates, inspect belts and rails per the manual, re-focus."},
+  {s:"Photo looks muddy", c:"Poor source image, too much detail, wrong dithering, excessive density.", t:"Simplify and crop the image; test multiple dithering and line-interval options."},
+  {s:"Inconsistent across the bed", c:"Bed not level, material not flat, optics or alignment issue, airflow variation.", t:"Run the same test at multiple positions; follow the manufacturer's calibration steps."},
+  {s:"Unexpected odor or residue", c:"Unknown coating or material, weak exhaust, contamination.", t:"STOP. Do not continue until composition and ventilation are verified."}
+];
+(function(){
+  var host = $("tsList"), out = $("tsDetail"), cur = -1;
+  TS.forEach(function(row, i){
+    var b = document.createElement("button");
+    b.className = "ts-item"; b.textContent = row.s;
+    b.addEventListener("click", function(){
+      host.querySelectorAll(".ts-item").forEach(function(x){ x.classList.remove("on"); });
+      if(cur === i){ cur = -1; out.innerHTML = ""; return; }
+      cur = i; b.classList.add("on");
+      var danger = i === 7;
+      out.innerHTML = (danger ? "<div class='verdict v-no stamp'>\u2715 &nbsp;STOP FIRST</div>" : "") +
+        "<div class='outbox'><p style='margin-top:0'><b style='color:var(--gold2)'>Likely checks:</b> " + row.c + "</p>" +
+        "<p style='margin-bottom:0'><b style='color:var(--gold2)'>Next controlled test:</b> " + row.t + "</p></div>" +
+        "<p style='font-size:12.5px; color:var(--dim); font-style:italic;'>Change one variable at a time and compare against your last successful record.</p>";
+    });
+    host.appendChild(b);
+  });
+})();
+
+/* ================= CH12: 30-day plan ================= */
+var PLAN = [
+  {t:"Days 1\u20137 \u00B7 Build the foundation", items:["Read the manual and safety sections","Verify workspace, exhaust, extinguisher, cleaning routine","Choose one product and one customer group","Order or select verified material and packaging","Create a material record and run test grids"]},
+  {t:"Days 8\u201314 \u00B7 Make the offer real", items:["Create two or three simple designs","Make one golden sample","Time the complete workflow, message to package","Calculate full cost and set a starting price","Write care instructions and personalization limits"]},
+  {t:"Days 15\u201321 \u00B7 Create the listing", items:["Photograph the sample in five useful ways","Write a clear title and description","Create a proof and approval process","Post the offer in one or two channels","Ask three target buyers what is unclear"]},
+  {t:"Days 22\u201330 \u00B7 Sell and improve", items:["Respond promptly; keep personalization in writing","Accept only orders you can produce safely and consistently","Use the pre-flight checklist before pressing Start","Photograph the finished order; request an honest review","Record what took longer or confused the buyer; revise"]}
+];
+(function(){
+  var host = $("planWeeks"), total = 0;
+  PLAN.forEach(function(w){ total += w.items.length; });
+  function refresh(){
+    var n = 0;
+    PLAN.forEach(function(w, wi){ n += (state.checks["plan" + wi] || []).length; });
+    var pct = Math.round(100*n/total);
+    $("planPct").textContent = pct + "%";
+    $("planBar").style.width = pct + "%";
+  }
+  PLAN.forEach(function(w, wi){
+    var p = document.createElement("div");
+    p.className = "panel";
+    p.innerHTML = "<div class='smallcaps'>" + w.t + "</div><div id='planL" + wi + "'></div>";
+    host.appendChild(p);
+    makeChecklist("planL" + wi, w.items, "plan" + wi, null, null, refresh);
+  });
+  refresh();
+})();
+
+/* ================= QUIZ ================= */
+var QUIZ = [
+  {q:"You find a great setting online written as \u201Cspeed 100.\u201D What must you confirm before using it?", o:["Which brand of laser posted it","The speed unit \u2014 mm/s vs mm/min","That the file is a vector"], a:1, w:"A value in mm/s is sixty times faster than the same number in mm/min. Confusing them can ruin a job or create a fire hazard."},
+  {q:"Why is PVC (\u201Cvinyl\u201D) never a casual laser material?", o:["It cuts too slowly to be profitable","It dulls the lens over time","It releases corrosive, hazardous gases and can damage the machine"], a:2, w:"Manufacturers warn against processing PVC or vinyl. Many faux leathers, mats, decals, and sheet goods contain it \u2014 verify composition in writing."},
+  {q:"Your machine and a friend's machine are both \u201C40 watts.\u201D Can you copy their settings?", o:["Yes \u2014 same wattage, same result","Only if the material matches","No \u2014 use them as a starting range and run your own test grid"], a:2, w:"Wattage is not a universal score. Wavelength, spot size, focus, lens, motion system, air assist, and material batch all differ between machines."},
+  {q:"A 40-minute job is running smoothly. Is it okay to go make lunch?", o:["Yes, if the enclosure is closed","Yes, after the first 10 minutes look good","No \u2014 stay present and able to stop every job"], a:2, w:"A job can flare without warning. Never \u201Ccheck back later\u201D on a running laser."},
+  {q:"A box fan pointed at the machine keeps the room from smelling smoky. Is ventilation handled?", o:["Yes \u2014 no smell means no exposure","No \u2014 smoke must be captured at the source and exhausted or filtered as approved","Yes, if a window is open"], a:1, w:"A room fan just moves smoke around. Odor reduction is not proof that exposure has been controlled."},
+  {q:"Results changed since last week. How many variables should you change per troubleshooting test?", o:["One","Two \u2014 speed and power together","As many as needed to fix it fast"], a:0, w:"Change several at once and you may fix the problem without ever knowing why. One variable, record it, compare."},
+  {q:"Where do you test settings for a customer's personalized order?", o:["On the customer's blank, carefully","On matching scrap from the same batch","On any spare wood in the shop"], a:1, w:"Test on matching scrap or a spare blank. Irreplaceable items need an agreed risk policy before anything fires."},
+  {q:"Is a higher DPI / tighter line interval always better for photo engraving?", o:["Yes \u2014 more lines, more detail","No \u2014 more lines can add heat and time without improving the image"], a:1, w:"Excess density muddies photos and cooks the material. Test dithering modes and intervals on scrap."},
+  {q:"A buyer asks if your cutting board is \u201Cfood safe.\u201D When can you say yes?", o:["When the wood looks clean and smooth","When other sellers say the same thing","Only when the exact materials, finish, and supplier documentation support the claim"], a:2, w:"Never claim food-safe, dishwasher-safe, weatherproof, or child-safe without evidence. Describe what you know; give accurate care guidance."},
+  {q:"What is the correct role of a manufacturer's settings chart?", o:["The production setting for that material","A starting range \u2014 your verified test result is the production setting","A guarantee if your wattage matches"], a:1, w:"Copy the process, not the number. Verify the material, test on scrap, inspect, record the winner, repeat."}
+];
+(function(){
+  var panel = $("quizPanel"), qi = 0, score = 0, locked = false;
+  function start(){
+    qi = 0; score = 0; renderQ();
+  }
+  function renderQ(){
+    locked = false;
+    var q = QUIZ[qi];
+    var html = "<div class='qz-meta'><span>QUESTION " + (qi+1) + " / " + QUIZ.length + "</span><span>SCORE " + score + "</span></div>" +
+      "<div class='qz-q'>" + q.q + "</div>";
+    q.o.forEach(function(opt, i){
+      html += "<button class='qz-opt' data-i='" + i + "'>" + opt + "</button>";
+    });
+    html += "<div id='qzWhy'></div>";
+    panel.innerHTML = html;
+    panel.querySelectorAll(".qz-opt").forEach(function(b){
+      b.addEventListener("click", function(){ answer(+b.dataset.i, b); });
+    });
+  }
+  function answer(i, btn){
+    if(locked) return; locked = true;
+    var q = QUIZ[qi];
+    var right = i === q.a;
+    if(right) score++;
+    panel.querySelectorAll(".qz-opt").forEach(function(b, bi){
+      if(bi === q.a) b.classList.add("correct");
+      else if(bi === i) b.classList.add("wrong");
+    });
+    $("qzWhy").innerHTML = "<div class='qz-why'><b style='color:" + (right ? "#8CD6AF" : "#F09A8E") + "'>" + (right ? "Correct. " : "Not quite. ") + "</b>" + q.w + "</div>" +
+      "<button class='btn gold' style='width:100%; margin-top:12px;' id='qzNext'>" + (qi < QUIZ.length-1 ? "Next question" : "See my score") + "</button>";
+    $("qzNext").addEventListener("click", function(){
+      qi++;
+      if(qi < QUIZ.length) renderQ(); else finish();
+    });
+  }
+  function finish(){
+    var best = Math.max(score, state.quizBest || 0);
+    state.quizBest = best; save();
+    var grade, cls;
+    if(score >= 9){ grade = "Gold standard. You read the book like you meant it."; cls = "v-go"; }
+    else if(score >= 7){ grade = "Solid. Re-skim the chapters behind the ones you missed."; cls = "v-verify"; }
+    else { grade = "Reread Chapters 1\u20134 before your next real job \u2014 the safety and testing chapters carry the whole system."; cls = "v-no"; }
+    panel.innerHTML = "<div class='qz-score'><div class='n'>" + score + "/" + QUIZ.length + "</div>" +
+      "<div class='verdict " + cls + " stamp' style='justify-content:center;'>" + grade + "</div>" +
+      "<p style='font-size:13px; color:var(--dim);'>Best so far: " + best + "/" + QUIZ.length + "</p>" +
+      "<button class='btn gold' style='width:100%;' id='qzRetake'>Retake the quiz</button></div>";
+    $("qzRetake").addEventListener("click", start);
+  }
+  start();
+})();
+
+/* scenarios */
+var SCEN = [
+  {t:"The thrift-store board", b:"A customer hands you a glossy cutting board from a thrift store and asks for a family name on it. What do you do?",
+   o:[{x:"Run one quick low-power test in a corner", g:false, f:"\u201CTrying a corner\u201D on an unknown coating is exactly how hazardous fumes and ruined machines happen."},
+      {x:"Decline until the exact wood, glue, and finish are verified", g:true, f:"Unknown means no. Offer a verified blank from your own stock instead \u2014 most customers say yes."},
+      {x:"Engrave it \u2014 wood is wood", g:false, f:"The coating, glue, and finish are all unknown. \u201CIt looks like wood\u201D is not identification."}]},
+  {t:"The little flame", b:"Mid-cut, a small flame appears at the kerf and keeps burning as the head moves on. What now?",
+   o:[{x:"Keep watching \u2014 it is small", g:false, f:"Sustained flame is a stop condition, not a spectator event."},
+      {x:"Stop the job immediately", g:true, f:"Stop for sustained flame, then investigate: airflow, debris, energy, material. Do not resume until the cause is found and the machine is inspected."},
+      {x:"Speed the job up to outrun it", g:false, f:"Changing settings mid-incident is guesswork with fire involved. Stop first."}]},
+  {t:"The typo in the order", b:"An order form reads \u201CJonh & Sarah, Est. 2026.\u201D You suspect it should be \u201CJohn.\u201D What do you do?",
+   o:[{x:"Fix it yourself \u2014 obviously a typo", g:false, f:"Maybe. Or maybe it is a family spelling. Guessing either way risks a remake and a bad review."},
+      {x:"Engrave exactly what was typed", g:false, f:"Engraving a suspected error without confirming turns their small mistake into your remake."},
+      {x:"Stop and get written confirmation before engraving", g:true, f:"Copy personalization from the order, and when intent is unclear, get it confirmed in writing. Ten minutes of messaging beats a ruined blank."}]},
+  {t:"The friendly settings tip", b:"A friend with the \u201Csame 40W diode\u201D texts you their coaster settings. How do you use them?",
+   o:[{x:"Run them on the customer order tonight", g:false, f:"Lens condition, focus, air assist, exhaust, and material batch all differ \u2014 even between identical models."},
+      {x:"Use them as the starting range for a test grid on scrap", g:true, f:"Exactly the book's method: trustworthy starting range, controlled test, inspect, record your own winner."}]}
+];
+(function(){
+  var host = $("scenCards");
+  SCEN.forEach(function(s){
+    var d = document.createElement("div");
+    d.className = "panel";
+    var html = "<div class='smallcaps'>" + s.t + "</div><p style='margin-top:0; font-size:14.5px;'>" + s.b + "</p>";
+    s.o.forEach(function(o, i){ html += "<button class='qz-opt' data-i='" + i + "'>" + o.x + "</button>"; });
+    html += "<div class='scfb'></div>";
+    d.innerHTML = html;
+    var done = false;
+    d.querySelectorAll(".qz-opt").forEach(function(b){
+      b.addEventListener("click", function(){
+        if(done) return; done = true;
+        var o = s.o[+b.dataset.i];
+        d.querySelectorAll(".qz-opt").forEach(function(x, xi){
+          if(s.o[xi].g) x.classList.add("correct");
+          else if(x === b) x.classList.add("wrong");
+        });
+        d.querySelector(".scfb").innerHTML = "<div class='qz-why'><b style='color:" + (o.g ? "#8CD6AF" : "#F09A8E") + "'>" + (o.g ? "Right call. " : "Risky call. ") + "</b>" + o.f + "</div>";
+      });
+    });
+    host.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
