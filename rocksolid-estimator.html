@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Solid — ballpark it</title>
+<style>
+  :root{ --deep:#08222e; --panel:#0e2f3f; --panel2:#123a4d; --clear:#4ec6d9; --clear2:#7fdcea;
+    --clay:#c07a44; --clay2:#e0a066; --green:#4fbf7a; --foam:#eaf6f8; --mute:#9db8c2; --line:#1c4a5e; }
+  *{box-sizing:border-box; margin:0;}
+  body{background:var(--deep); color:var(--foam); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased; padding-bottom:40px;}
+  .wrap{max-width:620px; margin:0 auto; padding:0 18px;}
+  header{text-align:center; padding:50px 18px 8px;}
+  header .eyebrow{display:inline-block; border:1px solid var(--line); color:var(--clear2); border-radius:999px;
+    padding:6px 16px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(8,34,46,.5);}
+  header h1{font-family:Georgia,serif; font-weight:700; font-size:clamp(30px,7.5vw,44px); margin-top:16px;}
+  header .sub{color:var(--mute); margin-top:12px; font-size:15px; max-width:460px; margin-left:auto; margin-right:auto;}
+  .samplebanner{margin:18px auto 0; max-width:460px; background:rgba(192,122,68,.14); border:1px solid var(--clay);
+    color:var(--clay2); border-radius:12px; padding:10px 16px; font-size:12.5px; font-weight:700; text-align:center;}
+
+  .step{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 18px; margin-top:16px;
+    position:relative; overflow:hidden;}
+  .step::before{content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,#8a5a30,#c07a44 30%,#134a5e 65%,#4ec6d9);}
+  .step .lab{font-size:11px; letter-spacing:.2em; font-weight:800; color:var(--clay2); text-transform:uppercase;}
+  .step h2{font-family:Georgia,serif; font-weight:700; font-size:19px; margin-top:6px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .chip{background:#0b2836; border:1px solid var(--line); color:var(--foam); border-radius:999px;
+    padding:11px 16px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; min-height:44px;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;}
+  .chip[aria-pressed="true"]{background:var(--clear); color:#062029; border-color:var(--clear);}
+  .hide{display:none !important;}
+
+  /* result */
+  .result{margin-top:16px; background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--clear);
+    border-radius:16px; padding:22px 20px; display:none;}
+  .result.show{display:block;}
+  .result .lab{font-size:11px; letter-spacing:.18em; font-weight:800; color:var(--clear); text-transform:uppercase;}
+  .result h3{font-family:Georgia,serif; font-size:22px; margin-top:8px;}
+  .range-nums{display:flex; align-items:baseline; gap:10px; margin-top:14px;}
+  .range-nums .lo,.range-nums .hi{font-size:clamp(28px,7vw,38px); font-weight:800; font-family:Georgia,serif;}
+  .range-nums .lo{color:var(--clear2);} .range-nums .hi{color:var(--clay2);}
+  .range-nums .dash{color:var(--mute); font-size:22px;}
+  .bar{height:14px; border-radius:999px; background:#0b2836; border:1px solid var(--line); margin-top:14px; overflow:hidden;}
+  .bar span{display:block; height:100%; width:0%;
+    background:linear-gradient(90deg,#2f9bb4,#7fdcea 55%,#e0a066); transition:width .8s cubic-bezier(.3,.7,.3,1);}
+  .drivers{margin-top:16px;}
+  .drv{display:flex; gap:9px; align-items:flex-start; padding:7px 0; font-size:14px; color:var(--mute);}
+  .drv b{color:var(--foam); font-weight:700;}
+  .drv .dot{flex:0 0 auto; width:7px; height:7px; border-radius:50%; margin-top:7px;}
+  .drv.up .dot{background:var(--clay2);} .drv.down .dot{background:var(--green);}
+  .quotenote{margin-top:14px; font-size:13px; color:var(--mute); border-top:1px solid #16404f; padding-top:14px;}
+  .act{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;}
+  .btn{display:inline-block; font-weight:800; font-size:15px; padding:14px 22px; border-radius:10px;
+    text-decoration:none; border:none; cursor:pointer; font-family:inherit;}
+  .btn-primary{background:var(--clear); color:#062029;}
+  .btn-ghost{background:transparent; color:var(--foam); border:1px solid var(--line);}
+  .fine{text-align:center; color:#5b7f8c; font-size:12px; padding:28px 18px 8px; max-width:480px; margin:0 auto;}
+  .vbadge{position:fixed; left:10px; bottom:10px; z-index:50; background:rgba(8,34,46,.85); border:1px solid var(--line);
+    color:var(--mute); font-size:11px; padding:5px 9px; border-radius:8px; cursor:pointer;}
+  .toast{position:fixed; left:50%; bottom:52px; transform:translateX(-50%); background:var(--clear); color:#062029;
+    font-weight:800; font-size:13px; padding:9px 16px; border-radius:10px; z-index:60; opacity:0; transition:opacity .25s ease; pointer-events:none;}
+  .toast.show{opacity:1;}
+  @media (prefers-reduced-motion: reduce){ *{transition-duration:.001s !important;} }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Rock Solid Services · Ashland, Ohio</span>
+  <h1>Ballpark it</h1>
+  <div class="sub">Three taps, an honest range. The real quote comes after Paul sees the setup — this just makes sure there's no sticker shock.</div>
+  <div class="samplebanner">Sample numbers for the demo — Paul's real ranges go in before launch</div>
+</header>
+
+<div class="wrap">
+  <div class="step">
+    <div class="lab">Step 1</div>
+    <h2>What's the job?</h2>
+    <div class="chips" id="c-jobs"></div>
+  </div>
+  <div class="step hide" id="stepA">
+    <div class="lab">Step 2</div>
+    <h2 id="qa-h"></h2>
+    <div class="chips" id="c-qa"></div>
+  </div>
+  <div class="step hide" id="stepB">
+    <div class="lab">Step 3</div>
+    <h2 id="qb-h"></h2>
+    <div class="chips" id="c-qb"></div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="lab">Ballpark</div>
+    <h3 id="r-title"></h3>
+    <div class="range-nums"><span class="lo" id="r-lo"></span><span class="dash">–</span><span class="hi" id="r-hi"></span></div>
+    <div class="bar"><span id="r-bar"></span></div>
+    <div class="drivers" id="r-drivers"></div>
+    <div class="quotenote" id="r-note"></div>
+    <div class="act">
+      <a class="btn btn-primary" id="r-text" href="#">Text Paul this ballpark</a>
+      <a class="btn btn-ghost" href="tel:5672840833">Call instead</a>
+    </div>
+  </div>
+
+  <div class="fine">Every range here is a talking point, not a bill. Access, parts, and what we find when we open it up all move the number — which is why the final quote is always free and in person.</div>
+</div>
+
+<div class="vbadge" id="vbadge">estimator · v1 · Aug 18</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ================= CONFIG =================
+   Ballpark estimator — Water Pro archetype, tier-3 of the water tool.
+   All ranges are SAMPLES; Paul's real numbers replace them at launch.
+   Pattern: job -> up to two tap questions -> range + drivers + prefilled text.
+   ========================================== */
+var CONFIG = {
+  phone: "5672840833",
+  maxHi: 5000,   // bar scale ceiling
+  jobs: [
+    { id:"pump", label:"Well pump replacement",
+      qa:{ h:"How deep is the well?", opts:[
+        { label:"Shallow — under 100 ft", lo:1600, hi:2800 },
+        { label:"Average — 100 to 200 ft", lo:2100, hi:3600 },
+        { label:"Deep — 200 ft or more", lo:2800, hi:4600 },
+        { label:"No idea", lo:1600, hi:4600, note:"Depth is the biggest swing — Paul can pull the well record for your address." } ]},
+      qb:{ h:"What kind of pump?", opts:[
+        { label:"Submersible (in the well)", add:0 },
+        { label:"Jet pump (in the house)", add:-600 },
+        { label:"Not sure", add:0 } ]},
+      drivers:[
+        { dir:"up", t:"<b>Deeper wells cost more</b> — more pipe, more wire, more pull time." },
+        { dir:"up", t:"<b>Hard access</b> (tight well houses, landscaping over the cap) adds labor." },
+        { dir:"down", t:"<b>Good wiring and a healthy tank</b> keep it at the low end." } ],
+      note:"Includes the pump, pull and set, and haul-away of the old one. Wiring or tank surprises are quoted before any work happens." },
+    { id:"tank", label:"Pressure tank",
+      qa:{ h:"Tank size?", opts:[
+        { label:"Standard house tank", lo:650, hi:1200 },
+        { label:"Large / high-demand", lo:950, hi:1700 },
+        { label:"Not sure — average house", lo:650, hi:1400 } ]},
+      qb:null,
+      drivers:[
+        { dir:"up", t:"<b>Bigger tanks</b> and tight basements push the top end." },
+        { dir:"down", t:"<b>Straightforward swap</b> with good fittings lands at the bottom." } ],
+      note:"Includes the tank, fittings, and haul-away. Usually done in one visit." },
+    { id:"line", label:"Water line / trenching",
+      qa:{ h:"How long is the run, roughly?", opts:[
+        { label:"Short — under 50 ft", lo:1200, hi:2400 },
+        { label:"Medium — 50 to 150 ft", lo:2000, hi:4200 },
+        { label:"Long — 150 to 300 ft", lo:3400, hi:6800 },
+        { label:"300+ ft", lo:0, hi:0, flat:"Quoted on site", note:"Long runs get walked and quoted in person — too many variables to guess." } ]},
+      qb:{ h:"What's in the way?", opts:[
+        { label:"Open yard", mult:1 },
+        { label:"Driveway, trees, or buildings", mult:1.25 },
+        { label:"Not sure", mult:1.1 } ]},
+      drivers:[
+        { dir:"up", t:"<b>Driveways and roots</b> slow trenching and raise the top end." },
+        { dir:"down", t:"<b>Open, straight runs</b> in soft ground come in low." } ],
+      note:"Includes trenching, the line, fittings, and rough grade-back. Yard restoration beyond grading is separate." },
+    { id:"treat", label:"Water treatment",
+      qa:{ h:"What's the water doing?", opts:[
+        { label:"Orange stains / metallic taste", lo:1800, hi:3500, sys:"iron filter" },
+        { label:"Hard water / scale", lo:1500, hi:3000, sys:"softener" },
+        { label:"Rotten-egg smell", lo:2000, hi:4000, sys:"sulfur system" },
+        { label:"Cloudy / gritty", lo:400, hi:900, sys:"sediment filtration" } ]},
+      qb:null,
+      test:true,
+      drivers:[
+        { dir:"down", t:"<b>The $60 water test comes first</b> — it sizes the system so you never buy more than the water needs." },
+        { dir:"up", t:"<b>Multiple problems</b> (iron + sulfur is common out here) can stack systems." } ],
+      note:"Range is for the typical single-system fix after testing. Test fee comes off the install." }
+  ]
+};
+/* ========================================== */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function money(n){ return "$" + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+var S = { job:null, a:null, b:null };
+
+function build(){
+  var jc = "";
+  for (var i=0;i<CONFIG.jobs.length;i++){
+    jc += '<button class="chip" type="button" data-job="'+i+'" aria-pressed="false">'+esc(CONFIG.jobs[i].label)+'</button>';
+  }
+  $("c-jobs").innerHTML = jc;
+  var jchips = document.querySelectorAll('[data-job]');
+  for (var j=0;j<jchips.length;j++){
+    jchips[j].addEventListener("click", function(){
+      for (var k=0;k<jchips.length;k++) jchips[k].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      S.job = CONFIG.jobs[parseInt(this.getAttribute("data-job"),10)];
+      S.a = null; S.b = null;
+      renderQ("A", S.job.qa);
+      $("stepB").classList.add("hide");
+      $("result").classList.remove("show");
+    });
+  }
+  $("vbadge").addEventListener("click", function(){
+    var t=$("toast"); t.textContent="Estimator v1 · Aug 18"; t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); },1600);
+  });
+}
+
+function renderQ(which, q){
+  var step = $("step"+which), head = $("q"+which.toLowerCase()+"-h"), box = $("c-q"+which.toLowerCase());
+  if (!q){ step.classList.add("hide"); compute(); return; }
+  step.classList.remove("hide");
+  head.textContent = q.h;
+  var c = "";
+  for (var i=0;i<q.opts.length;i++){
+    c += '<button class="chip" type="button" data-w="'+which+'" data-i="'+i+'" aria-pressed="false">'+esc(q.opts[i].label)+'</button>';
+  }
+  box.innerHTML = c;
+  var chips = box.querySelectorAll(".chip");
+  for (var k=0;k<chips.length;k++){
+    chips[k].addEventListener("click", function(){
+      for (var m=0;m<chips.length;m++) chips[m].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      var opt = q.opts[parseInt(this.getAttribute("data-i"),10)];
+      if (this.getAttribute("data-w")==="A"){ S.a = opt; S.b = null; renderQ("B", S.job.qb); }
+      else { S.b = opt; }
+      compute();
+    });
+  }
+  step.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function compute(){
+  if (!S.job || !S.a) return;
+  if (S.job.qb && !S.b) return;
+  var lo = S.a.lo, hi = S.a.hi, flat = S.a.flat || null;
+  if (S.b){
+    if (typeof S.b.add === "number"){ lo += S.b.add; hi += S.b.add; }
+    if (typeof S.b.mult === "number"){ lo *= S.b.mult; hi *= S.b.mult; }
+  }
+  lo = Math.max(lo, 0);
+
+  $("r-title").textContent = S.job.label + (S.a.sys ? " — likely a " + S.a.sys : "");
+  if (flat){
+    $("r-lo").textContent = flat; $("r-hi").textContent = ""; 
+    document.querySelector(".range-nums .dash").style.display = "none";
+    $("r-bar").style.width = "100%";
+  } else {
+    document.querySelector(".range-nums .dash").style.display = "";
+    $("r-lo").textContent = money(lo);
+    $("r-hi").textContent = money(hi);
+    $("r-bar").style.width = Math.min(100, Math.round(hi / CONFIG.maxHi * 100)) + "%";
+  }
+  var d = "";
+  for (var i=0;i<S.job.drivers.length;i++){
+    d += '<div class="drv '+S.job.drivers[i].dir+'"><span class="dot"></span><span>'+S.job.drivers[i].t+'</span></div>';  // trusted config
+  }
+  $("r-drivers").innerHTML = d;
+  var note = S.job.note + (S.a.note ? " " + S.a.note : "");
+  $("r-note").textContent = note;
+
+  var msgBits = ["Hi Paul, ballparked on your site: " + S.job.label, S.a.label];
+  if (S.b) msgBits.push(S.b.label);
+  msgBits.push(flat ? "(quoted on site)" : ("range shown " + money(lo) + "-" + money(hi)));
+  msgBits.push("My address is ");
+  $("r-text").href = "sms:" + CONFIG.phone + "?&body=" + encodeURIComponent(msgBits.join(" · "));
+
+  $("result").classList.add("show");
+  $("result").scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+build();
+</script>
+</body>
+</html>

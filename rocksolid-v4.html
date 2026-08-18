@@ -175,7 +175,18 @@
     font-weight:700; font-size:13px; padding:9px 16px; border-radius:10px; z-index:60; opacity:0; transition:opacity .25s ease; pointer-events:none;}
   .toast.show{opacity:1;}
 
-  @media (prefers-reduced-motion: reduce){
+
+  /* polish pass v7 */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+  .gcard{transition:transform .18s ease, border-color .18s ease;}
+  .gcard:hover{transform:translateY(-3px); border-color:#4ec6d9;}
+  .gcard img, .gcard .ph{transition:transform .35s ease;}
+  .gcard:hover img{transform:scale(1.04);}
+  .rcard{transition:transform .18s ease;}
+  .rcard:hover{transform:translateY(-2px);}
+
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none;}
     *{animation:none !important; transition-duration:.001s !important; scroll-behavior:auto !important;}
     .cst,.bub{opacity:0 !important;}
     .droplet{opacity:.5;} .table-water{opacity:.62;}
@@ -397,7 +408,7 @@
   <div class="fine">Design preview by Mot Buchanan. Sample copy, prices, and reviews shown are placeholders to confirm before launch.</div>
 </footer>
 
-<div class="vbadge" id="vbadge">v6 · Jul 19</div>
+<div class="vbadge" id="vbadge">v7 · Aug 18</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -507,7 +518,7 @@ var CONFIG = {
 
   facebookUrl: "https://www.facebook.com/profile.php?id=61574140871060",
   googleUrl: "https://www.google.com/search?q=RSservices",
-  version: "v6 · Jul 19"
+  version: "v7 · Aug 18"
 };
 /* ========================================== */
 
@@ -707,6 +718,19 @@ function startHeroWater(){
 }
 
 build();
+(function(){
+  var secs = document.querySelectorAll("section .wrap, section > div");
+  var seen = [];
+  for (var i=0;i<secs.length;i++){ if (seen.indexOf(secs[i])<0){ secs[i].classList.add("reveal"); seen.push(secs[i]); } }
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      for (var e=0;e<es.length;e++) if (es[e].isIntersecting){ es[e].target.classList.add("in"); io.unobserve(es[e].target); }
+    }, {threshold:.1});
+    for (var k=0;k<seen.length;k++) io.observe(seen[k]);
+  } else {
+    for (var m=0;m<seen.length;m++) seen[m].classList.add("in");
+  }
+})();
 </script>
 </body>
 </html>
