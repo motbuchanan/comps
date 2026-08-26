@@ -178,6 +178,23 @@
   .photo img{width:100%; height:100%; object-fit:cover;}
   .photo .ph-ic{width:26px; height:26px; opacity:.6; margin-bottom:6px;}
 
+
+  /* ===== deep water design system ===== */
+  .s-hero{position:relative; overflow:hidden;}
+  .seawrap{position:absolute; left:0; right:0; bottom:-1px; height:64px; pointer-events:none;}
+  .seawrap svg{position:absolute; left:0; bottom:0; width:100%; height:64px;}
+  .site.light .seawrap svg path{opacity:.10;}
+  .strata{display:block; width:100%; height:34px; margin:-1px 0;}
+  .strata path{stroke:none;}
+  .depth{display:flex; align-items:center; justify-content:center; gap:8px; margin:0 0 14px;}
+  .depth .dline{flex:1; max-width:60px; height:1px; background:var(--line);}
+  .depth .dchip{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line);
+    color:var(--warml); border-radius:999px; padding:5px 12px; font-size:.7rem; letter-spacing:.1em;
+    text-transform:uppercase; font-weight:700; white-space:nowrap;}
+  .depth .dchip svg{width:9px; height:11px;}
+  /* section beds descend in tone like depth */
+  .s-sec.d1{background:linear-gradient(180deg,var(--bg2),var(--bg));}
+
 </style>
 </head>
 <body>
@@ -221,27 +238,36 @@
       <div class="s-hero">
         <span class="s-kick">Water Well &amp; Plumbing · Ashland &amp; Wayne Counties</span>
         <h2><span class="a">A Job Done Right.</span></h2>
-        <p class="s-tag">Well pumps, water lines, treatment, plumbing, and the trenching to reach them. Quality work, honest service. Don\'t wait until it becomes a bigger problem.</p>
+        <p class="s-tag">Well pumps, water lines, treatment, plumbing, and the trenching to reach them. Quality work, honest service. Don't wait until it becomes a bigger problem.</p>
         <div class="s-ctas">
           <button class="s-btn fill" type="button">Text us</button>
           <button class="s-btn ghost" type="button">Call</button>
         </div>
         <div class="s-proof"><span><b>Licensed</b> &amp; insured</span><span>Free estimates</span><span>Financing available</span><span>Locally owned</span></div>
+        <div class="seawrap">
+          <svg viewBox="0 0 600 64" preserveAspectRatio="none" aria-hidden="true">
+            <path id="wv1" d="" fill="var(--accl)" opacity="0.16"></path>
+            <path id="wv2" d="" fill="var(--acc)" opacity="0.22"></path>
+          </svg>
+        </div>
       </div>
 
       <div class="s-sec">
+        <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece one · 10 ft</span><span class="dline"></span></div>
         <h3>What we handle</h3>
         <p class="sub" id="svc-sub">Tap services on the Questions tab and this list follows your answers.</p>
         <div class="svc-grid" id="svc-grid"></div>
       </div>
 
       <div class="s-sec" id="sec-price">
+        <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece two · 25 ft</span><span class="dline"></span></div>
         <h3>Straight answers on price</h3>
         <p class="sub" id="price-sub"></p>
         <div class="price-block" id="price-block"></div>
       </div>
 
       <div class="s-sec" id="sec-tool">
+        <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece three · 60 ft</span><span class="dline"></span></div>
         <h3>What's your water doing?</h3>
         <p class="sub">Tap what you see. Watch it trace through the system and get a plain-English idea of what's wrong before you ever call.</p>
         <div class="diag">
@@ -319,6 +345,7 @@
       </div>
 
       <div class="s-sec" id="sec-photos">
+        <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece four · 90 ft</span><span class="dline"></span></div>
         <h3>Your work, front and center</h3>
         <p class="sub">Real installs from RS Services. Your finished-job and before/after photos slot right in here.</p>
         <div class="photos">
@@ -328,6 +355,7 @@
       </div>
 
       <div class="s-sec">
+        <div class="depth"><span class="dline"></span><span class="dchip"><svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1 V8 M1.5 5.5 L5 9 L8.5 5.5"/></svg>Piece five · 120 ft</span><span class="dline"></span></div>
         <h3>Where we work</h3>
         <p class="sub">Ashland and the towns around it. Name your towns on the Questions tab and they show up here.</p>
         <div class="towns" id="towns"></div>
@@ -347,7 +375,7 @@
   </div>
 </div>
 <div class="toast" id="toast">Copied — text it to Mot</div>
-<div class="vbadge" id="vbadge">studio · v8 · Aug 26</div>
+<div class="vbadge" id="vbadge">studio · v9 · Aug 26</div>
 
 <script>
 "use strict";
@@ -860,6 +888,29 @@ function initDiagnostic(){
   }
 }
 
+
+/* ================= hero waves ================= */
+function startWaves(){
+  var w1=$("wv1"), w2=$("wv2");
+  if(!w1||!w2) return;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function path(base, amp, phase, freq){
+    var d = "M 0 " + (base + amp*Math.sin(phase)).toFixed(1);
+    for (var x=0; x<=600; x+=20){
+      d += " L " + x + " " + (base + amp*Math.sin(x*freq + phase)).toFixed(1);
+    }
+    return d + " L 600 64 L 0 64 Z";
+  }
+  function paint(s){
+    w1.setAttribute("d", path(30, 7, s*0.9, 0.013));
+    w2.setAttribute("d", path(42, 5, s*1.3 + 1.2, 0.019));
+  }
+  if (reduce){ paint(0); return; }
+  var t0=null;
+  function frame(ts){ if (t0===null) t0=ts; paint((ts-t0)/1000); requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+}
+
 /* ================= boot ================= */
 loadDraft();
 build();
@@ -867,6 +918,7 @@ buildSwatches();
 setTheme(THEME.id, THEME.hue);
 renderPreview();
 initDiagnostic();
+startWaves();
 $("tab-q").addEventListener("click", function(){ showTab("q"); });
 $("tab-p").addEventListener("click", function(){ showTab("p"); });
 $("btn-flip").addEventListener("click", function(){
@@ -874,7 +926,7 @@ $("btn-flip").addEventListener("click", function(){
 });
 $("btn-copy").addEventListener("click", doCopy);
 $("vbadge").addEventListener("click", function(){
-  var t = $("toast"); t.textContent = "studio · v8 · Aug 26";
+  var t = $("toast"); t.textContent = "studio · v9 · Aug 26";
   t.classList.add("on");
   setTimeout(function(){ t.classList.remove("on"); t.textContent = "Copied — text it to Mot"; }, 1600);
 });
