@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Solid — build your site</title>
+<style>
+  :root{
+    /* theme vars — swapped live by the theme engine */
+    --bg:#08222e; --bg2:#061a24; --panel:#0e2f3f; --panel2:#123a4d;
+    --ink:#eaf6f8; --mute:#9db8c2; --line:#1c4a5e;
+    --acc:#4ec6d9; --accd:#2f9bb4; --accl:#7fdcea;
+    --warm:#c07a44; --warml:#e0a066;
+    --onacc:#06202a; /* hardcoded dark text on bright surfaces — never flips */
+    /* app chrome (fixed, not themed) */
+    --appbg:#0b1214; --appink:#e8eef0; --appmute:#93a1a6; --appline:#233034; --apppanel:#131c1f; --appacc:#5bc98a;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; background:var(--appbg); color:var(--appink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; font-size:17px; line-height:1.5;}
+  button{font:inherit;}
+
+  /* ===== app shell ===== */
+  .shell{max-width:760px; margin:0 auto; padding-bottom:90px;}
+  .apphead{padding:18px 16px 8px;}
+  .apphead h1{margin:0; font-size:1.35rem; letter-spacing:.01em;}
+  .apphead .sub{color:var(--appmute); font-size:.92rem; margin-top:4px;}
+  .tabs{position:sticky; top:0; z-index:40; display:flex; gap:8px; padding:10px 12px;
+    background:linear-gradient(var(--appbg) 78%, rgba(11,18,20,0));}
+  .tab{flex:1; padding:13px 10px; border-radius:14px; border:1px solid var(--appline);
+    background:var(--apppanel); color:var(--appink); font-weight:700; font-size:1rem; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--appacc); border-color:var(--appacc); color:#0b1a10;}
+  .pane{display:none; padding:6px 14px 30px;}
+  .pane.on{display:block;}
+  .hint{color:var(--appmute); font-size:.9rem; margin:6px 2px 14px;}
+
+  /* ===== questionnaire ===== */
+  .qsec{background:var(--apppanel); border:1px solid var(--appline); border-radius:16px; padding:16px 14px; margin:0 0 14px;}
+  .qnum{color:var(--appacc); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;}
+  .qsec h2{margin:6px 0 4px; font-size:1.08rem; line-height:1.35;}
+  .note{color:var(--appmute); font-size:.9rem; margin:2px 0 8px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .chip{padding:11px 14px; border-radius:999px; border:1px solid var(--appline);
+    background:#0f1719; color:var(--appink); font-size:.95rem; cursor:pointer;}
+  .chip[aria-pressed="true"]{background:var(--appacc); border-color:var(--appacc); color:#0b1a10; font-weight:700;}
+  input[type="text"], textarea{width:100%; margin-top:10px; padding:12px; border-radius:12px;
+    border:1px solid var(--appline); background:#0f1719; color:var(--appink); font:inherit;}
+  textarea{min-height:110px; resize:vertical;}
+  .fine{color:var(--appmute); font-size:.85rem; margin:10px 2px 0;}
+
+  .cta-dock{position:fixed; left:0; right:0; bottom:0; z-index:50;
+    background:linear-gradient(rgba(11,18,20,0), var(--appbg) 40%); padding:14px 14px 16px;}
+  .cta-row{max-width:760px; margin:0 auto; display:flex; gap:10px;}
+  .btn{flex:1; padding:15px 12px; border-radius:14px; border:1px solid var(--appline);
+    background:var(--apppanel); color:var(--appink); font-weight:800; font-size:1rem; cursor:pointer;}
+  .btn-primary{background:var(--appacc); border-color:var(--appacc); color:#0b1a10;}
+  .toast{position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:96px; z-index:60;
+    background:#e8eef0; color:#10181a; font-weight:700; padding:12px 18px; border-radius:12px;
+    opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;}
+  .toast.on{opacity:1; transform:translateX(-50%) translateY(0);}
+  .vbadge{position:fixed; left:10px; bottom:8px; z-index:55; font-size:.72rem; color:var(--appmute);
+    background:rgba(19,28,31,.85); border:1px solid var(--appline); border-radius:8px; padding:3px 8px; cursor:pointer;}
+
+  /* ===== theme bar (See It tab) ===== */
+  .themebar{background:var(--apppanel); border:1px solid var(--appline); border-radius:16px; padding:14px; margin:4px 0 16px;}
+  .themebar h3{margin:0 0 4px; font-size:1rem;}
+  .sw-row{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+  .sw{flex:1; min-width:130px; border-radius:12px; border:2px solid var(--appline); padding:10px;
+    cursor:pointer; text-align:left; color:var(--appink); background:#0f1719;}
+  .sw[aria-pressed="true"]{border-color:var(--appacc);}
+  .sw .dots{display:flex; gap:5px; margin-bottom:6px;}
+  .sw .dot{width:18px; height:18px; border-radius:50%; border:1px solid rgba(255,255,255,.25);}
+  .sw .nm{font-weight:700; font-size:.9rem;}
+  .sw .ds{color:var(--appmute); font-size:.78rem;}
+  .sliderwrap{margin-top:14px;}
+  .sliderwrap label{font-size:.88rem; color:var(--appmute);}
+  input[type="range"]{width:100%; margin-top:8px; accent-color:var(--appacc);}
+
+  /* ===== the live sample site ===== */
+  .site{border-radius:18px; overflow:hidden; border:1px solid var(--appline);
+    background:var(--bg); color:var(--ink); box-shadow:0 10px 40px rgba(0,0,0,.45);}
+  .site.light{ --bg:#f4f6f2; --bg2:#e9ede6; --panel:#ffffff; --panel2:#f0f3ee;
+    --ink:#17211b; --mute:#5c6a61; --line:#d5ddd4;}
+  .s-nav{display:flex; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid var(--line); background:var(--bg2);}
+  .s-logo{width:48px; height:48px; flex:0 0 auto; object-fit:contain;}
+  .s-name{font-weight:800; letter-spacing:.01em;}
+  .s-name small{display:block; font-weight:400; color:var(--mute); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;}
+  .s-hero{padding:34px 18px 26px; text-align:center;
+    background:linear-gradient(180deg, var(--bg2), var(--bg));}
+  .s-kick{display:inline-block; border:1px solid var(--line); color:var(--acc); border-radius:999px;
+    padding:6px 14px; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;}
+  .s-hero h2{font-size:1.9rem; line-height:1.15; margin:16px 0 10px;}
+  .s-hero h2 .a{color:var(--acc);}
+  .s-tag{color:var(--mute); font-size:1rem; max-width:34ch; margin:0 auto;}
+  .s-ctas{display:flex; gap:10px; justify-content:center; margin:18px 0 8px;}
+  .s-btn{padding:13px 22px; border-radius:12px; font-weight:800; border:1px solid var(--acc); cursor:pointer;}
+  .s-btn.fill{background:var(--acc); color:var(--onacc);}
+  .s-btn.ghost{background:transparent; color:var(--acc);}
+  .s-proof{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; color:var(--mute); font-size:.85rem; margin-top:10px;}
+  .s-proof b{color:var(--acc); font-weight:700;}
+  .s-sec{padding:24px 16px; border-top:1px solid var(--line);}
+  .s-sec h3{margin:0 0 4px; font-size:1.15rem;}
+  .s-sec .sub{color:var(--mute); font-size:.9rem; margin:0 0 14px;}
+  .svc-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .svc{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; font-size:.92rem; font-weight:600;}
+  .svc small{display:block; color:var(--mute); font-weight:400; font-size:.78rem; margin-top:3px;}
+  .price-block{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:6px;}
+  .price-row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed var(--line); font-size:.95rem;}
+  .price-row:last-child{border-bottom:none;}
+  .price-row b{color:var(--acc);}
+  .towns{display:flex; flex-wrap:wrap; gap:8px;}
+  .town{border:1px solid var(--line); color:var(--mute); border-radius:999px; padding:7px 13px; font-size:.85rem;}
+  .town.hub{background:var(--acc); color:var(--onacc); border-color:var(--acc); font-weight:700;}
+  .tool-tease{background:var(--panel); border:1px solid var(--acc); border-radius:14px; padding:14px; margin-top:6px;}
+  .tool-tease .tt{color:var(--acc); font-weight:800; font-size:.8rem; letter-spacing:.1em; text-transform:uppercase;}
+  .tool-chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .tchip{border:1px solid var(--line); background:var(--bg2); color:var(--ink); border-radius:999px; padding:9px 13px; font-size:.88rem;}
+  .s-foot{padding:20px 16px 26px; border-top:1px solid var(--line); text-align:center; color:var(--mute); font-size:.85rem; background:var(--bg2);}
+  .s-foot b{color:var(--ink);}
+  .previewnote{color:var(--appmute); font-size:.85rem; margin:12px 2px 0;}
+  @media (min-width:560px){ .svc-grid{grid-template-columns:1fr 1fr 1fr;} .s-hero h2{font-size:2.3rem;} }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="apphead">
+    <h1>Rock Solid Services — build your site</h1>
+    <div class="sub">Answer on the first tab. Watch it take shape on the second. Nothing is sent anywhere until you hit copy and text it to Mot.</div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-q" role="tab" aria-selected="true">1 · Questions</button>
+    <button class="tab" id="tab-p" role="tab" aria-selected="false">2 · See it live</button>
+  </div>
+
+  <!-- ============ TAB 1: QUESTIONNAIRE ============ -->
+  <div class="pane on" id="pane-q">
+    <div class="hint">Tap what fits. Skip anything. Your picks show up on the live sample as you go.</div>
+    <div id="c-form"></div>
+    <div class="fine">Answers save on this phone only until you copy and send them.</div>
+  </div>
+
+  <!-- ============ TAB 2: LIVE PREVIEW ============ -->
+  <div class="pane" id="pane-p">
+    <div class="themebar">
+      <h3>Pick a look</h3>
+      <div class="note">Your greens work great here — think the ground we dig through. Tap a palette, or drag the slider to tune it yourself.</div>
+      <div class="sw-row" id="sw-row"></div>
+      <div class="sliderwrap">
+        <label for="hue">Fine-tune the accent color</label>
+        <input type="range" id="hue" min="0" max="359" value="190" aria-label="Accent hue">
+      </div>
+    </div>
+
+    <!-- the sample site -->
+    <div class="site" id="site">
+      <div class="s-nav">
+        <img class="s-logo" src="rsservices-mark.png" alt="RS Services logo">
+        <div class="s-name">RS Services<small>Rock Solid Professional Services</small></div>
+      </div>
+
+      <div class="s-hero">
+        <span class="s-kick">Water Well &amp; Plumbing · Ashland &amp; Wayne Counties</span>
+        <h2><span class="a">A Job Done Right.</span></h2>
+        <p class="s-tag">Well pumps, water lines, treatment, plumbing, and the trenching to reach them. Quality work, honest service. Don\'t wait until it becomes a bigger problem.</p>
+        <div class="s-ctas">
+          <button class="s-btn fill" type="button">Text us</button>
+          <button class="s-btn ghost" type="button">Call</button>
+        </div>
+        <div class="s-proof"><span><b>Licensed</b> &amp; insured</span><span>Free estimates</span><span>Financing available</span><span>Locally owned</span></div>
+      </div>
+
+      <div class="s-sec">
+        <h3>What we handle</h3>
+        <p class="sub" id="svc-sub">Tap services on the Questions tab and this list follows your answers.</p>
+        <div class="svc-grid" id="svc-grid"></div>
+      </div>
+
+      <div class="s-sec" id="sec-price">
+        <h3>Straight answers on price</h3>
+        <p class="sub" id="price-sub"></p>
+        <div class="price-block" id="price-block"></div>
+      </div>
+
+      <div class="s-sec" id="sec-tool">
+        <div class="tool-tease">
+          <div class="tt">Tap-a-symptom</div>
+          <div style="font-weight:800; margin-top:4px;">What's your water doing?</div>
+          <div class="tool-chips">
+            <span class="tchip">No water at all</span><span class="tchip">Sputtering faucets</span>
+            <span class="tchip">Smells like eggs</span><span class="tchip">Low pressure</span>
+            <span class="tchip">Orange stains</span>
+          </div>
+          <div class="sub" style="margin-top:10px;">Tap what you see, get a plain-English idea of what's wrong before you ever call.</div>
+        </div>
+      </div>
+
+      <div class="s-sec">
+        <h3>Where we work</h3>
+        <p class="sub">Ashland and the towns around it. Name your towns on the Questions tab and they show up here.</p>
+        <div class="towns" id="towns"></div>
+      </div>
+
+      <div class="s-foot"><b>Rock Solid Services</b> · Ashland, Ohio<br>Licensed &amp; insured · Call or text anytime</div>
+    </div>
+
+    <div class="previewnote">This is a working sample, not the final site. Your real logo, your photos, and your words replace all of it. The full build also gets the service-area map, reviews, and the water diagnostic tool.</div>
+  </div>
+</div>
+
+<div class="cta-dock">
+  <div class="cta-row">
+    <button class="btn" id="btn-flip" type="button">See it live</button>
+    <button class="btn btn-primary" id="btn-copy" type="button">Copy my answers</button>
+  </div>
+</div>
+<div class="toast" id="toast">Copied — text it to Mot</div>
+<div class="vbadge" id="vbadge">studio · v6 · Aug 26</div>
+
+<script>
+"use strict";
+/* ================= QUESTIONS (Kestrel framework v2 + call updates) ================= */
+var Q = [
+  { sec:"1 · Basics", h:"Best way to reach you?", id:"contact", type:"single",
+    opts:["Text","Call","Either works"] },
+  { sec:"1 · Basics", h:"Best time?", id:"time", type:"single",
+    opts:["Evenings","Weekends","Anytime, I'll answer when I can"] },
+  { sec:"1 · Basics", h:"Business name, exactly how it should appear everywhere", id:"bizname", type:"text",
+    ph:"Rock Solid Services" },
+
+  { sec:"2 · What you already have", h:"Tap everything that exists today", id:"have", type:"multi",
+    note:"So I build around what you've got instead of over it.",
+    opts:["A logo I want to keep","Job photos","The Facebook page","Google listing claimed by me","A business email","A customer list somewhere","None of these"],
+    extra:true, extraPh:"Anything else you've already got? Type it here" },
+
+  { sec:"3 · Services", h:"What do you actually offer?", id:"services", type:"multi",
+    note:"Watch the What We Handle section on the See It tab follow your taps.",
+    opts:["Water well lines","Well pumps","Pressure tanks","Water hydrants","Water treatment","Plumbing","Trenching"],
+    extra:true, extraPh:"Offer something not listed? Type it here — it shows up on the sample too" },
+  { sec:"3 · Services", h:"Anything you refuse to do, or words customers use that I should use too?", id:"svcnotes", type:"text",
+    ph:"e.g. no sewer work · everyone says \u201cwater softener guy\u201d" },
+
+  { sec:"4 · Pricing", h:"How much price do you want on the site?", id:"pricing", type:"single",
+    note:"Flip to the See It tab after you tap one — the price section changes to match.",
+    opts:["Real prices, up front","\u201cStarting at\u201d ranges","Quote-only, no numbers","Not sure — show me both ways"] },
+  { sec:"4 · Pricing", h:"Any flat fees worth publishing?", id:"fees", type:"text",
+    ph:"e.g. service call $75, water test $60" },
+
+  { sec:"4 · Pricing", h:"How do customers pay you?", id:"payments", type:"multi",
+    opts:["Cash","Check","Card","Financing on big jobs","Not sure yet"],
+    extra:true, extraPh:"Other payment method? Type it here" },
+
+  { sec:"5 · License & guarantee", h:"Your license — exactly as it should read", id:"license", type:"text",
+    note:"So the site can say “licensed” truthfully. Type your license type/number, or note if you'd rather leave numbers off.",
+    ph:"e.g. OH plumbing lic. #12345 — or: licensed, don't publish the number" },
+  { sec:"5 · License & guarantee", h:"Do you stand behind the work a certain way?", id:"warranty", type:"single",
+    note:"Your guarantee in your words beats a line I make up.",
+    opts:["Yes — I'll describe it (next box)","Standard workmanship guarantee is fine","No formal warranty","Not sure — advise me"] },
+  { sec:"5 · License & guarantee", h:"If you've got a guarantee, say it your way", id:"warrantynote", type:"text",
+    ph:"e.g. we don't leave until it flows; 1-year on pump installs" },
+
+  { sec:"6 · Service area", h:"How far will you go for a job?", id:"range", type:"single",
+    opts:["Ashland & Wayne Counties","+ 1-hour radius","~30 minutes out","Wherever the job pays"] },
+  { sec:"6 · Service area", h:"Towns worth name-dropping on the site", id:"towns", type:"text",
+    note:"Separate with commas and watch them appear on the sample.",
+    ph:"Loudonville, Perrysville, Jeromesville, Savannah, Polk" },
+
+  { sec:"7 · Emergency & hours", h:"Do you take emergency / after-hours calls?", id:"emergency", type:"single",
+    note:"No water is an emergency for a homeowner — if you answer these, we can make it a real selling point.",
+    opts:["Yes, 24/7","Yes, but reasonable hours","Case by case","No — scheduled work only"] },
+  { sec:"7 · Emergency & hours", h:"Normal working hours to list", id:"hours", type:"text",
+    ph:"e.g. Mon–Fri 7–5, weekends by appointment" },
+  { sec:"7 · Emergency & hours", h:"How fast can you honestly get to a job? (only promise what you can keep)", id:"response", type:"single",
+    opts:["Same day when possible","Within 24–48 hours","A few days out is normal","Depends — don't put a promise on the site"] },
+
+  { sec:"8 · The look", h:"Your green is the star — how dark a backdrop?", id:"colorlane", type:"single",
+    note:"Your logo green on charcoal is the default. Try each on the See It tab. Blue is here too since your water-treatment flyer used it.",
+    opts:["Green on charcoal","Green on near-black","Green on a bright site","The water blue look"] },
+  { sec:"8 · The look", h:"Name the exact colors if you know them", id:"colornames", type:"text",
+    ph:"e.g. hunter green and black, like the business card" },
+  { sec:"8 · The look", h:"Any company whose website you like the look of?", id:"sitelike", type:"text",
+    ph:"Paste a link or just a name" },
+
+  { sec:"8 · The look", h:"Want a “what to expect” section? (calms a nervous first-time caller)", id:"howitworks", type:"single",
+    opts:["Yes, walk them through it","Keep it simple, skip it"] },
+
+  { sec:"9 · Logo", h:"Your logo", id:"logo", type:"single",
+    note:"You sent the current one — good. This is about whether it stays exactly as-is.",
+    opts:["Use it exactly as it is","Clean it up but keep it recognizable","Open to a fresh one","Show me options either way"] },
+
+  { sec:"10 · The water tool", h:"The tap-a-symptom diagnostic", id:"tool", type:"single",
+    note:"There's a taste of it on the See It tab.",
+    opts:["Love it — build the full one","The simple text-shortcut version","Skip for now"] },
+  { sec:"10 · The water tool", h:"A ballpark price estimator later?", id:"estimator", type:"single",
+    opts:["Yes","Maybe down the road","No"] },
+
+  { sec:"11 · Facebook", h:"How much do you want to post?", id:"social", type:"single",
+    opts:["Give me templates, I'll post if it's 2 minutes","Set it up, I'll rarely touch it","I actually like posting"] },
+  { sec:"11 · Facebook", h:"The seasonal pack — a year of posts queued by season?", id:"seasonal", type:"single",
+    opts:["Yes","No"] },
+
+  { sec:"12 · Google & reviews", h:"Your Google Business listing", id:"gbp", type:"single",
+    opts:["I claimed it","It exists but I never claimed it","No idea, honestly"] },
+  { sec:"12 · Google & reviews", h:"Printed review cards to hand out after jobs?", id:"revcards", type:"single",
+    opts:["Yes","No"] },
+  { sec:"12 · Google & reviews", h:"Where do your happy customers live right now?", id:"revwhere", type:"text",
+    ph:"e.g. Facebook comments, texts, word of mouth" },
+
+  { sec:"13 · Business email", h:"Right now it's rsservices20@gmail.com — want a real one at your domain?", id:"email", type:"single",
+    note:"You own rocksolidservice.com, so info@ or paul@ that domain looks sharper on cards and the site.",
+    opts:["Yes — set up a domain email, forward to my Gmail","Full inbox at the domain","Keep the Gmail for now","Not sure — advise me"] },
+
+  { sec:"14 · Back office", h:"Tap what would actually help", id:"office", type:"multi",
+    opts:["Branded quote & invoice templates","Job & money tracker sheet","Missed-call auto-text","Service reminder list","Skip all of it"],
+    extra:true, extraPh:"Something else that would help? Type it here" },
+
+  { sec:"15 · Truck & gear", h:"What do you want files for?", id:"gear", type:"multi",
+    note:"I design print-ready; you order from any print shop whenever.",
+    opts:["Truck door magnets","Yard signs","Business cards","Shirts","Hats","Fridge magnets","Letterhead & envelopes","None yet"],
+    extra:true, extraPh:"Want files for something else? Type it here" },
+
+  { sec:"16 · Photos", h:"Job photos", id:"photos", type:"single",
+    opts:["I have some already","I'll start snapping","Give me a shot list — I don't know what to shoot"] },
+  { sec:"16 · Photos", h:"Before/after shots as a gallery? (that softener install would sell)", id:"gallery", type:"single",
+    opts:["Yes, I'll shoot before & after","Only after / finished work","No gallery"] },
+
+  { sec:"17 · The open one", h:"Anything else? Must-haves, things you hate, questions for me", id:"open", type:"textarea",
+    ph:"Say anything\u2026" }
+];
+var MOT_PHONE = "3304755301";
+
+/* ================= THEMES ================= */
+var THEMES = [
+  { id:"rs", nm:"RS Green", ds:"His logo green on charcoal", hue:80, light:false,
+    v:{ bg:"#20232a", bg2:"#191b21", panel:"#2a2e37", panel2:"#31353f", ink:"#f0f2ee", mute:"#a3a99e",
+        line:"#3a3f49", acc:"#8db600", accd:"#6f9000", accl:"#a8d21f", warm:"#c9cdbf", warml:"#e2e6d8", onacc:"#141610" },
+    dots:["#8db600","#20232a","#f0f2ee"] },
+  { id:"night", nm:"RS Night", ds:"Green on near-black, punchy", hue:80, light:false,
+    v:{ bg:"#111318", bg2:"#0b0d11", panel:"#191c22", panel2:"#20242c", ink:"#eef1ea", mute:"#98a08f",
+        line:"#2a2f38", acc:"#9ACD32", accd:"#7aa621", accl:"#b6e04b", warm:"#aab0a0", warml:"#c7cdbc", onacc:"#0f1208" },
+    dots:["#9ACD32","#111318","#eef1ea"] },
+  { id:"clean", nm:"Clean & Green", ds:"Green on bright, airy", hue:80, light:true,
+    v:{ bg:"#f5f6f1", bg2:"#eaece3", panel:"#ffffff", panel2:"#f1f3ea", ink:"#1b1e17", mute:"#5b6151",
+        line:"#d7dacb", acc:"#6f9000", accd:"#557000", accl:"#8db600", warm:"#7d8470", warml:"#9aa189", onacc:"#f6ffe8" },
+    dots:["#6f9000","#f5f6f1","#1b1e17"] },
+  { id:"aqua", nm:"Water Blue", ds:"His flyer blue, secondary look", hue:205, light:false,
+    v:{ bg:"#0b1a2b", bg2:"#081320", panel:"#122a42", panel2:"#173650", ink:"#eaf2fa", mute:"#93aec6",
+        line:"#1e405e", acc:"#2f8fd6", accd:"#2270ad", accl:"#5cb0ea", warm:"#e0a83a", warml:"#f0c268", onacc:"#04121f" },
+    dots:["#2f8fd6","#0b1a2b","#e0a83a"] }
+];
+
+/* ================= helpers / state ================= */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+var STATE = {};
+var THEME = { id:"rs", hue:80 };
+var LSKEY = "rocksolid-studio-v1";
+
+function saveDraft(){
+  try{ localStorage.setItem(LSKEY, JSON.stringify({s:STATE, t:THEME})); }catch(e){}
+}
+function loadDraft(){
+  try{
+    var raw = localStorage.getItem(LSKEY);
+    if(!raw) return;
+    var d = JSON.parse(raw);
+    if(d && d.s) STATE = d.s;
+    if(d && d.t && d.t.id) THEME = d.t;
+  }catch(e){}
+}
+
+/* ================= questionnaire build ================= */
+function build(){
+  var html = "";
+  for (var i=0;i<Q.length;i++){
+    var q = Q[i];
+    html += '<div class="qsec">';
+    html += '<div class="qnum">'+esc(q.sec)+'</div>';
+    html += '<h2>'+esc(q.h)+'</h2>';
+    if (q.note) html += '<div class="note">'+esc(q.note)+'</div>';
+    if (q.type === "single" || q.type === "multi"){
+      html += '<div class="chips">';
+      for (var o=0;o<q.opts.length;o++){
+        var v = q.opts[o];
+        var pressed = isPicked(q, v) ? "true" : "false";
+        html += '<button class="chip" type="button" data-q="'+esc(q.id)+'" data-type="'+esc(q.type)+'" data-val="'+esc(v)+'" aria-pressed="'+pressed+'">'+esc(v)+'</button>';
+      }
+      html += '</div>';
+      if (q.extra){
+        html += '<input type="text" data-q="'+esc(q.id)+'__extra" placeholder="'+esc(q.extraPh||"Anything else? Type it here")+'" value="'+esc(STATE[q.id+"__extra"]||"")+'">';
+      }
+    } else if (q.type === "text"){
+      html += '<input type="text" data-q="'+esc(q.id)+'" placeholder="'+esc(q.ph||"")+'" value="'+esc(STATE[q.id]||"")+'">';
+    } else {
+      html += '<textarea data-q="'+esc(q.id)+'" placeholder="'+esc(q.ph||"")+'">'+esc(STATE[q.id]||"")+'</textarea>';
+    }
+    html += '</div>';
+  }
+  $("c-form").innerHTML = html;
+
+  var chips = document.querySelectorAll(".chip");
+  for (var c=0;c<chips.length;c++){
+    chips[c].addEventListener("click", onChip);
+  }
+  var inputs = document.querySelectorAll('#c-form input[type="text"], #c-form textarea');
+  for (var t=0;t<inputs.length;t++){
+    inputs[t].addEventListener("input", onText);
+  }
+}
+function isPicked(q, v){
+  var cur = STATE[q.id];
+  if (q.type === "multi") return Object.prototype.toString.call(cur)==="[object Array]" && cur.indexOf(v) !== -1;
+  return cur === v;
+}
+function onChip(){
+  var qid = this.getAttribute("data-q");
+  var typ = this.getAttribute("data-type");
+  var val = this.getAttribute("data-val");
+  if (typ === "single"){
+    var group = document.querySelectorAll('.chip[data-q="'+qid+'"]');
+    for (var i=0;i<group.length;i++) group[i].setAttribute("aria-pressed","false");
+    if (STATE[qid] === val){ delete STATE[qid]; }
+    else { STATE[qid] = val; this.setAttribute("aria-pressed","true"); }
+  } else {
+    var arr = STATE[qid];
+    if (Object.prototype.toString.call(arr)!=="[object Array]") arr = [];
+    var ix = arr.indexOf(val);
+    if (ix === -1){ arr.push(val); this.setAttribute("aria-pressed","true"); }
+    else { arr.splice(ix,1); this.setAttribute("aria-pressed","false"); }
+    STATE[qid] = arr;
+  }
+  if (qid === "colorlane") themeFromLane(val);
+  saveDraft(); renderPreview();
+}
+function onText(){
+  STATE[this.getAttribute("data-q")] = this.value;
+  saveDraft(); renderPreview();
+}
+function themeFromLane(val){
+  if (STATE.colorlane !== val) return; /* was toggled off */
+  if (val.indexOf("charcoal") !== -1) setTheme("rs", null);
+  else if (val.indexOf("near-black") !== -1) setTheme("night", null);
+  else if (val.indexOf("bright") !== -1) setTheme("clean", null);
+  else if (val.indexOf("blue") !== -1) setTheme("aqua", null);
+}
+
+/* ================= theme engine ================= */
+function findTheme(id){
+  for (var i=0;i<THEMES.length;i++){ if (THEMES[i].id === id) return THEMES[i]; }
+  return THEMES[0];
+}
+function setTheme(id, hue){
+  var t = findTheme(id);
+  THEME.id = id;
+  THEME.hue = (hue == null) ? t.hue : hue;
+  var site = $("site");
+  var v = t.v, k;
+  for (k in v){
+    if (Object.prototype.hasOwnProperty.call(v,k)){
+      site.style.setProperty("--"+k, v[k]);
+    }
+  }
+  /* hue shift on accents only */
+  var d = THEME.hue - t.hue;
+  if (d !== 0){
+    site.style.setProperty("--acc",  shiftHue(v.acc,  d));
+    site.style.setProperty("--accd", shiftHue(v.accd, d));
+    site.style.setProperty("--accl", shiftHue(v.accl, d));
+  }
+  if (t.light) site.classList.add("light"); else site.classList.remove("light");
+  var sws = document.querySelectorAll(".sw");
+  for (var i=0;i<sws.length;i++){
+    sws[i].setAttribute("aria-pressed", sws[i].getAttribute("data-id")===id ? "true":"false");
+  }
+  $("hue").value = String(THEME.hue);
+  saveDraft();
+}
+function shiftHue(hex, deg){
+  var r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+  var mx = Math.max(r,g,b), mn = Math.min(r,g,b), h=0, s=0, l=(mx+mn)/2, dd = mx-mn;
+  if (dd !== 0){
+    s = l > .5 ? dd/(2-mx-mn) : dd/(mx+mn);
+    if (mx===r) h = ((g-b)/dd + (g<b?6:0));
+    else if (mx===g) h = (b-r)/dd + 2;
+    else h = (r-g)/dd + 4;
+    h *= 60;
+  }
+  h = (h + deg + 360) % 360;
+  function f(n){ var k=(n+h/30)%12; var a=s*Math.min(l,1-l);
+    var c = l - a*Math.max(-1, Math.min(k-3, Math.min(9-k, 1)));
+    return Math.round(c*255).toString(16).padStart(2,"0"); }
+  return "#"+f(0)+f(8)+f(4);
+}
+function buildSwatches(){
+  var html = "";
+  for (var i=0;i<THEMES.length;i++){
+    var t = THEMES[i];
+    html += '<button class="sw" type="button" data-id="'+esc(t.id)+'" aria-pressed="false">';
+    html += '<span class="dots">';
+    for (var d=0; d<t.dots.length; d++){ html += '<span class="dot" style="background:'+esc(t.dots[d])+'"></span>'; }
+    html += '</span><span class="nm">'+esc(t.nm)+'</span><br><span class="ds">'+esc(t.ds)+'</span></button>';
+  }
+  $("sw-row").innerHTML = html;
+  var sws = document.querySelectorAll(".sw");
+  for (var s=0;s<sws.length;s++){
+    sws[s].addEventListener("click", function(){ setTheme(this.getAttribute("data-id"), null); });
+  }
+  $("hue").addEventListener("input", function(){ setTheme(THEME.id, parseInt(this.value,10)); });
+}
+
+/* ================= live preview ================= */
+var SVC_SUB = {
+  "Water well lines":"From the well to the house",
+  "Well pumps":"Diagnosis, replacement, upgrades",
+  "Pressure tanks":"Sizing, swap-outs, switches",
+  "Water hydrants":"Frost-free, barn-ready",
+  "Water treatment":"Softeners, iron filters, city water",
+  "Plumbing":"The fixes behind the walls",
+  "Trenching":"Digging the line in"
+};
+function renderPreview(){
+  /* services */
+  var svcs = STATE.services;
+  var useAll = !(Object.prototype.toString.call(svcs)==="[object Array]" && svcs.length);
+  var list = useAll ? Object.keys(SVC_SUB) : svcs;
+  var html = "";
+  for (var i=0;i<list.length;i++){
+    var nm = list[i];
+    html += '<div class="svc">'+esc(nm)+'<small>'+esc(SVC_SUB[nm]||"")+'</small></div>';
+  }
+  var extraRaw = STATE["services__extra"] || "";
+  var eparts = extraRaw.split(",");
+  for (var e=0;e<eparts.length;e++){
+    var ew = eparts[e].replace(/^\s+|\s+$/g,"");
+    if (ew) html += '<div class="svc">'+esc(ew)+'<small>Added by you</small></div>';
+  }
+  $("svc-grid").innerHTML = html;
+  $("svc-sub").textContent = useAll ? "Tap services on the Questions tab and this list follows your answers."
+                                    : "Built from your answers — tap more on the Questions tab.";
+  /* pricing */
+  var p = STATE.pricing || "";
+  var pb = "", ps = "";
+  if (p === "Real prices, up front"){
+    ps = "Numbers on the table before anyone calls.";
+    pb = '<div class="price-row"><span>Service call</span><b>$75</b></div>'
+       + '<div class="price-row"><span>Water test</span><b>$60</b></div>'
+       + '<div class="price-row"><span>Pump replacement</span><b>from $1,450</b></div>'
+       + '<div class="sub" style="margin-top:8px;">Sample numbers — yours replace these.</div>';
+  } else if (p.indexOf("Starting at") !== -1){
+    ps = "Ranges that set expectations without boxing you in.";
+    pb = '<div class="price-row"><span>Pump work</span><b>starting at $1,450</b></div>'
+       + '<div class="price-row"><span>Treatment systems</span><b>starting at $1,200</b></div>'
+       + '<div class="sub" style="margin-top:8px;">Sample ranges — yours replace these.</div>';
+  } else if (p === "Quote-only, no numbers"){
+    ps = "No numbers on the site — a fast quote instead.";
+    pb = '<div style="font-weight:700;">Every job is different. Text a photo, get a straight answer.</div>'
+       + '<div class="sub" style="margin-top:6px;">The form compiles their photo and symptoms into one text to you.</div>';
+  } else {
+    ps = "Tap a pricing style on the Questions tab and watch this section change.";
+    pb = '<div class="sub">Real prices, ranges, or quote-only — your call shows here.</div>';
+  }
+  $("price-sub").textContent = ps;
+  $("price-block").innerHTML = pb;
+  /* tool teaser */
+  $("sec-tool").style.display = (STATE.tool === "Skip for now") ? "none" : "";
+  /* towns */
+  var raw = STATE.towns || "";
+  var towns = [];
+  var parts = raw.split(",");
+  for (var t=0;t<parts.length;t++){ var w = parts[t].replace(/^\s+|\s+$/g,""); if (w) towns.push(w); }
+  if (!towns.length) towns = ["Loudonville","Perrysville","Jeromesville","Savannah","Polk"];
+  var th = '<span class="town hub">Ashland</span>';
+  for (var x=0;x<towns.length;x++){ th += '<span class="town">'+esc(towns[x])+'</span>'; }
+  $("towns").innerHTML = th;
+}
+
+/* ================= tabs ================= */
+function showTab(which){
+  var q = which === "q";
+  $("tab-q").setAttribute("aria-selected", q ? "true":"false");
+  $("tab-p").setAttribute("aria-selected", q ? "false":"true");
+  $("pane-q").classList.toggle("on", q);
+  $("pane-p").classList.toggle("on", !q);
+  $("btn-flip").textContent = q ? "See it live" : "Back to questions";
+  window.scrollTo(0,0);
+}
+
+/* ================= compile & copy ================= */
+function compile(){
+  var lines = ["ROCK SOLID — questionnaire answers",""];
+  for (var i=0;i<Q.length;i++){
+    var q = Q[i], v = STATE[q.id];
+    if (v == null || v === "" || (Object.prototype.toString.call(v)==="[object Array]" && !v.length)) continue;
+    var out = Object.prototype.toString.call(v)==="[object Array]" ? v.join(", ") : v;
+    lines.push(q.sec+" | "+q.h);
+    lines.push("  -> "+out);
+    var ex = STATE[q.id+"__extra"];
+    if (ex) lines.push("  -> also: "+ex);
+  }
+  for (var j=0;j<Q.length;j++){
+    var qe = Q[j], exOnly = STATE[qe.id+"__extra"];
+    var ve = STATE[qe.id];
+    var empty = (ve == null || ve === "" || (Object.prototype.toString.call(ve)==="[object Array]" && !ve.length));
+    if (empty && exOnly){ lines.push(qe.sec+" | "+qe.h); lines.push("  -> also: "+exOnly); }
+  }
+  var tn = findTheme(THEME.id);
+  lines.push("");
+  lines.push("Look picked on the live sample: "+tn.nm+(THEME.hue!==tn.hue ? " (custom accent hue "+THEME.hue+")" : ""));
+  return lines.join("\n");
+}
+function doCopy(){
+  var text = compile();
+  function done(){
+    var t = $("toast");
+    t.classList.add("on");
+    setTimeout(function(){ t.classList.remove("on"); }, 2200);
+    try{ window.location.href = "sms:"+MOT_PHONE+"?body="+encodeURIComponent(text).slice(0,1800); }catch(e){}
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text, done); });
+  } else { fallbackCopy(text, done); }
+}
+function fallbackCopy(text, done){
+  var ta = document.createElement("textarea");
+  ta.value = text; document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+  document.body.removeChild(ta);
+  done();
+}
+
+/* ================= boot ================= */
+loadDraft();
+build();
+buildSwatches();
+setTheme(THEME.id, THEME.hue);
+renderPreview();
+$("tab-q").addEventListener("click", function(){ showTab("q"); });
+$("tab-p").addEventListener("click", function(){ showTab("p"); });
+$("btn-flip").addEventListener("click", function(){
+  showTab($("pane-q").classList.contains("on") ? "p" : "q");
+});
+$("btn-copy").addEventListener("click", doCopy);
+$("vbadge").addEventListener("click", function(){
+  var t = $("toast"); t.textContent = "studio · v6 · Aug 26";
+  t.classList.add("on");
+  setTimeout(function(){ t.classList.remove("on"); t.textContent = "Copied — text it to Mot"; }, 1600);
+});
+</script>
+</body>
+</html>
