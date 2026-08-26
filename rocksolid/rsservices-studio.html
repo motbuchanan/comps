@@ -119,6 +119,65 @@
   .s-foot b{color:var(--ink);}
   .previewnote{color:var(--appmute); font-size:.85rem; margin:12px 2px 0;}
   @media (min-width:560px){ .svc-grid{grid-template-columns:1fr 1fr 1fr;} .s-hero h2{font-size:2.3rem;} }
+
+  /* ===== diagnostic tool ===== */
+  .diag{margin-top:6px;}
+  .diag .status{display:inline-flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line);
+    border-radius:999px; padding:8px 14px; font-size:.85rem; color:var(--mute); margin:2px 0 12px;}
+  .diag .status .dot{width:9px; height:9px; border-radius:50%; background:var(--acc);}
+  .diag .status.busy .dot{background:var(--accl); animation:blink .6s infinite;}
+  .diag .status.alert{color:#ffb4a0;} .diag .status.alert .dot{background:#ff6a4d;}
+  @keyframes blink{50%{opacity:.3;}}
+  .dchips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
+  .dchip2{padding:10px 13px; border-radius:999px; border:1px solid var(--line); background:var(--bg2);
+    color:var(--ink); font-size:.9rem; cursor:pointer;}
+  .dchip2[aria-pressed="true"]{background:var(--acc); border-color:var(--acc); color:var(--onacc); font-weight:700;}
+  .system{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:10px; margin-bottom:14px;}
+  .system svg{width:100%; height:auto; display:block;}
+  .part{transition:opacity .3s ease;}
+  .part .glow{opacity:0; transition:opacity .3s ease;}
+  .part.active .glow{opacity:.9;}
+  .part.active .lbl{fill:var(--accl); font-weight:700;}
+  .part.dim{opacity:.38;}
+  .pulse{transform-box:fill-box; transform-origin:center;}
+  .part.active .pulse{animation:dpulse 1.5s ease-in-out infinite;}
+  @keyframes dpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  .droplet{offset-path:path('M79 262 V168 H636'); animation:dtravel 3.4s linear infinite;}
+  @keyframes dtravel{from{offset-distance:0%;}to{offset-distance:100%;}}
+  .paused .droplet{animation-play-state:paused; opacity:.12;}
+  .trace{offset-path:path('M79 262 V168 H636'); offset-distance:0%; opacity:0;}
+  .trace.run{animation:dscan 1s ease-out;}
+  @keyframes dscan{0%{offset-distance:0%; opacity:1;}95%{opacity:1;}100%{offset-distance:100%; opacity:0;}}
+  .pumpbox{transform-box:fill-box; transform-origin:center; animation:dhum .18s ease-in-out infinite alternate;}
+  .paused .pumpbox{animation:none;}
+  @keyframes dhum{from{transform:translateY(0);}to{transform:translateY(.6px);}}
+  .table-water{animation:dshimmer 3s ease-in-out infinite;}
+  @keyframes dshimmer{0%,100%{opacity:.5;}50%{opacity:.72;}}
+  .mainpipe{stroke:#4a6470; stroke-width:8; fill:none; stroke-linecap:round;}
+  .mainwater{stroke:var(--acc); stroke-width:3.5; fill:none; stroke-linecap:round; opacity:.75; transition:stroke .4s ease;}
+  .mainwater.murky{stroke:#b3763f;}
+  .seep{opacity:0;} .seep.on{opacity:1;}
+  .seep circle{animation:dseep 2.4s ease-out infinite;}
+  @keyframes dseep{0%{r:2; opacity:.7;}100%{r:26; opacity:0;}}
+  .gneedle2{transform-box:fill-box; transform-origin:center bottom; transition:transform .8s cubic-bezier(.5,-.3,.4,1.4);}
+  .dresult{border-left:4px solid var(--acc); background:var(--panel); border-radius:0 12px 12px 0; padding:16px; margin-top:6px;}
+  .dresult .likely{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--acc); font-weight:700;}
+  .dresult h4{margin:4px 0 8px; font-size:1.05rem;}
+  .dbody{color:var(--mute); font-size:.92rem; margin-bottom:10px;}
+  .badgesrow{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;}
+  .bdg{font-size:.78rem; padding:5px 10px; border-radius:999px; font-weight:700;}
+  .bdg-u{background:#4a1a12; color:#ffb4a0;} .bdg-g{background:var(--bg2); color:var(--acc); border:1px solid var(--line);}
+  .drow{display:flex; gap:10px; padding:6px 0; font-size:.9rem;}
+  .drow .tagword{color:var(--acc); font-weight:700; min-width:56px;}
+  .placeholder-note{color:var(--mute); font-size:.9rem; padding:8px 0;}
+  /* photo section */
+  .photos{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px;}
+  .photo{aspect-ratio:4/3; border-radius:12px; border:1px dashed var(--line); background:var(--panel2);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--mute);
+    font-size:.82rem; text-align:center; padding:10px; overflow:hidden;}
+  .photo img{width:100%; height:100%; object-fit:cover;}
+  .photo .ph-ic{width:26px; height:26px; opacity:.6; margin-bottom:6px;}
+
 </style>
 </head>
 <body>
@@ -183,15 +242,88 @@
       </div>
 
       <div class="s-sec" id="sec-tool">
-        <div class="tool-tease">
-          <div class="tt">Tap-a-symptom</div>
-          <div style="font-weight:800; margin-top:4px;">What's your water doing?</div>
-          <div class="tool-chips">
-            <span class="tchip">No water at all</span><span class="tchip">Sputtering faucets</span>
-            <span class="tchip">Smells like eggs</span><span class="tchip">Low pressure</span>
-            <span class="tchip">Orange stains</span>
+        <h3>What's your water doing?</h3>
+        <p class="sub">Tap what you see. Watch it trace through the system and get a plain-English idea of what's wrong before you ever call.</p>
+        <div class="diag">
+          <div class="status" id="d-status"><span class="dot"></span><span id="d-status-text">System ready — tap a symptom</span></div>
+          <div class="dchips" id="d-chips" role="group" aria-label="Water symptoms"></div>
+          <div class="system" aria-hidden="true">
+            <svg viewBox="0 0 680 300" id="d-sysdiag">
+              <rect x="0" y="0" width="680" height="150" fill="#0c2f3f"/>
+              <rect x="0" y="150" width="680" height="150" fill="#1a2830"/>
+              <line x1="0" y1="150" x2="680" y2="150" stroke="#3a4a52" stroke-width="2"/>
+              <path class="mainpipe" d="M79 262 V168 H636"/>
+              <path class="mainwater" id="d-water-up" d="M79 262 V168 H523"/>
+              <path class="mainwater" id="d-water-down" d="M523 168 H636"/>
+              <g class="seep" id="d-seep"><circle cx="300" cy="168" r="2" fill="#7fdcea"/></g>
+              <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:0s"></circle>
+              <circle class="droplet" r="3" fill="#8fe3ef" style="animation-delay:-.8s"></circle>
+              <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:-1.6s"></circle>
+              <circle class="droplet" r="2.6" fill="#8fe3ef" style="animation-delay:-2.4s"></circle>
+              <circle class="trace" id="d-trace" r="6" fill="#eafcff"></circle>
+              <g class="part" data-part="well">
+                <rect class="glow pulse" x="46" y="90" width="66" height="192" rx="8" fill="#7fdcea" opacity="0"/>
+                <rect x="54" y="98" width="50" height="180" rx="4" fill="#2a3a44" stroke="#4a6470" stroke-width="2"/>
+                <rect x="50" y="90" width="58" height="14" rx="3" fill="#4a6470"/>
+                <rect class="table-water" x="56" y="186" width="46" height="88" fill="#2f8ba4"/>
+                <line x1="56" y1="186" x2="102" y2="186" stroke="#7fdcea" stroke-width="2"/>
+                <rect class="pumpbox" x="69" y="244" width="20" height="26" rx="3" fill="#c07a44"/>
+                <text class="lbl" x="79" y="294" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">WELL &amp; PUMP</text>
+              </g>
+              <g class="part" data-part="line">
+                <rect class="glow" x="120" y="158" width="300" height="20" rx="10" fill="#7fdcea" opacity="0"/>
+                <text class="lbl" x="270" y="200" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">SUPPLY LINE</text>
+              </g>
+              <g class="part" data-part="tank">
+                <rect class="glow pulse" x="410" y="66" width="84" height="104" rx="10" fill="#7fdcea" opacity="0"/>
+                <rect x="428" y="80" width="44" height="88" rx="12" fill="#2f7d9a" stroke="#4a6470" stroke-width="2"/>
+                <rect x="428" y="80" width="14" height="88" rx="7" fill="#4fa6c4" opacity="0.5"/>
+                <g transform="translate(484,74)">
+                  <circle cx="0" cy="0" r="15" fill="#0c2f3f" stroke="#4a6470" stroke-width="2"/>
+                  <line id="d-needle2" class="gneedle2" x1="0" y1="0" x2="0" y2="-10" stroke="#e0a066" stroke-width="2.4"/>
+                  <circle cx="0" cy="0" r="2.2" fill="#e0a066"/>
+                </g>
+                <text class="lbl" x="450" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">PRESSURE TANK</text>
+              </g>
+              <g class="part" data-part="treatment">
+                <rect class="glow pulse" x="506" y="74" width="46" height="96" rx="8" fill="#7fdcea" opacity="0"/>
+                <rect x="518" y="88" width="24" height="80" rx="10" fill="#3a5a52" stroke="#4a6470" stroke-width="2"/>
+                <ellipse cx="530" cy="88" rx="12" ry="5" fill="#4a7a6e"/>
+                <text class="lbl" x="530" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">TREATMENT</text>
+              </g>
+              <g class="part" data-part="house">
+                <rect class="glow" x="586" y="80" width="82" height="90" rx="6" fill="#7fdcea" opacity="0"/>
+                <rect x="600" y="112" width="56" height="46" fill="#24414f" stroke="#4a6470" stroke-width="2"/>
+                <path d="M596 112 L628 86 L660 112 Z" fill="#2f5b6c" stroke="#4a6470" stroke-width="2"/>
+                <rect x="620" y="128" width="16" height="30" fill="#0c2f3f"/>
+                <text class="lbl" x="628" y="186" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">HOME</text>
+              </g>
+            </svg>
           </div>
-          <div class="sub" style="margin-top:10px;">Tap what you see, get a plain-English idea of what's wrong before you ever call.</div>
+          <div class="dresult" id="d-result" aria-live="polite">
+            <div class="placeholder-note" id="d-empty">Pick a symptom above and watch it trace through the system.</div>
+            <div id="d-content" style="display:none;">
+              <div class="likely">Likely cause</div>
+              <h4 id="d-title"></h4>
+              <div class="dbody" id="d-body"></div>
+              <div class="badgesrow">
+                <span class="bdg bdg-u" id="d-urgent" style="display:none;"></span>
+                <span class="bdg bdg-g" id="d-outcome"></span>
+              </div>
+              <div class="drow" id="d-checkrow"><span class="tagword">Check</span><span id="d-check"></span></div>
+              <div class="drow" id="d-fixrow"><span class="tagword">The fix</span><span id="d-fix"></span></div>
+            </div>
+          </div>
+          <p class="sub" style="margin-top:10px;">On the real site this ends with a "Text us about this" button — the message arrives with the symptom already written in.</p>
+        </div>
+      </div>
+
+      <div class="s-sec" id="sec-photos">
+        <h3>Your work, front and center</h3>
+        <p class="sub">Real installs from RS Services. Your finished-job and before/after photos slot right in here.</p>
+        <div class="photos">
+          <div class="photo"><img src="rss-job-1.jpg" alt="RS Services well tank and softener install" loading="lazy"></div>
+          <div class="photo"><img src="rss-job-2.jpg" alt="RS Services filtration and softener system install" loading="lazy"></div>
         </div>
       </div>
 
@@ -215,7 +347,7 @@
   </div>
 </div>
 <div class="toast" id="toast">Copied — text it to Mot</div>
-<div class="vbadge" id="vbadge">studio · v6 · Aug 26</div>
+<div class="vbadge" id="vbadge">studio · v8 · Aug 26</div>
 
 <script>
 "use strict";
@@ -343,7 +475,7 @@ var THEMES = [
     v:{ bg:"#f5f6f1", bg2:"#eaece3", panel:"#ffffff", panel2:"#f1f3ea", ink:"#1b1e17", mute:"#5b6151",
         line:"#d7dacb", acc:"#6f9000", accd:"#557000", accl:"#8db600", warm:"#7d8470", warml:"#9aa189", onacc:"#f6ffe8" },
     dots:["#6f9000","#f5f6f1","#1b1e17"] },
-  { id:"aqua", nm:"Water Blue", ds:"His flyer blue, secondary look", hue:205, light:false,
+  { id:"aqua", nm:"Deep Water", ds:"The look you liked", hue:205, light:false,
     v:{ bg:"#0b1a2b", bg2:"#081320", panel:"#122a42", panel2:"#173650", ink:"#eaf2fa", mute:"#93aec6",
         line:"#1e405e", acc:"#2f8fd6", accd:"#2270ad", accl:"#5cb0ea", warm:"#e0a83a", warml:"#f0c268", onacc:"#04121f" },
     dots:["#2f8fd6","#0b1a2b","#e0a83a"] }
@@ -355,7 +487,7 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
 
 var STATE = {};
-var THEME = { id:"rs", hue:80 };
+var THEME = { id:"aqua", hue:205 };
 var LSKEY = "rocksolid-studio-v1";
 
 function saveDraft(){
@@ -631,12 +763,110 @@ function fallbackCopy(text, done){
   done();
 }
 
+
+/* ================= diagnostic tool ================= */
+var SYMPTOMS = [
+  { label:"No water at all", part:"well", flow:"stop", urgent:true, gauge:-60,
+    title:"The pump, the power, or the pressure switch",
+    body:"When everything goes dry at once, it's almost always the well pump, a tripped breaker, or the pressure switch that tells the pump when to run.",
+    check:"Look for a tripped well breaker first, then check the pressure switch contacts.",
+    fix:"Often a switch or wiring. A failed pump means pulling and replacing it \u2014 quoted after we see the setup.",
+    outcome:"Flowing again, often same day." },
+  { label:"Low or dropping pressure", part:"tank", gauge:-35,
+    title:"A waterlogged tank or a tiring pump",
+    body:"Pressure that fades is most often a pressure tank that's lost its air charge, or a pump starting to wear out.",
+    check:"Tap the tank \u2014 hollow up top, solid at the bottom is healthy. Solid all the way up means waterlogged.",
+    fix:"Recharge or replace the tank, or test the pump's output.",
+    outcome:"Steady pressure back." },
+  { label:"Air spitting from faucets", part:"well", gauge:-15,
+    title:"Air getting into the line",
+    body:"Sputtering taps usually mean air in the system \u2014 a dropping water level or a pump losing prime.",
+    check:"Worse after heavy use or in a dry stretch points to the well's water level.",
+    fix:"Find where it draws air: check valve, suction-side leak, or lowering the pump.",
+    outcome:"Running smooth again." },
+  { label:"Pump runs constantly", part:"tank", gauge:40,
+    title:"The tank or the pressure switch",
+    body:"A pump that never shuts off, or clicks on and off fast, is almost always the tank or the switch \u2014 and it's wearing your pump out.",
+    check:"Watch the gauge. Fast swings between two pressures means the tank lost its charge.",
+    fix:"Recharge or replace the tank, or swap the switch.",
+    outcome:"Quick fix that saves the pump." },
+  { label:"Rusty or staining water", part:"treatment", clean:true, gauge:20,
+    title:"Iron or hard water",
+    body:"Orange stains and metallic taste point to iron or hardness \u2014 a treatment question, not a plumbing one.",
+    check:"Note where it stains: fixtures, laundry, everywhere. That sizes the fix.",
+    fix:"Test first, then the right filter or softener \u2014 not more than the water needs.",
+    outcome:"Water runs clean." },
+  { label:"Cloudy or smelly water", part:"treatment", clean:true, gauge:20,
+    title:"Sediment, sulfur, or something to treat",
+    body:"Cloudy, gritty, or rotten-egg smell can be sediment, sulfur, or bacteria.",
+    check:"Let a glass sit. Cloudy that settles is air or sediment; a smell that stays gets tested.",
+    fix:"Test, then match treatment to what it actually shows.",
+    outcome:"Tested, treated, clear." },
+  { label:"Wet spot in the yard", part:"line", seep:true, gauge:-25,
+    title:"A possible water-line leak",
+    body:"A soft or wet patch along the run to the house can be a leaking line underground.",
+    check:"If the pump kicks on when nothing's running inside, that supports a buried leak.",
+    fix:"Locate and repair with as little digging as possible.",
+    outcome:"Found and fixed, minimal digging." },
+  { label:"Something else", part:"all",
+    title:"Tell us what you're seeing",
+    body:"If it doesn't fit a box, describe it in a text and we'll figure it out before anyone drives out.",
+    check:"", fix:"", outcome:"We'll get it sorted." }
+];
+function initDiagnostic(){
+  var chips = "";
+  for (var k=0;k<SYMPTOMS.length;k++){
+    chips += '<button class="dchip2" type="button" data-idx="'+k+'" aria-pressed="false">'+esc(SYMPTOMS[k].label)+'</button>';
+  }
+  $("d-chips").innerHTML = chips;
+  var sysdiag=$("d-sysdiag"), parts=document.querySelectorAll("#sec-tool .part"),
+      needle2=$("d-needle2"), seep=$("d-seep"), trace=$("d-trace"), waterUp=$("d-water-up"),
+      statusEl=$("d-status"), statusText=$("d-status-text"),
+      chipEls=document.querySelectorAll(".dchip2");
+  function setNeedle(sym){ var ang=(typeof sym.gauge==="number")?sym.gauge:0; needle2.style.transform="rotate("+ang+"deg)"; }
+  function runTrace(){ trace.classList.remove("run"); void trace.getBoundingClientRect(); trace.classList.add("run"); }
+  function setRow(id,val){ var el=$(id); var row=el.parentNode; if(val){ el.textContent=val; row.style.display="flex"; } else { row.style.display="none"; } }
+  for (var c=0;c<chipEls.length;c++){
+    chipEls[c].addEventListener("click", function(){
+      var idx=parseInt(this.getAttribute("data-idx"),10); var sym=SYMPTOMS[idx];
+      for (var j=0;j<chipEls.length;j++) chipEls[j].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      statusEl.className="status busy"; statusText.textContent="Tracing the system\u2026";
+      runTrace();
+      for (var p=0;p<parts.length;p++){
+        var pn=parts[p].getAttribute("data-part");
+        parts[p].classList.remove("active","dim");
+        if (sym.part==="all"){}
+        else if (pn===sym.part){ parts[p].classList.add("active"); }
+        else { parts[p].classList.add("dim"); }
+      }
+      sysdiag.classList.toggle("paused", sym.flow==="stop");
+      waterUp.classList.toggle("murky", !!sym.clean);
+      seep.classList.toggle("on", !!sym.seep);
+      setNeedle(sym);
+      var self=sym;
+      setTimeout(function(){
+        statusEl.className = self.urgent ? "status alert" : "status";
+        statusText.textContent = self.part==="all" ? "Tell us more" : "Suspect: "+self.title;
+        $("d-empty").style.display="none"; $("d-content").style.display="block";
+        $("d-title").textContent=self.title; $("d-body").textContent=self.body;
+        var u=$("d-urgent");
+        if (self.urgent){ u.style.display="inline-block"; u.textContent="Urgent \u2014 no-water calls jump the line"; }
+        else { u.style.display="none"; }
+        $("d-outcome").textContent=self.outcome||"We'll get it sorted.";
+        setRow("d-check", self.check); setRow("d-fix", self.fix);
+      }, 950);
+    });
+  }
+}
+
 /* ================= boot ================= */
 loadDraft();
 build();
 buildSwatches();
 setTheme(THEME.id, THEME.hue);
 renderPreview();
+initDiagnostic();
 $("tab-q").addEventListener("click", function(){ showTab("q"); });
 $("tab-p").addEventListener("click", function(){ showTab("p"); });
 $("btn-flip").addEventListener("click", function(){
@@ -644,7 +874,7 @@ $("btn-flip").addEventListener("click", function(){
 });
 $("btn-copy").addEventListener("click", doCopy);
 $("vbadge").addEventListener("click", function(){
-  var t = $("toast"); t.textContent = "studio · v6 · Aug 26";
+  var t = $("toast"); t.textContent = "studio · v8 · Aug 26";
   t.classList.add("on");
   setTimeout(function(){ t.classList.remove("on"); t.textContent = "Copied — text it to Mot"; }, 1600);
 });
