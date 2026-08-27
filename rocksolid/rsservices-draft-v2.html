@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="RS Services — build your site">
+<meta property="og:description" content="Paul's draft: toggle the pieces, pick the look, make it yours.">
+<meta property="og:image" content="https://motbuchanan.github.io/comps/rocksolid/rsservices-mark.png">
+<title>Water Well Pump Repair &amp; Water Treatment | RS Services LLC | Ashland &amp; Wayne County, Ohio</title>
+<meta name="description" content="RS Services LLC — licensed water well pump repair, pressure tanks, water lines &amp; trenching, water treatment, and plumbing in Ashland &amp; Wayne Counties, Ohio. Free estimates and free water tests. Call or text Paul: 567-284-0833.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Plumber","name":"RS Services LLC",
+"alternateName":"Rock Solid Professional Services","telephone":"+15672840833",
+"address":{"@type":"PostalAddress","addressLocality":"Ashland","addressRegion":"OH","addressCountry":"US"},
+"areaServed":[{"@type":"AdministrativeArea","name":"Ashland County OH"},{"@type":"AdministrativeArea","name":"Wayne County OH"}],
+"description":"Water well pump repair and replacement, pressure tanks, water well lines and trenching, water treatment systems, yard hydrants, and plumbing for Ashland and Wayne Counties, Ohio.",
+"priceRange":"Free estimates","knowsAbout":["well pump repair","pressure tanks","water treatment","water softener installation","trenching","yard hydrants","plumbing"]}
+</script>
+<style>
+  *{box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#0b0d10; color:#e8ecef;}
+  img{max-width:100%;}
+  button{font:inherit; border:none; cursor:pointer; background:none; color:inherit;}
+  .m{position:relative; overflow:hidden;}
+  .inner{max-width:620px; margin:0 auto; padding:40px 20px 48px; position:relative; z-index:3;}
+  .kick{display:inline-block; border:1px solid; border-radius:999px; padding:6px 14px;
+    font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px;}
+  .cta{display:inline-block; margin-top:20px; padding:14px 26px; border-radius:12px; font-weight:800;
+    font-size:1rem; text-decoration:none; transition:transform .12s ease; text-align:center;}
+  .cta:active{transform:scale(.95);}
+  .g6{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+  .g6 img{border-radius:10px; display:block; width:100%; aspect-ratio:1/1; object-fit:cover;}
+  h2.sect{font-size:clamp(1.5rem,6.5vw,2.2rem); font-weight:850; margin-bottom:6px;}
+  .sub{color:var(--muted); font-size:.92rem; margin-bottom:18px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ============ THEMES ============ */
+  body.t-water{--bg:#101215; --panel:rgba(22,25,29,.85); --line:#3a3f46; --muted:#a7aca2;
+    --acc:#8db600; --accl:#a8d21f; --ink:#fff; --bg2:#15181a; --onacc:#141610;}
+  body.t-rig{--bg:#101112; --panel:#1a1c1d; --line:#2a2d2e; --muted:#8d938f;
+    --acc:#8db600; --accl:#a8d21f; --ink:#fff; --bg2:#191b1c; --onacc:#141610;}
+  #site{position:relative; padding-bottom:170px;}
+  .site{background:var(--bg);}
+  body.t-water #site{background:linear-gradient(180deg,#262c2e 0%, #20252a 10%, #181d21 30%, #12151a 55%, #0b0d10 78%, #0b0d10 100%);}
+  body.t-water .under{background:transparent;}
+  .sbore{position:absolute; left:50%; width:5px; transform:translateX(-50%); z-index:1; display:none;
+    background:linear-gradient(180deg,#5a6168, #3a3f46 30%, #2a2f36);}
+  .sbore::after{content:""; position:absolute; left:-3px; right:-3px; top:0; bottom:0;
+    background:repeating-linear-gradient(180deg, transparent 0 26px, rgba(0,0,0,.28) 26px 30px);}
+  body.t-water .sbore{display:block;}
+  .sdrop{position:absolute; left:50%; transform:translateX(-50%); width:11px; height:11px; border-radius:50%;
+    background:#bfe3ef; box-shadow:0 0 14px rgba(191,227,239,.9); z-index:2; display:none;}
+  body.t-water.f-droplet .sdrop{display:block;}
+  .sdrop.drip{animation:dripcycle 2.6s ease-in infinite;}
+  @keyframes dripcycle{0%{transform:translateX(-50%) translateY(-54px); opacity:0;}
+    14%{opacity:1;}78%{transform:translateX(-50%) translateY(0); opacity:1;}
+    92%{transform:translateX(-50%) translateY(6px) scale(1.4,.5); opacity:0;}100%{opacity:0;}}
+  body.t-rig.f-steel .site{background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 2px, transparent 2px 14px);}
+  body.t-water .serif, body.t-water h1.big{font-family:Georgia,serif;}
+  body.t-rig h1.big{font-style:italic; text-transform:uppercase; font-weight:900; letter-spacing:-.01em;}
+
+  /* ============ HERO ============ */
+  .m-hero{color:#eef2ee;}
+  .scene{position:relative; height:210px; display:none;
+    background:linear-gradient(180deg,#171c22 0%, #1e242b 55%, #262c2e 100%);}
+  body.t-water .scene{display:block;}
+  .scene svg{position:absolute; left:0; bottom:-1px; width:100%; height:190px; display:block;}
+  .breeze{animation:breeze 5.5s ease-in-out infinite; transform-box:fill-box; transform-origin:bottom center;}
+  .breeze.b2{animation-delay:1.2s;} .breeze.b3{animation-delay:2.6s;} .breeze.b4{animation-delay:.6s;}
+  @keyframes breeze{0%,100%{transform:rotate(0deg);}50%{transform:rotate(3.5deg);}}
+  .canopy{animation:canopy 9s ease-in-out infinite; transform-box:fill-box; transform-origin:bottom center;}
+  .canopy.c2{animation-delay:2.4s;} .canopy.c3{animation-delay:4.8s;}
+  @keyframes canopy{0%,100%{transform:rotate(0deg);}50%{transform:rotate(1.2deg);}}
+  .winlight{animation:winlight 7s ease-in-out infinite;}
+  @keyframes winlight{0%,100%{opacity:.75;}50%{opacity:1;}}
+  .under{position:relative;
+    background:linear-gradient(180deg,#262c2e 0%, #20252a 14%, #181d21 40%, #12151a 66%, #0b0d10 100%);}
+  body.t-rig .under{background:none;}
+  .under::before{content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(120% 55% at 50% 0%, rgba(210,220,200,.09), transparent 60%);}
+  body.t-rig .under::before{display:none;}
+  .bore{position:absolute; left:50%; top:-40px; bottom:0; width:5px; transform:translateX(-50%);
+    background:linear-gradient(180deg,#5a6168, #3a3f46 40%, #2a2f36); z-index:1; display:none;}
+  .bore::after{content:""; position:absolute; left:-3px; right:-3px; top:0; bottom:0;
+    background:repeating-linear-gradient(180deg, transparent 0 26px, rgba(0,0,0,.28) 26px 30px);}
+  body.t-water .bore{display:block;}
+  .wdrop{position:absolute; left:50%; transform:translateX(-50%); width:9px; height:9px; border-radius:50%;
+    background:#bfe3ef; box-shadow:0 0 12px rgba(191,227,239,.8); z-index:2; display:none;
+    animation:dropfall 4s ease-in infinite;}
+  body.t-water.f-droplet .wdrop{display:block;}
+  @keyframes dropfall{0%{top:2%; opacity:0;}10%{opacity:1;}86%{opacity:1;}96%{top:96%; opacity:0;}100%{top:96%; opacity:0;}}
+  .rock{position:absolute; border-radius:46% 54% 50% 50%; background:rgba(0,0,0,.35);
+    box-shadow:inset 2px 2px 3px rgba(210,220,200,.06); pointer-events:none; display:none;}
+  body.t-water .rock{display:block;}
+  .hero-in{position:relative; z-index:3; text-align:center; padding:58px 22px 46px;}
+  .logo-big{width:150px; height:150px; object-fit:contain;
+    filter:drop-shadow(0 6px 22px rgba(0,0,0,.6)) drop-shadow(0 0 34px rgba(168,210,31,.22));}
+  h1.big{font-size:clamp(2.3rem,9.5vw,4.2rem); line-height:1.02; color:#fff; margin-top:14px;
+    text-shadow:0 2px 18px rgba(0,0,0,.55);}
+  h1.big .a{color:var(--accl);}
+  body.t-rig h1.big .a{text-shadow:2px 2px 0 #3a4a00; position:relative; display:inline-block; overflow:hidden;}
+  body.t-rig.f-shine h1.big .a::after{content:""; position:absolute; top:0; bottom:0; left:-40%; width:34%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.5), transparent);
+    animation:shine 3.6s ease-in-out infinite;}
+  @keyframes shine{0%,60%{left:-40%;}90%,100%{left:120%;}}
+  .m-hero .kick{color:#eef2ee; border-color:#4a4f56; background:rgba(16,18,21,.6);}
+  .m-hero .cta{background:var(--acc); color:#141610; box-shadow:0 8px 26px rgba(141,182,0,.3);}
+  .hazard{height:10px; display:none; background:repeating-linear-gradient(45deg,var(--acc) 0 16px, #101112 16px 32px);
+    background-size:45px 45px; animation:hroll 2.5s linear infinite;}
+  body.t-rig.f-hazard .hazard{display:block;}
+  @keyframes hroll{from{background-position:0 0;}to{background-position:45px 0;}}
+
+  /* ============ SERVICES ============ */
+  .m-services .drow{display:flex; align-items:center; gap:14px; background:var(--panel);
+    border:1px solid var(--line); border-radius:14px; padding:14px 16px; text-align:left; margin-bottom:12px;}
+  .m-services .ft{flex:0 0 auto; color:#14161a; font-size:.64rem; letter-spacing:.12em; text-transform:uppercase;
+    font-weight:800; border-radius:999px; padding:5px 10px; background:#c9cdbf;}
+  .m-services b{display:block; font-size:1rem; color:var(--ink);}
+  .m-services span.d{color:var(--muted); font-size:.85rem;}
+  .m-services .no{color:var(--muted); font-size:.82rem; margin-top:4px;}
+  .aqband{position:relative; height:120px; margin-top:26px; overflow:hidden; border-radius:16px; display:none;
+    background:linear-gradient(180deg, #0b0d10 0%, #0d1a1e 30%, #10343c 100%);}
+  body.t-water.f-aquifer .aqband{display:block;}
+  .aqband .wv{position:absolute; top:12px; left:0; width:200%; height:30px; fill:rgba(143,199,221,.30);
+    animation:aqw 8s linear infinite;}
+  .aqband .wv.w2{top:22px; fill:rgba(143,199,221,.18); animation-duration:12s; animation-direction:reverse;}
+  @keyframes aqw{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .aqband .lbl{position:absolute; left:0; right:0; top:58%; transform:translateY(-50%); text-align:center;
+    color:#d9f1f8; font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:.74rem;
+    text-shadow:0 0 16px rgba(143,199,221,.5);}
+  body.t-rig .m-services .drow{clip-path:polygon(0 6%, 100% 0, 100% 94%, 0 100%); border-radius:6px;}
+  body.t-rig .m-services .ft{background:var(--accl); font-style:italic;}
+
+  /* ============ MAP ============ */
+  .m-map .mapbox{width:min(320px,80vw); margin:0 auto 8px;}
+  .m-map svg{width:100%; height:auto; display:block;}
+  .m-map .pin{animation:pinp 2s ease-in-out infinite; transform-box:fill-box; transform-origin:center;}
+  @keyframes pinp{0%,100%{transform:scale(1);}50%{transform:scale(1.22);}}
+  .m-map .ring1,.m-map .ring2{transform-box:fill-box; transform-origin:center; animation:rip 2.6s ease-out infinite;}
+  .m-map .ring2{animation-delay:1.3s;}
+  @keyframes rip{0%{transform:scale(.4); opacity:.9;}100%{transform:scale(2.1); opacity:0;}}
+  .m-map .towns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:14px;}
+  .m-map .town{border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:8px 14px; font-size:.85rem;}
+  .m-map .town.hub{background:var(--acc); color:#141610; border-color:var(--acc); font-weight:800;}
+  .m-map .cta{background:var(--acc); color:#141610; display:block;}
+
+  /* ============ CHECKER ============ */
+  .m-checker .symchips{display:flex; flex-wrap:wrap; gap:8px;}
+  .m-checker .sc{border:1px solid var(--line); background:rgba(0,0,0,.25); color:#cfd6cd; border-radius:999px;
+    padding:10px 14px; font-size:.9rem;}
+  .m-checker .sc.hot{background:var(--acc); color:#141610; border-color:var(--acc); font-weight:800;}
+  .m-checker .diag{margin-top:16px; background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:16px; text-align:left; min-height:88px;}
+  .m-checker .diag b{color:var(--accl);}
+  .m-checker .diag p{color:var(--muted); font-size:.92rem; margin-top:6px;}
+  .m-checker .cta{background:var(--acc); color:#141610; display:block;}
+
+  
+  /* ===== diagnostic tool ===== */
+  .diag{margin-top:6px;}
+  .diag .status{display:inline-flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line);
+    border-radius:999px; padding:8px 14px; font-size:.85rem; color:var(--mute); margin:2px 0 12px;}
+  .diag .status .dot{width:9px; height:9px; border-radius:50%; background:var(--acc);}
+  .diag .status.busy .dot{background:var(--accl); animation:blink .6s infinite;}
+  .diag .status.alert{color:#ffb4a0;} .diag .status.alert .dot{background:#ff6a4d;}
+  @keyframes blink{50%{opacity:.3;}}
+  .dchips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
+  .dchip2{padding:10px 13px; border-radius:999px; border:1px solid var(--line); background:var(--bg2);
+    color:var(--ink); font-size:.9rem; cursor:pointer;}
+  .dchip2[aria-pressed="true"]{background:var(--acc); border-color:var(--acc); color:var(--onacc); font-weight:700;}
+  .system{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:10px; margin-bottom:14px;}
+  .system svg{width:100%; height:auto; display:block;}
+  .part{transition:opacity .3s ease;}
+  .part .glow{opacity:0; transition:opacity .3s ease;}
+  .part.active .glow{opacity:.9;}
+  .part.active .lbl{fill:var(--accl); font-weight:700;}
+  .part.dim{opacity:.38;}
+  .pulse{transform-box:fill-box; transform-origin:center;}
+  .part.active .pulse{animation:dpulse 1.5s ease-in-out infinite;}
+  @keyframes dpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  .droplet{offset-path:path('M79 262 V168 H636'); animation:dtravel 3.4s linear infinite;}
+  @keyframes dtravel{from{offset-distance:0%;}to{offset-distance:100%;}}
+  .paused .droplet{animation-play-state:paused; opacity:.12;}
+  .trace{offset-path:path('M79 262 V168 H636'); offset-distance:0%; opacity:0;}
+  .trace.run{animation:dscan 1s ease-out;}
+  @keyframes dscan{0%{offset-distance:0%; opacity:1;}95%{opacity:1;}100%{offset-distance:100%; opacity:0;}}
+  .pumpbox{transform-box:fill-box; transform-origin:center; animation:dhum .18s ease-in-out infinite alternate;}
+  .paused .pumpbox{animation:none;}
+  @keyframes dhum{from{transform:translateY(0);}to{transform:translateY(.6px);}}
+  .table-water{animation:dshimmer 3s ease-in-out infinite;}
+  @keyframes dshimmer{0%,100%{opacity:.5;}50%{opacity:.72;}}
+  .mainpipe{stroke:#4a6470; stroke-width:8; fill:none; stroke-linecap:round;}
+  .mainwater{stroke:var(--acc); stroke-width:3.5; fill:none; stroke-linecap:round; opacity:.75; transition:stroke .4s ease;}
+  .mainwater.murky{stroke:#b3763f;}
+  .seep{opacity:0;} .seep.on{opacity:1;}
+  .seep circle{animation:dseep 2.4s ease-out infinite;}
+  @keyframes dseep{0%{r:2; opacity:.7;}100%{r:26; opacity:0;}}
+  .gneedle2{transform-box:fill-box; transform-origin:center bottom; transition:transform .8s cubic-bezier(.5,-.3,.4,1.4);}
+  .dresult{border-left:4px solid var(--acc); background:var(--panel); border-radius:0 12px 12px 0; padding:16px; margin-top:6px;}
+  .dresult .likely{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--acc); font-weight:700;}
+  .dresult h4{margin:4px 0 8px; font-size:1.05rem;}
+  .dbody{color:var(--mute); font-size:.92rem; margin-bottom:10px;}
+  .badgesrow{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;}
+  .bdg{font-size:.78rem; padding:5px 10px; border-radius:999px; font-weight:700;}
+  .bdg-u{background:#4a1a12; color:#ffb4a0;} .bdg-g{background:var(--bg2); color:var(--acc); border:1px solid var(--line);}
+  .drow{display:flex; gap:10px; padding:6px 0; font-size:.9rem;}
+  .drow .tagword{color:var(--acc); font-weight:700; min-width:56px;}
+  .placeholder-note{color:var(--mute); font-size:.9rem; padding:8px 0;}
+  /* photo section */
+  .photos{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px;}
+
+  /* ============ JOURNEY ============ */
+  .m-journey .journey{position:relative; padding-left:26px; text-align:left;}
+  .m-journey .journey::before{content:""; position:absolute; left:8px; top:8px; bottom:8px; width:3px;
+    background:linear-gradient(0deg,#8fc7dd,var(--line));}
+  .m-journey .stop{position:relative; padding:0 0 20px 14px;}
+  .m-journey .stop::before{content:""; position:absolute; left:-24px; top:4px; width:13px; height:13px; border-radius:50%;
+    background:var(--acc); animation:jp 4s ease-in-out infinite;}
+  .m-journey .stop:nth-child(2)::before{animation-delay:1s;} .m-journey .stop:nth-child(3)::before{animation-delay:2s;}
+  .m-journey .stop:nth-child(4)::before{animation-delay:3s; background:#8fc7dd;}
+  @keyframes jp{0%,100%{box-shadow:0 0 4px rgba(141,182,0,.4);}12%{box-shadow:0 0 16px rgba(168,210,31,.95);}}
+  .m-journey b{color:var(--ink);} .m-journey span.d{color:var(--muted); font-size:.88rem;}
+
+  .m-journey .glasswrap{position:relative; width:130px; margin:0 auto 22px;}
+  .m-journey .glass{width:120px; height:160px; margin:0 auto; position:relative; overflow:hidden;
+    border:3px solid rgba(230,240,244,.75); border-top:none; border-radius:6px 6px 26px 26px;
+    background:linear-gradient(105deg, rgba(255,255,255,.06), rgba(255,255,255,0) 40%);}
+  .m-journey .glass::after{content:""; position:absolute; top:6px; bottom:10px; left:12px; width:10px; border-radius:8px;
+    background:linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.06)); z-index:4;}
+  .m-journey .rim{position:absolute; top:-5px; left:2px; right:2px; height:12px; border:3px solid rgba(230,240,244,.75);
+    border-radius:50%; z-index:5;}
+  .m-journey .gshadow{position:absolute; left:6px; right:6px; bottom:-14px; height:12px; border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(0,0,0,.5), transparent 70%);}
+  .m-journey .gwater{position:absolute; left:0; right:0; bottom:0; height:0; z-index:2;
+    background:linear-gradient(180deg, #dff2f8 0%, #b7e0ee 35%, #8fc7dd 100%); transition:height .25s ease-out;}
+  .m-journey .gwater::before{content:""; position:absolute; top:-4px; left:0; right:0; height:8px; border-radius:50%;
+    background:rgba(255,255,255,.85);}
+  .m-journey .gb{position:absolute; bottom:6px; width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.85);
+    animation:grise 2.6s ease-in infinite; z-index:3; opacity:0;}
+  .m-journey.full .gb{opacity:1;}
+  .m-journey .gb1{left:30%;} .m-journey .gb2{left:54%; animation-delay:.9s; width:4px; height:4px;}
+  .m-journey .gb3{left:72%; animation-delay:1.7s; width:3px; height:3px;}
+  @keyframes grise{0%{transform:translateY(0); opacity:0;}15%{opacity:.95;}100%{transform:translateY(-116px); opacity:0;}}
+  .m-journey .stop{opacity:.45; transition:opacity .3s ease;}
+  .m-journey .stop.lit{opacity:1;}
+  .m-journey .stop.lit::before{box-shadow:0 0 16px rgba(168,210,31,.95);}
+  .m-map .halo{opacity:0; transition:opacity .3s ease;}
+  .m-map.hr .halo{opacity:1;}
+  .m-map .mcap{margin-top:10px; min-height:24px; color:var(--accl); font-weight:700; font-size:.95rem;}
+  /* ============ PHOTOS ============ */
+  body.t-rig .m-photos .g6 img{clip-path:polygon(0 4%, 100% 0, 100% 96%, 0 100%); border-radius:6px;
+    filter:saturate(.85) contrast(1.08);}
+
+  /* ============ CONTACT ============ */
+  .m-contact{text-align:center;}
+  .m-contact .phone{display:block; margin:8px 0 4px; font-size:clamp(1.9rem,9vw,3rem); font-weight:900;
+    color:var(--accl); text-decoration:none; letter-spacing:.02em;}
+  .m-contact .meta{color:var(--muted); font-size:.86rem; line-height:1.7;}
+  .m-contact .row2{display:flex; gap:10px; margin-top:18px;}
+  .m-contact .row2 .cta{flex:1; margin-top:0;}
+  .m-contact .c1a{background:var(--acc); color:#141610;}
+  .m-contact .c2a{background:transparent; color:var(--accl); border:2px solid var(--accl);}
+  .m-contact .lic{margin-top:18px; display:inline-block; border:2px solid #9a2b1c; color:#c96a5c;
+    font-family:"Courier New",monospace; font-weight:900; font-size:.7rem; letter-spacing:.1em;
+    padding:5px 9px; border-radius:4px; transform:rotate(-2deg);}
+
+  /* ============ BUILD BAR + DRAWER ============ */
+  .bar{position:fixed; left:0; right:0; bottom:0; z-index:80; display:flex; gap:10px; align-items:center;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:rgba(10,12,14,.92);
+    backdrop-filter:blur(8px); border-top:1px solid rgba(255,255,255,.1);}
+  .bar .vb{font-size:.68rem; color:#9aa5aa;}
+  .bar .open{margin-left:auto; background:var(--accl); color:#141610; font-weight:800; border-radius:999px;
+    padding:12px 20px; box-shadow:0 6px 20px rgba(168,210,31,.35);}
+  .drawer{position:fixed; left:0; right:0; bottom:0; top:8svh; z-index:90; background:#14171a;
+    border-radius:20px 20px 0 0; border-top:1px solid rgba(255,255,255,.14);
+    transform:translateY(105%); transition:transform .28s ease; display:flex; flex-direction:column;}
+  .drawer.openD{transform:translateY(0);}
+  .dhead{display:flex; align-items:center; gap:8px; padding:14px 16px 0;}
+  .dhead .dtab{flex:1; text-align:center; padding:12px 8px; border-radius:12px 12px 0 0; font-weight:800;
+    font-size:.9rem; color:#8d938f; background:transparent;}
+  .dhead .dtab.on{color:#fff; background:#1c2024;}
+  .dhead .close{padding:10px 14px; color:#8d938f; font-size:1.3rem; line-height:1;}
+  .dbody{flex:1; overflow-y:auto; background:#1c2024; padding:18px 16px 40px;}
+  .dpane{display:none;} .dpane.on{display:block;}
+  .dsec{font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; font-weight:800; color:#8d938f;
+    margin:22px 0 10px;}
+  .dsec:first-child{margin-top:0;}
+  .themerow{display:flex; gap:10px;}
+  .thcard{flex:1; border:2px solid #2c3134; border-radius:14px; padding:14px 12px; text-align:left; color:#cfd6cd;}
+  .thcard.on{border-color:var(--accl); background:rgba(141,182,0,.08);}
+  .thcard b{display:block; margin-bottom:3px; color:#fff;}
+  .thcard span{font-size:.78rem; color:#8d938f;}
+  .chiprow{display:flex; flex-wrap:wrap; gap:8px;}
+  .fchip{border:1px solid #2c3134; border-radius:999px; padding:9px 14px; font-size:.85rem; color:#cfd6cd;}
+  .fchip.on{background:var(--acc); border-color:var(--acc); color:#141610; font-weight:800;}
+  .modrow{display:flex; align-items:center; gap:10px; background:#171a1d; border:1px solid #2c3134;
+    border-radius:14px; padding:12px 12px; margin-bottom:10px;}
+  .modrow .nm{flex:1; text-align:left;}
+  .modrow .nm b{display:block; color:#fff; font-size:.95rem;}
+  .modrow .nm span{font-size:.76rem; color:#8d938f;}
+  .modrow .mv{width:36px; height:36px; border-radius:10px; border:1px solid #2c3134; color:#cfd6cd; font-size:1rem;}
+  .modrow .mv:disabled{opacity:.25;}
+  .sw{width:46px; height:26px; border-radius:999px; background:#33383c; position:relative; flex:0 0 auto;
+    transition:background .15s ease;}
+  .sw::after{content:""; position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%;
+    background:#0f1113; transition:left .15s ease; box-shadow:0 1px 3px rgba(0,0,0,.5);}
+  .sw.on{background:var(--accl);}
+  .sw.on::after{left:23px;}
+  .sw.lock{opacity:.35; pointer-events:none;}
+  .acard{background:#171a1d; border:1px solid #2c3134; border-radius:16px; margin-bottom:18px; overflow:hidden;}
+  .acard .ah{display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid #24282c;}
+  .acard .ah b{flex:1; text-align:left; color:#fff;}
+  .acard .prev{pointer-events:none; max-height:420px; overflow:hidden; position:relative;}
+  .acard .prev::after{content:""; position:absolute; left:0; right:0; bottom:0; height:44px;
+    background:linear-gradient(180deg, transparent, #171a1d);}
+  .acard .prev .m{background:var(--bg);}
+  .copybtn{display:block; width:100%; margin-top:20px; background:var(--accl); color:#141610; font-weight:800;
+    border-radius:12px; padding:15px;}
+  .toast{position:fixed; left:50%; bottom:90px; transform:translateX(-50%) translateY(20px); z-index:99;
+    background:#eaffbf; color:#141610; font-weight:700; border-radius:999px; padding:10px 18px; font-size:.9rem;
+    opacity:0; pointer-events:none; transition:all .25s ease;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body class="t-water f-droplet f-aquifer f-hazard f-steel f-shine">
+
+<div id="site" class="site"></div>
+
+<div class="bar">
+  <span class="vb">draft · v2 · Aug 27</span>
+  <button class="open" id="openDrawer">Build your site</button>
+</div>
+
+<div class="drawer" id="drawer">
+  <div class="dhead">
+    <button class="dtab on" data-pane="build">Build</button>
+    <button class="dtab" data-pane="assets">See the pieces</button>
+    <button class="close" id="closeDrawer">&#10005;</button>
+  </div>
+  <div class="dbody">
+    <div class="dpane on" id="pane-build">
+      <div class="dsec">The look</div>
+      <div class="themerow">
+        <button class="thcard" data-theme="water"><b>Water Table</b><span>The property, top to aquifer</span></button>
+        <button class="thcard" data-theme="rig"><b>The Rig</b><span>Steel, stripes, and shine</span></button>
+      </div>
+      <div class="dsec">Extra flare</div>
+      <div class="chiprow" id="flares"></div>
+      <div class="dsec">Sections — toggle &amp; reorder</div>
+      <div id="mods"></div>
+      <button class="copybtn" id="copyPicks">Copy my picks for Mot</button>
+    </div>
+    <div class="dpane" id="pane-assets">
+      <div class="dsec">Every piece, running live. Toggle what you like.</div>
+      <div id="gallery"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+
+/* ---------------- state ---------------- */
+var MODULES=[
+ {id:"hero",    name:"Welcome",        note:"Always first",           locked:true},
+ {id:"services",name:"What we do",     note:"The seven services"},
+ {id:"map",     name:"Territory map",  note:"Scroll-stopper + CTA"},
+ {id:"checker", name:"Water checker",  note:"Tap a symptom, get an answer"},
+ {id:"journey", name:"Water's journey",note:"Aquifer to kitchen"},
+ {id:"photos",  name:"Job photos",     note:"Six real installs"},
+ {id:"contact", name:"Get a quote",    note:"Always last",            locked:true}
+];
+var FLARES={
+ water:[{id:"droplet",n:"Falling droplet"},{id:"aquifer",n:"Aquifer finale"}],
+ rig:[{id:"hazard",n:"Hazard stripes"},{id:"steel",n:"Steel texture"},{id:"shine",n:"Title shine"}]
+};
+var state={theme:"water",
+ order:["hero","services","map","checker","journey","photos","contact"],
+ on:{hero:true,services:true,map:true,checker:true,journey:true,photos:true,contact:true},
+ flares:{droplet:true,aquifer:true,hazard:true,steel:true,shine:true}};
+try{
+  var saved=localStorage.getItem("rsdraft-v1");
+  if(saved){ var p=JSON.parse(saved);
+    if(p&&p.order&&p.on&&p.flares&&p.theme){ state=p; } }
+}catch(e){}
+function save(){ try{ localStorage.setItem("rsdraft-v1", JSON.stringify(state)); }catch(e){} }
+
+/* ---------------- templates ---------------- */
+function tplHero(){
+ return '<section class="m m-hero">'
+ +'<div class="scene"><svg viewBox="0 0 400 190" preserveAspectRatio="xMidYMax slice" aria-hidden="true">'
+ +'<path d="M0 132 Q100 118 200 128 T400 126 L400 190 L0 190 Z" fill="#20262a"/>'
+ +'<path d="M0 146 Q90 134 190 142 T400 142 L400 190 L0 190 Z" fill="#262c2e"/>'
+ +'<g class="canopy"><path d="M56 138 L60 96" stroke="#161a17" stroke-width="7" stroke-linecap="round"/>'
+ +'<ellipse cx="58" cy="86" rx="30" ry="24" fill="#1e2b16"/><ellipse cx="44" cy="94" rx="17" ry="13" fill="#243318"/>'
+ +'<ellipse cx="72" cy="94" rx="15" ry="12" fill="#19240f"/><ellipse cx="52" cy="76" rx="13" ry="10" fill="#2a3b1c"/></g>'
+ +'<g class="canopy c2"><path d="M348 142 L346 106" stroke="#161a17" stroke-width="6" stroke-linecap="round"/>'
+ +'<ellipse cx="346" cy="96" rx="24" ry="19" fill="#1c2914"/><ellipse cx="334" cy="102" rx="13" ry="10" fill="#243318"/>'
+ +'<ellipse cx="356" cy="104" rx="12" ry="9" fill="#18220e"/></g>'
+ +'<g class="canopy c3"><path d="M120 140 L122 116" stroke="#161a17" stroke-width="5" stroke-linecap="round"/>'
+ +'<ellipse cx="121" cy="108" rx="16" ry="13" fill="#202e15"/><ellipse cx="113" cy="113" rx="9" ry="7" fill="#293a1b"/></g>'
+ +'<g><path d="M282 140 L282 112 L296 100 L310 112 L310 140 Z" fill="#191d1f"/>'
+ +'<path d="M279 113 L296 98 L313 113" fill="none" stroke="#232827" stroke-width="3"/>'
+ +'<rect class="winlight" x="291" y="118" width="9" height="9" rx="1" fill="#e8c56a"/></g>'
+ +'<ellipse cx="160" cy="140" rx="17" ry="8" fill="#243318"/>'
+ +'<ellipse cx="248" cy="138" rx="13" ry="7" fill="#1e2b16"/>'
+ +'<g fill="none" stroke="#8db600" stroke-width="1.7" stroke-linecap="round">'
+ +'<path class="breeze" d="M96 142 q1 -9 4 -12"/><path class="breeze b2" d="M104 141 q0 -8 -3 -11"/>'
+ +'<path class="breeze b3" d="M228 138 q1 -9 4 -11"/><path class="breeze b4" d="M236 138 q0 -8 -3 -10"/>'
+ +'<path class="breeze b2" d="M320 140 q1 -8 4 -10"/></g>'
+ +'<g fill="none" stroke="#6f9000" stroke-width="1.4" stroke-linecap="round">'
+ +'<path class="breeze b3" d="M88 143 q0 -7 -2 -9"/><path class="breeze" d="M246 139 q0 -7 2 -9"/>'
+ +'<path class="breeze b4" d="M172 143 q1 -7 3 -9"/></g>'
+ +'<g><rect x="191" y="104" width="18" height="38" rx="2" fill="#8f979e"/>'
+ +'<rect x="188" y="97" width="24" height="10" rx="3" fill="#6a7178"/>'
+ +'<rect x="193" y="106" width="4" height="32" fill="rgba(255,255,255,.18)"/>'
+ +'<rect x="191" y="142" width="18" height="6" fill="#3a3f46"/></g>'
+ +'</svg></div>'
+ +'<div class="under"><div class="bore"></div>'
+ +'<div class="rock" style="width:64px;height:44px;left:6%;top:30%;"></div>'
+ +'<div class="rock" style="width:40px;height:30px;right:8%;top:52%;"></div>'
+ +'<div class="hero-in">'
+ +'<img class="logo-big" src="rsservices-mark.png" alt="RS Services logo">'
+ +'<div style="height:6px"></div>'
+ +'<span class="kick">Water Well &amp; Plumbing &middot; Ashland &amp; Wayne Counties</span>'
+ +'<h1 class="big">A Job <span class="a">Done Right.</span></h1>'
+ +'<a class="cta" href="tel:5672840833">Get a straight quote</a>'
+ +'</div></div>'
+ +'<div class="hazard"></div>'
+ +'</section>';
+}
+function tplServices(){
+ return '<section class="m m-services"><div class="inner">'
+ +'<h2 class="sect serif">Water well, pump &amp; plumbing services</h2>'
+ +'<div class="sub">Seven services. One licensed guy. Quote first, always.</div>'
+ +'<div class="drow"><span class="ft">10 ft</span><div><b>Well pumps &amp; pressure tanks</b><span class="d">Diagnosis, replacement, upgrades</span></div></div>'
+ +'<div class="drow"><span class="ft">25 ft</span><div><b>Water well lines &amp; trenching</b><span class="d">From the well to the house, dug clean</span></div></div>'
+ +'<div class="drow"><span class="ft">Surface</span><div><b>Treatment, hydrants &amp; plumbing</b><span class="d">Softeners, iron, the fixes inside</span></div></div>'
+ +'<div class="no">Not offered right now: drain cleaning.</div>'
+ +'<div class="aqband"><svg class="wv" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 16 Q75 5 150 16 T300 16 T450 16 T600 16 T750 16 T900 16 T1050 16 T1200 16 L1200 30 L0 30 Z"/></svg>'
+ +'<svg class="wv w2" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 18 Q75 9 150 18 T300 18 T450 18 T600 18 T750 18 T900 18 T1050 18 T1200 18 L1200 30 L0 30 Z"/></svg>'
+ +'<div class="lbl">The aquifer &middot; that\'s where we work</div></div>'
+ +'</div></section>';
+}
+function tplMap(){
+ var towns=["Ashland","Wooster","Loudonville","Perrysville","Jeromesville","Savannah","Polk","+ 1 hour out"];
+ var chips="";
+ for(var i=0;i<towns.length;i++){
+   chips+='<button class="town'+(i===0?" hub":"")+'" data-town="'+towns[i]+'">'+towns[i]+'</button>';
+ }
+ return '<section class="m m-map"><div class="inner" style="text-align:center;">'
+ +'<h2 class="sect serif">Serving Ashland &amp; Wayne Counties &mdash; on this map, you\'re covered</h2>'
+ +'<div class="sub">Tap your town. The pin finds you.</div>'
+ +'<div class="mapbox"><svg viewBox="0 0 200 160" aria-hidden="true">'
+ +'<ellipse class="halo" cx="100" cy="80" rx="96" ry="76" fill="none" stroke="rgba(168,210,31,.35)" stroke-width="2" stroke-dasharray="5 6"/>'
+ +'<path d="M30 24 L96 16 L170 26 L176 84 L160 138 L84 146 L26 128 Z" fill="rgba(141,182,0,.07)"/>'
+ +'<path d="M30 24 L96 16 L170 26 L176 84 L160 138 L84 146 L26 128 Z" fill="none" stroke="#5c7a4a" stroke-width="2.4"/>'
+ +'<line x1="98" y1="16" x2="94" y2="146" stroke="#2c352c" stroke-width="1.5" stroke-dasharray="4 5"/>'
+ +'<circle class="ring1" data-mp="r1" cx="72" cy="78" r="12" fill="none" stroke="rgba(168,210,31,.5)" stroke-width="2"/>'
+ +'<circle class="ring2" data-mp="r2" cx="72" cy="78" r="12" fill="none" stroke="rgba(168,210,31,.5)" stroke-width="2"/>'
+ +'<circle class="pin" data-mp="pin" cx="72" cy="78" r="7" fill="#a8d21f"/>'
+ +'<text x="46" y="58" font-size="10" fill="#a9b5a5" font-family="system-ui">ASHLAND</text>'
+ +'<text x="112" y="58" font-size="10" fill="#a9b5a5" font-family="system-ui">WAYNE</text></svg>'
+ +'<div class="mcap" data-mp="cap">Home base: Ashland</div></div>'
+ +'<div class="towns">'+chips+'</div>'
+ +'<a class="cta" href="tel:5672840833" style="display:block; background:var(--acc); color:#141610;">On the map? Call Paul</a>'
+ +'</div></section>';
+}
+function tplChecker(){
+ return '<section class="m m-checker"><div class="inner">'
+ +'<h2 class="sect serif" style="text-align:center;">Well pump or water problems? Check your symptoms</h2>'
+ +'<div class="sub" style="text-align:center;">Tap what you see. Watch it trace the system and get a plain-English likely cause before anyone rolls a truck.</div>'
+ +'        <div class="diag">\n          <div class="status" data-d="status"><span class="dot"></span><span data-d="status-text">System ready — tap a symptom</span></div>\n          <div class="dchips" data-d="chips" role="group" aria-label="Water symptoms"></div>\n          <div class="system" aria-hidden="true">\n            <svg viewBox="0 0 680 300" data-d="sysdiag">\n              <rect x="0" y="0" width="680" height="150" fill="#0c2f3f"/>\n              <rect x="0" y="150" width="680" height="150" fill="#1a2830"/>\n              <line x1="0" y1="150" x2="680" y2="150" stroke="#3a4a52" stroke-width="2"/>\n              <path class="mainpipe" d="M79 262 V168 H636"/>\n              <path class="mainwater" data-d="water-up" d="M79 262 V168 H523"/>\n              <path class="mainwater" data-d="water-down" d="M523 168 H636"/>\n              <g class="seep" data-d="seep"><circle cx="300" cy="168" r="2" fill="#7fdcea"/></g>\n              <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:0s"></circle>\n              <circle class="droplet" r="3" fill="#8fe3ef" style="animation-delay:-.8s"></circle>\n              <circle class="droplet" r="3.4" fill="#bff0f7" style="animation-delay:-1.6s"></circle>\n              <circle class="droplet" r="2.6" fill="#8fe3ef" style="animation-delay:-2.4s"></circle>\n              <circle class="trace" data-d="trace" r="6" fill="#eafcff"></circle>\n              <g class="part" data-part="well">\n                <rect class="glow pulse" x="46" y="90" width="66" height="192" rx="8" fill="#7fdcea" opacity="0"/>\n                <rect x="54" y="98" width="50" height="180" rx="4" fill="#2a3a44" stroke="#4a6470" stroke-width="2"/>\n                <rect x="50" y="90" width="58" height="14" rx="3" fill="#4a6470"/>\n                <rect class="table-water" x="56" y="186" width="46" height="88" fill="#2f8ba4"/>\n                <line x1="56" y1="186" x2="102" y2="186" stroke="#7fdcea" stroke-width="2"/>\n                <rect class="pumpbox" x="69" y="244" width="20" height="26" rx="3" fill="#c07a44"/>\n                <text class="lbl" x="79" y="294" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">WELL &amp; PUMP</text>\n              </g>\n              <g class="part" data-part="line">\n                <rect class="glow" x="120" y="158" width="300" height="20" rx="10" fill="#7fdcea" opacity="0"/>\n                <text class="lbl" x="270" y="200" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">SUPPLY LINE</text>\n              </g>\n              <g class="part" data-part="tank">\n                <rect class="glow pulse" x="410" y="66" width="84" height="104" rx="10" fill="#7fdcea" opacity="0"/>\n                <rect x="428" y="80" width="44" height="88" rx="12" fill="#2f7d9a" stroke="#4a6470" stroke-width="2"/>\n                <rect x="428" y="80" width="14" height="88" rx="7" fill="#4fa6c4" opacity="0.5"/>\n                <g transform="translate(484,74)">\n                  <circle cx="0" cy="0" r="15" fill="#0c2f3f" stroke="#4a6470" stroke-width="2"/>\n                  <line data-d="needle2" class="gneedle2" x1="0" y1="0" x2="0" y2="-10" stroke="#e0a066" stroke-width="2.4"/>\n                  <circle cx="0" cy="0" r="2.2" fill="#e0a066"/>\n                </g>\n                <text class="lbl" x="450" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">PRESSURE TANK</text>\n              </g>\n              <g class="part" data-part="treatment">\n                <rect class="glow pulse" x="506" y="74" width="46" height="96" rx="8" fill="#7fdcea" opacity="0"/>\n                <rect x="518" y="88" width="24" height="80" rx="10" fill="#3a5a52" stroke="#4a6470" stroke-width="2"/>\n                <ellipse cx="530" cy="88" rx="12" ry="5" fill="#4a7a6e"/>\n                <text class="lbl" x="530" y="188" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">TREATMENT</text>\n              </g>\n              <g class="part" data-part="house">\n                <rect class="glow" x="586" y="80" width="82" height="90" rx="6" fill="#7fdcea" opacity="0"/>\n                <rect x="600" y="112" width="56" height="46" fill="#24414f" stroke="#4a6470" stroke-width="2"/>\n                <path d="M596 112 L628 86 L660 112 Z" fill="#2f5b6c" stroke="#4a6470" stroke-width="2"/>\n                <rect x="620" y="128" width="16" height="30" fill="#0c2f3f"/>\n                <text class="lbl" x="628" y="186" text-anchor="middle" font-size="13" fill="#9db8c2" font-family="system-ui">HOME</text>\n              </g>\n            </svg>\n          </div>\n          <div class="dresult" data-d="result" aria-live="polite">\n            <div class="placeholder-note" data-d="empty">Pick a symptom above and watch it trace through the system.</div>\n            <div data-d="content" style="display:none;">\n              <div class="likely">Likely cause</div>\n              <h4 data-d="title"></h4>\n              <div class="dbody" data-d="body"></div>\n              <div class="badgesrow">\n                <span class="bdg bdg-u" data-d="urgent" style="display:none;"></span>\n                <span class="bdg bdg-g" data-d="outcome"></span>\n              </div>\n              <div class="drow" data-d="checkrow"><span class="tagword">Check</span><span data-d="check"></span></div>\n              <div class="drow" data-d="fixrow"><span class="tagword">The fix</span><span data-d="fix"></span></div>\n            </div>\n          </div>\n\n        </div>'
+ +'<a class="cta ctxt" href="sms:5672840833" style="display:block; background:var(--acc); color:#141610;">Text Paul what you found</a>'
+ +'</div></section>';
+}
+function tplJourney(){
+ return '<section class="m m-journey"><div class="inner" style="text-align:center;">'
+ +'<div class="glasswrap"><div class="rim"></div>'
+ +'<div class="glass"><div class="gwater"></div><span class="gb gb1"></span><span class="gb gb2"></span><span class="gb gb3"></span></div>'
+ +'<div class="gshadow"></div></div>'
+ +'<h2 class="sect serif">From bad water to the first clean glass</h2>'
+ +'<div class="sub">That\'s the whole job. Scroll, and watch it fill.</div>'
+ +'<div class="journey" style="text-align:left;">'
+ +'<div class="stop"><b>The aquifer</b> <span class="d">&mdash; the well reaches it, the pump lifts it</span></div>'
+ +'<div class="stop"><b>Pump &amp; tank</b> <span class="d">&mdash; steady pressure, morning to night</span></div>'
+ +'<div class="stop"><b>Treatment</b> <span class="d">&mdash; iron out, softness in, tested not guessed</span></div>'
+ +'<div class="stop"><b>Your glass</b> <span class="d">&mdash; clear, cold, and boring, as it should be</span></div>'
+ +'</div></div></section>';
+}
+function tplPhotos(){
+ var imgs="";
+ for(var i=1;i<=6;i++){ var ALTS=["Well pressure tank and water softener installation in Ashland County Ohio",
+ "Whole-house water filtration and softener system install by RS Services",
+ "Water line trenching for a well system, Ashland Ohio",
+ "Jet pump and pressure tank replumb by RS Services LLC",
+ "Iron filter and water treatment installation, Wayne County Ohio",
+ "Twin water softener tanks installed by RS Services, Ashland OH"];
+ imgs+='<img loading="lazy" src="rss-job-'+i+'.jpg" alt="'+ALTS[i-1]+'">'; }
+ return '<section class="m m-photos"><div class="inner">'
+ +'<h2 class="sect serif">The proof</h2>'
+ +'<div class="sub">Six recent jobs. His sticker\'s on the tank for a reason.</div>'
+ +'<div class="g6">'+imgs+'</div>'
+ +'</div></section>';
+}
+function tplContact(){
+ return '<section class="m m-contact"><div class="inner">'
+ +'<h2 class="sect serif">Ready when you are</h2>'
+ +'<a class="phone" href="tel:5672840833">567-284-0833</a>'
+ +'<div class="meta">Paul James &middot; RS Services LLC<br>Free estimates &middot; Free water test &middot; Financing available<br>Cash, check, or card</div>'
+ +'<div class="row2"><a class="cta c1a" href="tel:5672840833">Call</a><a class="cta c2a" href="sms:5672840833">Text</a></div>'
+ +'<div><span class="lic">LIC 9999-PWSC-26-000375</span></div>'
+ +'</div></section>';
+}
+var TPL={hero:tplHero,services:tplServices,map:tplMap,checker:tplChecker,journey:tplJourney,photos:tplPhotos,contact:tplContact};
+
+
+/* ---------------- full diagnostic (ported from studio) ---------------- */
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+var SYMPTOMS = [
+  { label:"No water at all", part:"well", flow:"stop", urgent:true, gauge:-60,
+    title:"The pump, the power, or the pressure switch",
+    body:"When everything goes dry at once, it's almost always the well pump, a tripped breaker, or the pressure switch that tells the pump when to run.",
+    check:"Look for a tripped well breaker first, then check the pressure switch contacts.",
+    fix:"Often a switch or wiring. A failed pump means pulling and replacing it \u2014 quoted after we see the setup.",
+    outcome:"Flowing again, often same day." },
+  { label:"Low or dropping pressure", part:"tank", gauge:-35,
+    title:"A waterlogged tank or a tiring pump",
+    body:"Pressure that fades is most often a pressure tank that's lost its air charge, or a pump starting to wear out.",
+    check:"Tap the tank \u2014 hollow up top, solid at the bottom is healthy. Solid all the way up means waterlogged.",
+    fix:"Recharge or replace the tank, or test the pump's output.",
+    outcome:"Steady pressure back." },
+  { label:"Air spitting from faucets", part:"well", gauge:-15,
+    title:"Air getting into the line",
+    body:"Sputtering taps usually mean air in the system \u2014 a dropping water level or a pump losing prime.",
+    check:"Worse after heavy use or in a dry stretch points to the well's water level.",
+    fix:"Find where it draws air: check valve, suction-side leak, or lowering the pump.",
+    outcome:"Running smooth again." },
+  { label:"Pump runs constantly", part:"tank", gauge:40,
+    title:"The tank or the pressure switch",
+    body:"A pump that never shuts off, or clicks on and off fast, is almost always the tank or the switch \u2014 and it's wearing your pump out.",
+    check:"Watch the gauge. Fast swings between two pressures means the tank lost its charge.",
+    fix:"Recharge or replace the tank, or swap the switch.",
+    outcome:"Quick fix that saves the pump." },
+  { label:"Rusty or staining water", part:"treatment", clean:true, gauge:20,
+    title:"Iron or hard water",
+    body:"Orange stains and metallic taste point to iron or hardness \u2014 a treatment question, not a plumbing one.",
+    check:"Note where it stains: fixtures, laundry, everywhere. That sizes the fix.",
+    fix:"Test first, then the right filter or softener \u2014 not more than the water needs.",
+    outcome:"Water runs clean." },
+  { label:"Cloudy or smelly water", part:"treatment", clean:true, gauge:20,
+    title:"Sediment, sulfur, or something to treat",
+    body:"Cloudy, gritty, or rotten-egg smell can be sediment, sulfur, or bacteria.",
+    check:"Let a glass sit. Cloudy that settles is air or sediment; a smell that stays gets tested.",
+    fix:"Test, then match treatment to what it actually shows.",
+    outcome:"Tested, treated, clear." },
+  { label:"Wet spot in the yard", part:"line", seep:true, gauge:-25,
+    title:"A possible water-line leak",
+    body:"A soft or wet patch along the run to the house can be a leaking line underground.",
+    check:"If the pump kicks on when nothing's running inside, that supports a buried leak.",
+    fix:"Locate and repair with as little digging as possible.",
+    outcome:"Found and fixed, minimal digging." },
+  { label:"Something else", part:"all",
+    title:"Tell us what you're seeing",
+    body:"If it doesn't fit a box, describe it in a text and we'll figure it out before anyone drives out.",
+    check:"", fix:"", outcome:"We'll get it sorted." }
+];
+
+function initDiagnostic(){
+  var root=$("#site .m-checker");
+  if(!root) return;
+  function q(n){ return root.querySelector('[data-d="'+n+'"]'); }
+  var chips="";
+  for (var k=0;k<SYMPTOMS.length;k++){
+    chips += '<button class="dchip2" type="button" data-idx="'+k+'" aria-pressed="false">'+esc(SYMPTOMS[k].label)+'</button>';
+  }
+  q("chips").innerHTML = chips;
+  var sysdiag=q("sysdiag"), parts=root.querySelectorAll(".part"),
+      needle2=q("needle2"), seep=q("seep"), trace=q("trace"), waterUp=q("water-up"),
+      statusEl=q("status"), statusText=q("status-text"), smsBtn=root.querySelector(".ctxt"),
+      chipEls=root.querySelectorAll(".dchip2");
+  function setNeedle(sym){ var ang=(typeof sym.gauge==="number")?sym.gauge:0; needle2.style.transform="rotate("+ang+"deg)"; }
+  function runTrace(){ trace.classList.remove("run"); void trace.getBoundingClientRect(); trace.classList.add("run"); }
+  function setRow(n,val){ var el=q(n); var row=el.parentNode; if(val){ el.textContent=val; row.style.display="flex"; } else { row.style.display="none"; } }
+  for (var c=0;c<chipEls.length;c++){
+    chipEls[c].addEventListener("click", function(){
+      var idx=parseInt(this.getAttribute("data-idx"),10); var sym=SYMPTOMS[idx];
+      for (var j=0;j<chipEls.length;j++) chipEls[j].setAttribute("aria-pressed","false");
+      this.setAttribute("aria-pressed","true");
+      statusEl.className="status busy"; statusText.textContent="Tracing the system\u2026";
+      runTrace();
+      for (var p=0;p<parts.length;p++){
+        var pn=parts[p].getAttribute("data-part");
+        parts[p].classList.remove("active","dim");
+        if (sym.part==="all"){}
+        else if (pn===sym.part){ parts[p].classList.add("active"); }
+        else { parts[p].classList.add("dim"); }
+      }
+      sysdiag.classList.toggle("paused", sym.flow==="stop");
+      waterUp.classList.toggle("murky", !!sym.clean);
+      seep.classList.toggle("on", !!sym.seep);
+      setNeedle(sym);
+      if(smsBtn){ smsBtn.setAttribute("href","sms:5672840833?body="+encodeURIComponent("Hi Paul \u2014 my water: "+sym.label)); }
+      var self=sym;
+      setTimeout(function(){
+        statusEl.className = self.urgent ? "status alert" : "status";
+        statusText.textContent = self.part==="all" ? "Tell us more" : "Suspect: "+self.title;
+        q("empty").style.display="none"; q("content").style.display="block";
+        q("title").textContent=self.title; q("body").textContent=self.body;
+        var u=q("urgent");
+        if (self.urgent){ u.style.display="inline-block"; u.textContent="Urgent \u2014 no-water calls jump the line"; }
+        else { u.style.display="none"; }
+        q("outcome").textContent=self.outcome||"We\u2019ll get it sorted.";
+        setRow("check", self.check); setRow("fix", self.fix);
+      }, 950);
+    });
+  }
+}
+
+/* ---------------- interactive map ---------------- */
+var TOWNS={"Ashland":[72,78],"Wooster":[128,84],"Loudonville":[86,118],"Perrysville":[62,108],
+ "Jeromesville":[96,92],"Savannah":[58,52],"Polk":[46,72],"+ 1 hour out":null};
+function pickTown(name, chip){
+  var root=chip.closest(".m-map"); if(!root) return;
+  var pin=root.querySelector('[data-mp="pin"]'), r1=root.querySelector('[data-mp="r1"]'),
+      r2=root.querySelector('[data-mp="r2"]'), cap=root.querySelector('[data-mp="cap"]');
+  var chs=root.querySelectorAll(".town");
+  for(var i=0;i<chs.length;i++) chs[i].classList.remove("hub");
+  chip.classList.add("hub");
+  var co=TOWNS[name];
+  if(co){
+    root.classList.remove("hr");
+    pin.setAttribute("cx",co[0]); pin.setAttribute("cy",co[1]);
+    r1.setAttribute("cx",co[0]); r1.setAttribute("cy",co[1]);
+    r2.setAttribute("cx",co[0]); r2.setAttribute("cy",co[1]);
+    cap.textContent = name==="Ashland" ? "Home base: Ashland" : (name+" \u2014 covered.");
+  } else {
+    root.classList.add("hr");
+    cap.textContent="An hour past the lines \u2014 call, we probably still come.";
+  }
+}
+
+/* ---------------- scroll engine: droplet + glass ---------------- */
+var REDUCE = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var W={ok:false};
+function layoutWater(){
+  W.ok=false;
+  var siteEl=$("#site");
+  var bore=$(".sbore"), drop=$(".sdrop");
+  if(state.theme!=="water"){ if(bore){bore.remove();} if(drop){drop.remove();} return; }
+  if(!bore){ bore=document.createElement("div"); bore.className="sbore"; siteEl.appendChild(bore); }
+  if(!drop){ drop=document.createElement("div"); drop.className="sdrop"; siteEl.appendChild(drop); }
+  var scene=$("#site .scene"), aq=$("#site .aqband");
+  if(!scene){ bore.style.display="none"; drop.style.display="none"; return; }
+  var siteTop=siteEl.getBoundingClientRect().top + window.pageYOffset;
+  var scR=scene.getBoundingClientRect();
+  var startY=(scR.top+window.pageYOffset-siteTop)+scR.height-52; // from wellhead
+  var endY;
+  if(aq){ var aR=aq.getBoundingClientRect(); endY=(aR.top+window.pageYOffset-siteTop)+aR.height*0.45; }
+  else { var sv=$("#site .m-services"); if(!sv){ bore.style.display="none"; drop.style.display="none"; return; }
+    var vR=sv.getBoundingClientRect(); endY=(vR.top+window.pageYOffset-siteTop)+vR.height-40; }
+  bore.style.top=startY+"px"; bore.style.height=(endY-startY)+"px"; bore.style.display="";
+  W.ok=true; W.startY=startY; W.endY=endY; W.siteTop=siteTop; W.drop=drop;
+  if(REDUCE){ drop.style.display="none"; }
+  onScrollWater();
+}
+function onScrollWater(){
+  if(!W.ok||REDUCE) return;
+  var drop=W.drop;
+  // droplet leads the viewport: sits ~58% down the screen, clamped to the bore
+  var target=window.pageYOffset + window.innerHeight*0.58 - W.siteTop;
+  var p=(target-W.startY)/(W.endY-W.startY);
+  if(p>=1){ drop.classList.add("drip"); drop.style.top=(W.endY-6)+"px"; }
+  else{
+    drop.classList.remove("drip");
+    var cp=Math.max(0,Math.min(1,p));
+    drop.style.top=(W.startY + cp*(W.endY-W.startY))+"px";
+  }
+}
+function onScrollGlass(){
+  var j=$("#site .m-journey"); if(!j) return;
+  var gw=j.querySelector(".gwater"); if(!gw) return;
+  if(REDUCE){ gw.style.height="76%"; j.classList.add("full");
+    var st0=j.querySelectorAll(".stop"); for(var a=0;a<st0.length;a++) st0[a].classList.add("lit"); return; }
+  var r=j.getBoundingClientRect();
+  var p=(window.innerHeight*0.9 - r.top)/(r.height + window.innerHeight*0.25);
+  p=Math.max(0,Math.min(1,p));
+  gw.style.height=(p*76)+"%";
+  j.classList.toggle("full", p>=0.99);
+  var stops=j.querySelectorAll(".stop");
+  for(var i=0;i<stops.length;i++){ stops[i].classList.toggle("lit", p>=(i+1)/(stops.length+0.4)); }
+}
+var ticking=false;
+function onScrollAll(){
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(function(){ onScrollWater(); onScrollGlass(); ticking=false; });
+}
+window.addEventListener("scroll", onScrollAll, {passive:true});
+window.addEventListener("resize", function(){ layoutWater(); onScrollGlass(); });
+window.addEventListener("load", function(){ setTimeout(function(){ layoutWater(); onScrollGlass(); }, 250); });
+
+/* ---------------- render ---------------- */
+function applyBodyClasses(){
+  document.body.className="t-"+state.theme;
+  for(var f in state.flares){ if(state.flares[f]) document.body.className+=" f-"+f; }
+}
+function renderSite(){
+  var html="";
+  for(var i=0;i<state.order.length;i++){
+    var id=state.order[i];
+    if(state.on[id]) html+=TPL[id]();
+  }
+  $("#site").innerHTML=html;
+}
+function renderBuild(){
+  $$(".thcard").forEach(function(c){ c.classList.toggle("on", c.getAttribute("data-theme")===state.theme); });
+  var fl=FLARES[state.theme], fh="";
+  for(var i=0;i<fl.length;i++){
+    fh+='<button class="fchip'+(state.flares[fl[i].id]?" on":"")+'" data-flare="'+fl[i].id+'">'+fl[i].n+'</button>';
+  }
+  $("#flares").innerHTML=fh;
+  var mh="";
+  for(var j=0;j<state.order.length;j++){
+    var m=null, id=state.order[j];
+    for(var k=0;k<MODULES.length;k++){ if(MODULES[k].id===id){ m=MODULES[k]; break; } }
+    if(!m) continue;
+    var first=j===0, last=j===state.order.length-1;
+    mh+='<div class="modrow">'
+      +'<button class="mv" data-move="up" data-id="'+id+'"'+((first||m.locked)?" disabled":"")+'>&#9650;</button>'
+      +'<button class="mv" data-move="dn" data-id="'+id+'"'+((last||m.locked)?" disabled":"")+'>&#9660;</button>'
+      +'<span class="nm"><b>'+m.name+'</b><span>'+m.note+'</span></span>'
+      +'<button class="sw'+(state.on[id]?" on":"")+(m.locked?" lock":"")+'" data-tgl="'+id+'" aria-label="toggle '+m.name+'"></button>'
+      +'</div>';
+  }
+  $("#mods").innerHTML=mh;
+}
+function renderGallery(){
+  var gh="";
+  for(var i=0;i<MODULES.length;i++){
+    var m=MODULES[i];
+    gh+='<div class="acard"><div class="ah"><b>'+m.name+'</b>'
+      +'<button class="sw'+(state.on[m.id]?" on":"")+(m.locked?" lock":"")+'" data-tgl="'+m.id+'"></button></div>'
+      +'<div class="prev">'+TPL[m.id]()+'</div></div>';
+  }
+  $("#gallery").innerHTML=gh;
+}
+function renderAll(){ applyBodyClasses(); renderSite(); renderBuild(); renderGallery(); save();
+  initDiagnostic();
+  setTimeout(function(){ layoutWater(); onScrollGlass(); }, 60);
+}
+
+/* ---------------- interactions ---------------- */
+document.addEventListener("click", function(e){
+  var t=e.target.closest ? e.target.closest("button, .sc") : null;
+  if(!t) return;
+  if(t.id==="openDrawer"){ $("#drawer").classList.add("openD"); return; }
+  if(t.id==="closeDrawer"){ $("#drawer").classList.remove("openD"); return; }
+  if(t.classList.contains("dtab")){
+    $$(".dtab").forEach(function(x){x.classList.remove("on");}); t.classList.add("on");
+    $$(".dpane").forEach(function(x){x.classList.remove("on");});
+    $("#pane-"+t.getAttribute("data-pane")).classList.add("on");
+    return;
+  }
+  var th=t.getAttribute("data-theme");
+  if(th){ state.theme=th; renderAll(); return; }
+  var fl=t.getAttribute("data-flare");
+  if(fl){ state.flares[fl]=!state.flares[fl]; renderAll(); return; }
+  var tg=t.getAttribute("data-tgl");
+  if(tg){ state.on[tg]=!state.on[tg]; renderAll(); return; }
+  var mv=t.getAttribute("data-move");
+  if(mv){
+    var id=t.getAttribute("data-id"), idx=state.order.indexOf(id);
+    var ni=mv==="up"?idx-1:idx+1;
+    if(ni<=0||ni>=state.order.length-1){ if(!(ni===0&&mv==="up")&&!(ni===state.order.length-1&&mv==="dn")) return; }
+    if(ni<0||ni>state.order.length-1) return;
+    var other=state.order[ni];
+    var oLocked=false;
+    for(var k=0;k<MODULES.length;k++){ if(MODULES[k].id===other&&MODULES[k].locked){ oLocked=true; } }
+    if(oLocked) return;
+    state.order[idx]=other; state.order[ni]=id;
+    renderAll(); return;
+  }
+  var tw=t.getAttribute("data-town");
+  if(tw){ pickTown(tw, t); return; }
+  if(t.id==="copyPicks"){
+    var names={}, i;
+    for(i=0;i<MODULES.length;i++){ names[MODULES[i].id]=MODULES[i].name; }
+    var lines=["RS SERVICES \u2014 PAUL'S PICKS","Look: "+(state.theme==="water"?"Water Table":"The Rig"),"Sections in order:"];
+    for(i=0;i<state.order.length;i++){
+      var id2=state.order[i];
+      lines.push("  "+(i+1)+". "+names[id2]+(state.on[id2]?"":"  (OFF)"));
+    }
+    var fls=FLARES[state.theme], fparts=[];
+    for(i=0;i<fls.length;i++){ fparts.push(fls[i].n+": "+(state.flares[fls[i].id]?"on":"off")); }
+    lines.push("Flare: "+fparts.join(", "));
+    var txt=lines.join("\n");
+    function done(){ var to=$("#toast"); to.classList.add("show"); setTimeout(function(){to.classList.remove("show");},1800); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done,function(){fallback(txt);done();});
+    } else { fallback(txt); done(); }
+    function fallback(s){ var ta=document.createElement("textarea"); ta.value=s; document.body.appendChild(ta);
+      ta.select(); try{document.execCommand("copy");}catch(err){} document.body.removeChild(ta); }
+    return;
+  }
+});
+
+renderAll();
+</script>
+</body>
+</html>
