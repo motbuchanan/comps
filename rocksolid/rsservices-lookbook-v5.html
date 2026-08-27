@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="RS Services — lookbook v5">
+<meta property="og:description" content="Two finalists plus the standard toolkit.">
+<meta property="og:image" content="https://motbuchanan.github.io/comps/rocksolid/rsservices-mark.png">
+<title>RS Services — lookbook v5</title>
+<style>
+  *{box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#0b0d10; color:#e8ecef;}
+  img{max-width:100%;}
+  .vg{position:relative; overflow:hidden;}
+  .tag{position:sticky; top:0; z-index:30; display:flex; align-items:baseline; gap:10px;
+    padding:10px 16px; font-size:.76rem; letter-spacing:.08em; text-transform:uppercase;
+    background:rgba(8,10,12,.86); color:#cfd6da; backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,.08);}
+  .tag b{font-size:.9rem;} .tag .n{color:#8db600; font-weight:800;}
+  .band{padding:34px 20px 46px; position:relative;}
+  .kick{display:inline-block; border:1px solid; border-radius:999px; padding:6px 14px;
+    font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px;}
+  .cta{display:inline-block; margin-top:22px; padding:14px 26px; border-radius:12px; font-weight:800;
+    font-size:1rem; text-decoration:none; transition:transform .12s ease;}
+  .cta:active{transform:scale(.95);}
+  .navdots{position:fixed; right:8px; top:50%; transform:translateY(-50%); z-index:40; display:flex; flex-direction:column; gap:8px;}
+  .navdots a{width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.28); display:block;}
+  .vbadge{position:fixed; left:10px; bottom:8px; z-index:50; font-size:.7rem; color:#9aa5aa;
+    background:rgba(15,18,21,.85); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:3px 8px;}
+  .g6{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; max-width:560px; margin:18px auto 0;}
+  .g6 img{border-radius:10px; display:block; width:100%; aspect-ratio:1/1; object-fit:cover;}
+  .glabel{max-width:560px; margin:22px auto 0; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:800; opacity:.75;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ================= 01 WATER TABLE — the cross-section ================= */
+  .c1{color:#eef2ee; background:#101215;}
+  /* the land: sky sliver + living surface */
+  .scene{position:relative; height:190px; background:linear-gradient(180deg,#1b2026 0%, #22282e 68%, #2a2f30 100%);}
+  .scene svg{position:absolute; left:0; bottom:-1px; width:100%; height:150px; display:block;}
+  .breeze{animation:breeze 5.5s ease-in-out infinite; transform-box:fill-box; transform-origin:bottom center;}
+  .breeze.b2{animation-delay:1.2s;} .breeze.b3{animation-delay:2.6s;} .breeze.b4{animation-delay:.6s;}
+  @keyframes breeze{0%,100%{transform:rotate(0deg);}50%{transform:rotate(3.5deg);}}
+  .canopy{animation:canopy 8s ease-in-out infinite; transform-box:fill-box; transform-origin:bottom center;}
+  .canopy.c2{animation-delay:2.4s;}
+  @keyframes canopy{0%,100%{transform:rotate(0deg);}50%{transform:rotate(1.4deg);}}
+  .bird{animation:bird 16s linear infinite; opacity:0;}
+  @keyframes bird{0%{transform:translate(-30px,6px); opacity:0;}6%{opacity:.7;}46%{opacity:.7;}
+    52%{transform:translate(430px,-16px); opacity:0;}100%{transform:translate(430px,-16px); opacity:0;}}
+  /* underground: light fades with depth */
+  .under{position:relative;
+    background:linear-gradient(180deg,#2a2f30 0%, #22262a 14%, #191d21 38%, #121519 62%, #0b0d10 100%);}
+  .under::before{content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(120% 60% at 50% 0%, rgba(210,220,200,.10), transparent 62%);}
+  .bore{position:absolute; left:50%; top:-38px; bottom:0; width:5px; transform:translateX(-50%);
+    background:linear-gradient(180deg,#5a6168, #3a3f46 40%, #2a2f36); z-index:1;}
+  .bore::after{content:""; position:absolute; left:-3px; right:-3px; top:0; bottom:0;
+    background:repeating-linear-gradient(180deg, transparent 0 26px, rgba(0,0,0,.28) 26px 30px);}
+  .drop{position:absolute; left:50%; transform:translateX(-50%); width:9px; height:9px; border-radius:50%;
+    background:#bfe3ef; box-shadow:0 0 12px rgba(191,227,239,.8); z-index:2;
+    animation:dropfall 4s ease-in infinite;}
+  @keyframes dropfall{0%{top:2%; opacity:0;}10%{opacity:1;}86%{opacity:1;}96%{top:96%; opacity:0;}100%{top:96%; opacity:0;}}
+  .stratum{position:absolute; left:0; right:0; height:2px; opacity:.4; pointer-events:none;
+    background:linear-gradient(90deg, transparent, rgba(201,205,191,.25), transparent);}
+  .sed{position:absolute; width:3px; height:3px; border-radius:50%; background:rgba(201,205,191,.28); pointer-events:none;
+    animation:sed 12s ease-in-out infinite;}
+  @keyframes sed{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  .rock{position:absolute; border-radius:46% 54% 50% 50%; background:rgba(0,0,0,.35);
+    box-shadow:inset 2px 2px 3px rgba(210,220,200,.06); pointer-events:none;}
+  .c1 .hero1{position:relative; z-index:3; text-align:center; padding:56px 22px 40px;}
+  .c1 .logo-sm{width:46px; height:46px; object-fit:contain;}
+  .c1 h1{font-size:clamp(2.2rem,9vw,4rem); font-family:Georgia,serif; line-height:1.05; color:#fff;
+    text-shadow:0 2px 18px rgba(0,0,0,.6);}
+  .c1 h1 .a{color:#a8d21f;}
+  .c1 .kick{color:#eef2ee; border-color:#4a4f56; background:rgba(16,18,21,.66);}
+  .c1 .cta{background:#8db600; color:#141610; box-shadow:0 8px 26px rgba(141,182,0,.3);}
+  .c1 .depths{max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:12px; position:relative; z-index:3;}
+  .c1 .drow{display:flex; align-items:center; gap:14px; background:rgba(22,25,29,.82);
+    border:1px solid #3a3f46; border-radius:14px; padding:14px 16px; text-align:left; backdrop-filter:blur(2px);}
+  .c1 .drow .ft{flex:0 0 auto; color:#14161a; font-size:.64rem; letter-spacing:.12em; text-transform:uppercase;
+    font-weight:800; border-radius:999px; padding:5px 10px; background:#c9cdbf;}
+  .c1 .drow b{display:block; font-size:1rem; color:#fff;}
+  .c1 .drow span{color:#a7aca2; font-size:.85rem;}
+  /* the aquifer finale */
+  .aquifer{position:relative; height:150px; margin-top:34px; overflow:hidden;
+    background:linear-gradient(180deg, #0b0d10 0%, #0d1a1e 30%, #10343c 100%);}
+  .aquifer .wv{position:absolute; top:16px; left:0; width:200%; height:34px; fill:rgba(143,199,221,.30);
+    animation:aqwave 8s linear infinite;}
+  .aquifer .wv.w2{top:26px; fill:rgba(143,199,221,.18); animation-duration:12s; animation-direction:reverse;}
+  @keyframes aqwave{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .aquifer::after{content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg, transparent 0 30px, rgba(191,227,239,.07) 30px 40px);
+    animation:aqshim 4s linear infinite;}
+  @keyframes aqshim{from{transform:translateX(0);}to{transform:translateX(40px);}}
+  .aquifer .lbl{position:absolute; left:0; right:0; top:58%; transform:translateY(-50%); text-align:center;
+    color:#d9f1f8; font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:.78rem; z-index:2;
+    text-shadow:0 0 16px rgba(143,199,221,.5);}
+  .c1 .glabel{color:#c9cdbf; position:relative; z-index:3;}
+  .c1 .g6{position:relative; z-index:3;}
+
+  /* ================= 02 THE RIG ================= */
+  .c4{background:#101112; color:#f0f2ee;
+    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 2px, transparent 2px 14px);}
+  .c4 .hero{min-height:70svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:44px 22px; position:relative;}
+  .c4 .hazard{height:10px; background:repeating-linear-gradient(45deg,#8db600 0 16px, #101112 16px 32px);
+    background-size:45px 45px; animation:c4roll 2.5s linear infinite;}
+  @keyframes c4roll{from{background-position:0 0;}to{background-position:45px 0;}}
+  .c4 h1{font-size:clamp(2.6rem,12vw,5rem); font-weight:900; font-style:italic; letter-spacing:-.01em;
+    text-transform:uppercase; line-height:.95; position:relative;}
+  .c4 h1 .g{color:#a8d21f; text-shadow:2px 2px 0 #3a4a00; position:relative; display:inline-block; overflow:hidden;}
+  .c4 h1 .g::after{content:""; position:absolute; top:0; bottom:0; left:-40%; width:34%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.5), transparent);
+    animation:c4shine 3.6s ease-in-out infinite;}
+  @keyframes c4shine{0%,60%{left:-40%;}90%,100%{left:120%;}}
+  .c4 h1 .s{color:#c8ccc9; text-shadow:2px 2px 0 #43474a; font-size:.55em; display:block; letter-spacing:.14em;}
+  .c4 .kick{color:#a8d21f; border-color:#2a2d2e; font-style:normal;}
+  .c4 .cta{background:#a8d21f; color:#141610; font-style:italic; text-transform:uppercase; letter-spacing:.04em;
+    box-shadow:0 8px 26px rgba(168,210,31,.3);}
+  .c4 .g6 .t{position:relative; clip-path:polygon(0 4%, 100% 0, 100% 96%, 0 100%); overflow:hidden; border-radius:6px;}
+  .c4 .g6 .t img{filter:saturate(.85) contrast(1.08);}
+  .c4 .note{max-width:560px; margin:20px auto 0; font-size:.82rem; color:#8d938f; text-align:center;}
+  .c4 .note b{color:#c8ccc9;}
+
+  /* ================= TOOLKIT ================= */
+  .tk{background:#171a1c; color:#eaf0e6;}
+  .tk .hero{min-height:auto; padding:54px 22px 10px; text-align:center;}
+  .tk h1{font-size:clamp(1.7rem,7vw,2.6rem); font-weight:850; max-width:20ch; margin:0 auto;}
+  .tk h1 .a{color:#a8d21f;}
+  .tk .kick{color:#a8d21f; border-color:#2c352c;}
+  .tk .cards{max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:16px;}
+  .tk .card{background:#1d2124; border:1px solid #2c3134; border-radius:18px; padding:18px; text-align:left; position:relative;}
+  .tk .card h3{font-size:1.05rem; margin-bottom:4px;}
+  .tk .card .sub{color:#98a29a; font-size:.88rem; margin-bottom:14px;}
+  .tk .tgl{position:absolute; top:16px; right:16px; display:inline-flex; align-items:center; gap:6px;
+    font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; font-weight:800; color:#98a29a;}
+  .tk .tgl .pill{width:34px; height:19px; border-radius:999px; background:#8db600; position:relative;}
+  .tk .tgl .pill::after{content:""; position:absolute; top:2.5px; right:3px; width:14px; height:14px;
+    border-radius:50%; background:#171a1c;}
+  .tk .mapbox{width:min(300px,74vw); margin:0 auto;}
+  .tk svg{width:100%; height:auto; display:block;}
+  .tk .border{stroke-dasharray:640; stroke-dashoffset:640; animation:tkdraw 3s ease-out forwards;}
+  @keyframes tkdraw{to{stroke-dashoffset:0;}}
+  .tk .pin{animation:tkpulse 2s ease-in-out infinite; transform-box:fill-box; transform-origin:center;}
+  @keyframes tkpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.22);}}
+  .tk .ring1,.tk .ring2{transform-box:fill-box; transform-origin:center; animation:tkrip 2.6s ease-out infinite;}
+  .tk .ring2{animation-delay:1.3s;}
+  @keyframes tkrip{0%{transform:scale(.4); opacity:.9;}100%{transform:scale(2.1); opacity:0;}}
+  .tk .symchips{display:flex; flex-wrap:wrap; gap:8px;}
+  .tk .sc{border:1px solid #2c3134; background:#15181a; color:#cfd6cd; border-radius:999px; padding:9px 13px; font-size:.85rem;}
+  .tk .sc.hot{background:#8db600; color:#141610; border-color:#8db600; font-weight:800;}
+  .tk .journey{position:relative; padding-left:24px; margin-top:4px;}
+  .tk .journey::before{content:""; position:absolute; left:7px; top:6px; bottom:6px; width:3px;
+    background:linear-gradient(0deg,#8fc7dd,#2c3134);}
+  .tk .jstop{position:relative; padding:0 0 14px 12px; font-size:.9rem; color:#cfd6cd;}
+  .tk .jstop::before{content:""; position:absolute; left:-22px; top:3px; width:11px; height:11px; border-radius:50%;
+    background:#8db600;}
+  .tk .jstop:last-child::before{background:#8fc7dd;}
+  .tk .jstop b{color:#fff;}
+  .tk .card .cta{margin-top:16px; background:#8db600; color:#141610; display:block; text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="navdots" aria-hidden="true">
+  <a href="#v1"></a><a href="#v2"></a><a href="#tk"></a>
+</div>
+
+<!-- 01 WATER TABLE -->
+<section class="vg c1" id="v1">
+  <div class="tag"><span class="n">01</span><b>The Water Table</b><span>The property, top to aquifer</span></div>
+
+  <!-- the living surface -->
+  <div class="scene">
+    <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <!-- rolling ground -->
+      <path d="M0 118 Q60 106 120 114 T240 112 T400 116 L400 150 L0 150 Z" fill="#2a2f30"/>
+      <path d="M0 126 Q80 116 160 122 T400 124 L400 150 L0 150 Z" fill="#242a2b"/>
+      <!-- tree left -->
+      <g class="canopy">
+        <rect x="52" y="84" width="6" height="34" rx="2" fill="#1b1f1c"/>
+        <ellipse cx="55" cy="72" rx="26" ry="20" fill="#22301a"/>
+        <ellipse cx="42" cy="80" rx="14" ry="11" fill="#273a1e"/>
+      </g>
+      <!-- tree right -->
+      <g class="canopy c2">
+        <rect x="332" y="90" width="5" height="28" rx="2" fill="#1b1f1c"/>
+        <ellipse cx="334" cy="80" rx="20" ry="16" fill="#233318"/>
+      </g>
+      <!-- bushes -->
+      <ellipse cx="130" cy="112" rx="16" ry="8" fill="#273a1e"/>
+      <ellipse cx="292" cy="110" rx="13" ry="7" fill="#22301a"/>
+      <!-- grass tufts -->
+      <g fill="none" stroke="#8db600" stroke-width="1.6" stroke-linecap="round">
+        <path class="breeze" d="M96 116 q1 -8 4 -11"/>
+        <path class="breeze b2" d="M104 115 q0 -7 -3 -10"/>
+        <path class="breeze b3" d="M228 112 q1 -8 4 -10"/>
+        <path class="breeze b4" d="M236 112 q0 -7 -3 -9"/>
+        <path class="breeze b2" d="M310 114 q1 -7 4 -9"/>
+      </g>
+      <g fill="none" stroke="#6f9000" stroke-width="1.4" stroke-linecap="round">
+        <path class="breeze b3" d="M88 117 q0 -6 -2 -8"/>
+        <path class="breeze" d="M246 113 q0 -6 2 -8"/>
+        <path class="breeze b4" d="M158 118 q1 -6 3 -8"/>
+      </g>
+      <!-- the wellhead over the bore -->
+      <g>
+        <rect x="192" y="88" width="16" height="30" rx="2" fill="#8f979e"/>
+        <rect x="189" y="82" width="22" height="9" rx="3" fill="#6a7178"/>
+        <rect x="192" y="118" width="16" height="6" fill="#3a3f46"/>
+      </g>
+      <!-- a passing bird -->
+      <path class="bird" d="M20 40 q5 -5 9 0 q4 -5 9 0" fill="none" stroke="#8d938f" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- underground -->
+  <div class="under">
+    <div class="bore"></div>
+    <div class="drop"></div>
+    <div class="stratum" style="top:16%;"></div>
+    <div class="stratum" style="top:38%; opacity:.3;"></div>
+    <div class="stratum" style="top:58%; opacity:.24;"></div>
+    <div class="rock" style="width:64px; height:44px; left:7%; top:20%;"></div>
+    <div class="rock" style="width:40px; height:30px; right:9%; top:34%;"></div>
+    <div class="rock" style="width:52px; height:36px; left:12%; top:56%;"></div>
+    <div class="rock" style="width:34px; height:26px; right:15%; top:66%;"></div>
+    <div class="sed" style="left:20%; top:26%;"></div><div class="sed" style="right:22%; top:42%; animation-delay:4s;"></div>
+    <div class="sed" style="left:28%; top:60%; animation-delay:8s;"></div>
+
+    <div class="hero1">
+      <img class="logo-sm" src="rsservices-mark.png" alt="RS Services logo">
+      <div style="height:14px"></div>
+      <span class="kick">Water Well &amp; Plumbing · Ashland &amp; Wayne Counties</span>
+      <h1>A Job <span class="a">Done Right.</span></h1>
+      <a class="cta" href="tel:5672840833">Get a straight quote</a>
+    </div>
+
+    <div class="band" style="padding-top:6px;">
+      <div class="depths">
+        <div class="drow"><span class="ft">10 ft</span><div><b>Well &amp; pump</b><span>Diagnosis, replacement, upgrades</span></div></div>
+        <div class="drow"><span class="ft">25 ft</span><div><b>Lines &amp; trenching</b><span>From the well to the house, dug clean</span></div></div>
+        <div class="drow"><span class="ft">Surface</span><div><b>Treatment &amp; plumbing</b><span>Softeners, iron, hydrants, the fixes inside</span></div></div>
+      </div>
+      <div class="glabel">The proof · six recent jobs</div>
+      <div class="g6">
+        <img src="rss-job-1.jpg" alt=""><img src="rss-job-2.jpg" alt=""><img src="rss-job-3.jpg" alt="">
+        <img src="rss-job-4.jpg" alt=""><img src="rss-job-5.jpg" alt=""><img src="rss-job-6.jpg" alt="">
+      </div>
+    </div>
+
+    <div class="aquifer">
+      <svg class="wv" viewBox="0 0 1200 34" preserveAspectRatio="none">
+        <path d="M0 18 Q75 6 150 18 T300 18 T450 18 T600 18 T750 18 T900 18 T1050 18 T1200 18 L1200 34 L0 34 Z"/>
+      </svg>
+      <svg class="wv w2" viewBox="0 0 1200 34" preserveAspectRatio="none">
+        <path d="M0 20 Q75 10 150 20 T300 20 T450 20 T600 20 T750 20 T900 20 T1050 20 T1200 20 L1200 34 L0 34 Z"/>
+      </svg>
+      <div class="lbl">The aquifer · that's where we work</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE RIG -->
+<section class="vg c4" id="v2">
+  <div class="tag"><span class="n">02</span><b>The Rig</b><span>Steel and green — close to his Facebook energy</span></div>
+  <div class="hazard"></div>
+  <div class="hero">
+    <span class="kick">Ashland &amp; Wayne Counties</span>
+    <h1><span class="g">RS</span><span class="s">Services LLC</span></h1>
+    <a class="cta" href="tel:5672840833">Call the shop</a>
+  </div>
+  <div class="band">
+    <div class="g6">
+      <span class="t"><img src="rss-job-1.jpg" alt=""></span>
+      <span class="t"><img src="rss-job-2.jpg" alt=""></span>
+      <span class="t"><img src="rss-job-3.jpg" alt=""></span>
+      <span class="t"><img src="rss-job-4.jpg" alt=""></span>
+      <span class="t"><img src="rss-job-5.jpg" alt=""></span>
+      <span class="t"><img src="rss-job-6.jpg" alt=""></span>
+    </div>
+    <div class="note"><b>For Paul's draft:</b> the steel texture and the hazard stripes become tap-to-toggle choices, on or off, his call.</div>
+  </div>
+  <div class="hazard" style="margin-top:36px;"></div>
+</section>
+
+<!-- TOOLKIT -->
+<section class="vg tk" id="tk">
+  <div class="tag"><span class="n">+</span><b>In every build</b><span>Standard equipment, whichever look wins</span></div>
+  <div class="hero">
+    <span class="kick">The RS toolkit</span>
+    <h1>Three scroll-stoppers, <span class="a">included no matter what.</span></h1>
+  </div>
+  <div class="band">
+    <div class="cards">
+      <div class="card">
+        <h3>The territory map</h3>
+        <div class="sub">Stops the scroll, answers "do they come to me," and hands off to a strong CTA.</div>
+        <div class="mapbox">
+          <svg viewBox="0 0 200 160" aria-hidden="true">
+            <path d="M30 24 L96 16 L170 26 L176 84 L160 138 L84 146 L26 128 Z" fill="rgba(141,182,0,.07)"/>
+            <path class="border" d="M30 24 L96 16 L170 26 L176 84 L160 138 L84 146 L26 128 Z"
+              fill="none" stroke="#5c7a4a" stroke-width="2.4"/>
+            <line x1="98" y1="16" x2="94" y2="146" stroke="#2c352c" stroke-width="1.5" stroke-dasharray="4 5"/>
+            <circle class="ring1" cx="72" cy="78" r="12" fill="none" stroke="rgba(168,210,31,.5)" stroke-width="2"/>
+            <circle class="ring2" cx="72" cy="78" r="12" fill="none" stroke="rgba(168,210,31,.5)" stroke-width="2"/>
+            <circle class="pin" cx="72" cy="78" r="7" fill="#a8d21f"/>
+            <text x="46" y="58" font-size="10" fill="#a9b5a5" font-family="system-ui">ASHLAND</text>
+            <text x="112" y="58" font-size="10" fill="#a9b5a5" font-family="system-ui">WAYNE</text>
+          </svg>
+        </div>
+        <a class="cta" href="tel:5672840833">If you're on the map, call</a>
+      </div>
+      <div class="card">
+        <h3>The water checker</h3>
+        <div class="sub">Tap what the water's doing, watch it trace the system, get a plain-English likely cause. Already built and working in the studio demo.</div>
+        <div class="symchips">
+          <span class="sc hot">No water at all</span><span class="sc">Sputtering air</span>
+          <span class="sc">Low pressure</span><span class="sc">Orange stains</span>
+          <span class="sc">Smells off</span><span class="sc">Wet spot in the yard</span>
+        </div>
+        <a class="cta" href="tel:5672840833">Text Paul what you found</a>
+      </div>
+      <div class="card">
+        <span class="tgl">Toggle<span class="pill"></span></span>
+        <h3>The water's journey</h3>
+        <div class="sub">First Glass lives on here: the trip from aquifer to kitchen as a scroll-stopper. Paul flips it on or off in his draft and sees the site both ways.</div>
+        <div class="journey">
+          <div class="jstop"><b>The aquifer</b> — the well reaches it, the pump lifts it</div>
+          <div class="jstop"><b>Pump &amp; tank</b> — steady pressure, morning to night</div>
+          <div class="jstop"><b>Treatment</b> — iron out, softness in, tested not guessed</div>
+          <div class="jstop"><b>Your glass</b> — clear, cold, and boring, as it should be</div>
+        </div>
+        <a class="cta" href="tel:5672840833">Get yours flowing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="vbadge">lookbook · v5 · Aug 27</div>
+</body>
+</html>
