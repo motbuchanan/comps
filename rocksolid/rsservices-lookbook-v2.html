@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="RS Services — nine looks, round two">
+<meta property="og:description" content="Deeper cuts of the design directions for the RS Services site.">
+<meta property="og:image" content="https://motbuchanan.github.io/comps/rocksolid/rsservices-mark.png">
+<title>RS Services — lookbook v2</title>
+<style>
+  *{box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#0b0d10; color:#e8ecef;}
+  img{max-width:100%;}
+  .vg{position:relative; overflow:hidden;}
+  .tag{position:sticky; top:0; z-index:30; display:flex; align-items:baseline; gap:10px;
+    padding:10px 16px; font-size:.76rem; letter-spacing:.08em; text-transform:uppercase;
+    background:rgba(8,10,12,.84); color:#cfd6da; backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,.08);}
+  .tag b{font-size:.9rem; letter-spacing:.04em;}
+  .tag .n{color:#8db600; font-weight:800;}
+  .hero{min-height:88svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:44px 22px; position:relative;}
+  .band{padding:36px 20px 44px;}
+  .kick{display:inline-block; border:1px solid; border-radius:999px; padding:6px 14px;
+    font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px;}
+  .cta{display:inline-block; margin-top:22px; padding:14px 26px; border-radius:12px; font-weight:800; font-size:1rem; text-decoration:none;}
+  .logo-sm{width:44px; height:44px; object-fit:contain;}
+  .navdots{position:fixed; right:8px; top:50%; transform:translateY(-50%); z-index:40; display:flex; flex-direction:column; gap:8px;}
+  .navdots a{width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.28); display:block;}
+  .vbadge{position:fixed; left:10px; bottom:8px; z-index:50; font-size:.7rem; color:#9aa5aa;
+    background:rgba(15,18,21,.85); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:3px 8px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ============ 01 WATER TABLE ============ */
+  .c1{background:linear-gradient(180deg,#2a2e35 0%, #191c21 40%, #0c0e11 100%); color:#eef2ee;}
+  .c1 .grass{position:absolute; top:0; left:0; right:0; height:7px;
+    background:repeating-linear-gradient(80deg,#8db600 0 3px, #6f9000 3px 6px);}
+  .c1 h1{font-size:clamp(2.2rem,9vw,4rem); font-family:Georgia,serif; line-height:1.05;}
+  .c1 h1 .a{color:#a8d21f;}
+  .c1 .kick{color:#a8d21f; border-color:#3c4149;}
+  .c1 .cta{background:#8db600; color:#141610;}
+  .c1 .depths{max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:12px;}
+  .c1 .drow{display:flex; align-items:center; gap:14px; background:rgba(255,255,255,.045);
+    border:1px solid #2c3138; border-radius:14px; padding:14px 16px; text-align:left;}
+  .c1 .drow .ft{flex:0 0 auto; color:#c9cdbf; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase;
+    font-weight:800; border:1px solid #3c4149; border-radius:999px; padding:5px 10px;}
+  .c1 .drow b{display:block; font-size:1rem;}
+  .c1 .drow span{color:#9aa39b; font-size:.85rem;}
+  .c1 .aq{margin-top:28px; height:74px; border-radius:16px; position:relative; overflow:hidden;
+    background:linear-gradient(180deg, rgba(141,182,0,.12), rgba(141,182,0,.5)); display:flex; align-items:center; justify-content:center;
+    animation:c1glow 4s ease-in-out infinite; color:#eaffbf; font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size:.8rem;}
+  @keyframes c1glow{0%,100%{opacity:.75;}50%{opacity:1;}}
+
+  /* ============ 02 STRIKE WATER ============ */
+  .c2{background:#0a0c0e; color:#f0f4ee;}
+  .c2 .pipe{position:absolute; left:50%; top:0; height:88svh; width:4px; background:#23282c; transform:translateX(-50%);}
+  .c2 .drop{position:absolute; left:50%; transform:translateX(-50%); width:12px; height:12px; border-radius:50%;
+    background:#a8d21f; box-shadow:0 0 16px #a8d21f; animation:c2fall 3s linear infinite;}
+  @keyframes c2fall{from{top:-2%;}to{top:88svh;}}
+  .c2 h1{font-size:clamp(3rem,14vw,6rem); font-weight:900; letter-spacing:-.02em; line-height:.95; position:relative; z-index:2;}
+  .c2 h1 span{display:block;}
+  .c2 h1 .w1{color:#4b5320;} .c2 h1 .w2{color:#6f9000;} .c2 h1 .w3{color:#a8d21f; text-shadow:0 0 30px rgba(168,210,31,.4);}
+  .c2 .kick{color:#a8d21f; border-color:#23282c; position:relative; z-index:2;}
+  .c2 .cta{background:#a8d21f; color:#0f1208; box-shadow:0 8px 30px rgba(168,210,31,.35); position:relative; z-index:2;}
+  .c2 .stats{display:flex; gap:10px; max-width:560px; margin:0 auto 18px; text-align:center;}
+  .c2 .stat{flex:1; background:#121517; border:1px solid #23282c; border-radius:14px; padding:16px 8px;}
+  .c2 .stat b{display:block; font-size:1.5rem; color:#a8d21f;}
+  .c2 .stat span{font-size:.68rem; color:#7d8a70; letter-spacing:.1em; text-transform:uppercase;}
+  .c2 .duo{max-width:560px; margin:0 auto; border-radius:16px; overflow:hidden; position:relative;}
+  .c2 .duo img{display:block; filter:grayscale(1) contrast(1.15) brightness(.9);}
+  .c2 .duo::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(168,210,31,.28), rgba(10,12,14,.15)); mix-blend-mode:multiply;}
+  .c2 .duo .cap{position:absolute; left:12px; bottom:10px; z-index:2; font-weight:900; letter-spacing:.06em; font-size:.8rem; color:#eaffbf; text-transform:uppercase;}
+
+  /* ============ 03 JOB TICKET ============ */
+  .c3{background:#e8dfc8; color:#33301f;
+    background-image:linear-gradient(rgba(51,48,31,.05) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(51,48,31,.05) 1px, transparent 1px);
+    background-size:22px 22px;}
+  .c3 .ticket{background:#f7f1de; border:1.5px solid #a89a6a; border-radius:4px; max-width:420px; width:100%;
+    padding:22px 20px 26px; text-align:left; box-shadow:4px 6px 0 rgba(51,48,31,.14); position:relative; margin:0 auto;}
+  .c3 .ticket::before{content:attr(data-label); position:absolute; top:-11px; left:14px; background:#33301f; color:#f7f1de;
+    font-size:.66rem; letter-spacing:.2em; padding:4px 10px; font-weight:800;}
+  .c3 h1{font-family:"Courier New",monospace; font-size:1.5rem; margin-bottom:6px;}
+  .c3 .row{font-family:"Courier New",monospace; font-size:.88rem; padding:7px 0; border-bottom:1px dashed #a89a6a; display:flex; gap:8px;}
+  .c3 .row .bx{width:15px; height:15px; border:1.5px solid #33301f; flex:0 0 auto; position:relative;}
+  .c3 .row .bx.ck::after{content:"\2713"; position:absolute; top:-5px; left:1px; font-size:1rem; font-weight:900; color:#5c7000;}
+  .c3 .stamp{transform:rotate(-7deg); display:inline-block;
+    border:2.5px solid #9a2b1c; color:#9a2b1c; font-family:"Courier New",monospace; font-weight:900;
+    font-size:.7rem; letter-spacing:.1em; padding:5px 9px; border-radius:4px; opacity:.85; margin-top:12px;}
+  .c3 .stamp.gr{border-color:#5c7000; color:#5c7000; transform:rotate(4deg);}
+  .c3 .photo{position:absolute; top:-34px; right:-8px; width:104px; transform:rotate(6deg);
+    border:6px solid #fff; border-bottom-width:24px; box-shadow:0 6px 14px rgba(51,48,31,.3);}
+  .c3 .photo.l{left:-8px; right:auto; transform:rotate(-5deg); top:-40px;}
+  .c3 .photo img{width:100%; display:block;}
+  .c3 .kick{color:#5c7000; border-color:#a89a6a;}
+  .c3 .cta{background:#33301f; color:#f7f1de;}
+
+  /* ============ 04 HANDSHAKE ============ */
+  .c4{background:#23211e; color:#f2ede4;}
+  .c4 .face{width:120px; height:120px; border-radius:50%; border:3px solid #8db600; margin:0 auto 20px;
+    background:#2e2b27; display:flex; align-items:center; justify-content:center; color:#8f887c; font-size:.72rem;}
+  .c4 h1{font-family:Georgia,serif; font-size:clamp(1.8rem,7.5vw,3rem); line-height:1.25; max-width:22ch;}
+  .c4 h1 em{color:#a8d21f; font-style:normal;}
+  .c4 p{margin-top:16px; color:#bdb5a6; font-size:1.05rem; max-width:36ch;}
+  .c4 .kick{color:#a8d21f; border-color:#3c3831;}
+  .c4 .cta{background:transparent; color:#a8d21f; border:2px solid #a8d21f;}
+  .c4 .steps{max-width:520px; margin:0 auto; text-align:left; display:flex; flex-direction:column; gap:14px;}
+  .c4 .step{display:flex; gap:14px; align-items:flex-start;}
+  .c4 .step .num{flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:2px solid #8db600;
+    display:flex; align-items:center; justify-content:center; font-weight:800; color:#a8d21f; font-family:Georgia,serif;}
+  .c4 .step b{display:block; font-size:1rem;}
+  .c4 .step span{color:#a99f8d; font-size:.9rem;}
+  .c4 .sig{margin-top:24px; font-family:Georgia,serif; font-style:italic; color:#a8d21f; font-size:1.3rem; text-align:center;}
+
+  /* ============ 05 THE STANDARD ============ */
+  .c5{background:#f4f5f2; color:#1d2420;}
+  .c5 .bar{height:6px; background:linear-gradient(90deg,#1d2420 0 30%, #8db600 30% 100%);}
+  .c5 h1{font-size:clamp(1.9rem,7.5vw,3.2rem); font-weight:850; letter-spacing:-.01em; max-width:20ch;}
+  .c5 .kick{color:#557000; border-color:#d6dad2;}
+  .c5 .cta{background:#8db600; color:#141610;}
+  .c5 .qa{max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:10px; text-align:left;}
+  .c5 .q{background:#fff; border:1px solid #d6dad2; border-radius:12px; padding:14px 16px;}
+  .c5 .q b{display:block; color:#1d2420;}
+  .c5 .q span{color:#5b6558; font-size:.9rem;}
+  .c5 .creds{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px;}
+  .c5 .cred{background:#fff; border:1px solid #d6dad2; border-radius:10px; padding:10px 14px; font-size:.78rem;
+    font-weight:700; color:#3c463e; box-shadow:0 2px 8px rgba(29,36,32,.06);}
+  .c5 .cred b{display:block; color:#557000; font-size:.64rem; letter-spacing:.12em; text-transform:uppercase;}
+
+  /* ============ 06 FIRST GLASS ============ */
+  .c6{background:#101418; color:#eef3f1;}
+  .c6 .glass{width:110px; height:150px; margin:0 auto 22px; border:4px solid #cfd8d4; border-top:none;
+    border-radius:0 0 22px 22px; position:relative; overflow:hidden;}
+  .c6 .water{position:absolute; left:0; right:0; bottom:0; height:0; background:linear-gradient(180deg,#c6e07a,#8db600);
+    animation:c6fill 5s ease-in-out infinite;}
+  @keyframes c6fill{0%{height:0;} 55%{height:78%;} 75%{height:74%;} 100%{height:78%;}}
+  .c6 h1{font-family:Georgia,serif; font-size:clamp(2rem,8.5vw,3.4rem);}
+  .c6 p{color:#9fb0a8; margin-top:12px;}
+  .c6 .kick{color:#a8d21f; border-color:#2a3238;}
+  .c6 .cta{background:#8db600; color:#101418;}
+  .c6 .journey{max-width:440px; margin:0 auto; text-align:left; position:relative; padding-left:26px;}
+  .c6 .journey::before{content:""; position:absolute; left:8px; top:8px; bottom:8px; width:3px;
+    background:linear-gradient(0deg,#8db600,#2a3238);}
+  .c6 .stop{position:relative; padding:0 0 22px 14px;}
+  .c6 .stop::before{content:""; position:absolute; left:-24px; top:4px; width:13px; height:13px; border-radius:50%;
+    background:#8db600; box-shadow:0 0 10px rgba(141,182,0,.6);}
+  .c6 .stop b{display:block;}
+  .c6 .stop span{color:#8d9c94; font-size:.88rem;}
+
+  /* ============ 07 NIGHT CALL ============ */
+  .c7{background:#050607; color:#e8f5d8;}
+  .c7 .beam{position:absolute; inset:0; background:radial-gradient(circle 240px at 50% 40%, rgba(168,210,31,.16), transparent 70%);
+    animation:c7sweep 6s ease-in-out infinite;}
+  @keyframes c7sweep{0%,100%{opacity:.85;}50%{opacity:1;}}
+  .c7 h1{font-size:clamp(1.6rem,7vw,2.6rem); font-weight:800; max-width:18ch; position:relative; z-index:2;}
+  .c7 .phone{display:block; margin-top:22px; font-size:clamp(2rem,9.5vw,3.4rem); font-weight:900; color:#a8d21f;
+    text-shadow:0 0 24px rgba(168,210,31,.55); letter-spacing:.02em; text-decoration:none; position:relative; z-index:2;}
+  .c7 .sub7{margin-top:10px; color:#7d8a70; font-size:.9rem; position:relative; z-index:2;}
+  .c7 .kick{color:#a8d21f; border-color:#1d2314; position:relative; z-index:2;}
+  .c7 .wait{max-width:480px; margin:0 auto; text-align:left; display:flex; flex-direction:column; gap:12px;}
+  .c7 .w{background:#0c0f0a; border:1px solid #1d2314; border-radius:12px; padding:14px 16px;}
+  .c7 .w b{color:#cfe6a3;}
+  .c7 .w span{display:block; color:#7d8a70; font-size:.88rem; margin-top:3px;}
+
+  /* ============ 08 THE MAP ============ */
+  .c8{background:#181c19; color:#eaf0e6;}
+  .c8 .mapbox{width:min(320px,80vw); margin:0 auto 20px; position:relative;}
+  .c8 svg{width:100%; height:auto; display:block;}
+  .c8 .pin{animation:c8pulse 2s ease-in-out infinite; transform-box:fill-box; transform-origin:center;}
+  @keyframes c8pulse{0%,100%{transform:scale(1); opacity:1;}50%{transform:scale(1.25); opacity:.7;}}
+  .c8 h1{font-size:clamp(1.8rem,7.5vw,3rem); font-weight:850; max-width:18ch;}
+  .c8 h1 .a{color:#a8d21f;}
+  .c8 .kick{color:#a8d21f; border-color:#2c352c;}
+  .c8 .cta{background:#8db600; color:#141610;}
+  .c8 .towns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:520px; margin:0 auto;}
+  .c8 .town{border:1px solid #2c352c; color:#a9b5a5; border-radius:999px; padding:8px 14px; font-size:.85rem;}
+  .c8 .town.hub{background:#8db600; color:#141610; border-color:#8db600; font-weight:800;}
+
+  /* ============ 09 THE RIG ============ */
+  .c9{background:#101112; color:#f0f2ee;
+    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 2px, transparent 2px 14px);}
+  .c9 .hazard{height:10px; background:repeating-linear-gradient(45deg,#8db600 0 16px, #101112 16px 32px);}
+  .c9 h1{font-size:clamp(2.6rem,12vw,5rem); font-weight:900; font-style:italic; letter-spacing:-.01em;
+    text-transform:uppercase; line-height:.95;}
+  .c9 h1 .g{color:#a8d21f; text-shadow:2px 2px 0 #3a4a00;}
+  .c9 h1 .s{color:#c8ccc9; text-shadow:2px 2px 0 #43474a; font-size:.55em; display:block; letter-spacing:.14em;}
+  .c9 .kick{color:#a8d21f; border-color:#2a2d2e; font-style:normal;}
+  .c9 .cta{background:#a8d21f; color:#141610; font-style:italic; text-transform:uppercase; letter-spacing:.04em;}
+  .c9 .rigphoto{max-width:560px; margin:0 auto; position:relative; clip-path:polygon(0 6%, 100% 0, 100% 94%, 0 100%);
+    border-radius:8px; overflow:hidden;}
+  .c9 .rigphoto img{display:block; filter:saturate(.85) contrast(1.08);}
+  .c9 .rigphoto .cap{position:absolute; left:0; bottom:8%; background:#a8d21f; color:#141610; font-weight:900;
+    font-style:italic; text-transform:uppercase; font-size:.78rem; padding:7px 14px; letter-spacing:.06em;}
+</style>
+</head>
+<body>
+
+<div class="navdots" aria-hidden="true">
+  <a href="#v1"></a><a href="#v2"></a><a href="#v3"></a><a href="#v4"></a><a href="#v5"></a>
+  <a href="#v6"></a><a href="#v7"></a><a href="#v8"></a><a href="#v9"></a>
+</div>
+
+<!-- 01 WATER TABLE -->
+<section class="vg c1" id="v1">
+  <div class="tag"><span class="n">01</span><b>The Water Table</b><span>Deep Water's depth, in RS colors</span></div>
+  <div class="grass"></div>
+  <div class="hero">
+    <img class="logo-sm" src="rsservices-mark.png" alt="RS Services logo">
+    <div style="height:14px"></div>
+    <span class="kick">Water Well &amp; Plumbing · Ashland &amp; Wayne Counties</span>
+    <h1>A Job <span class="a">Done Right.</span></h1>
+    <a class="cta" href="#v2">Get a straight quote</a>
+  </div>
+  <div class="band">
+    <div class="depths">
+      <div class="drow"><span class="ft">10 ft</span><div><b>Well &amp; pump</b><span>Diagnosis, replacement, upgrades</span></div></div>
+      <div class="drow"><span class="ft">25 ft</span><div><b>Lines &amp; trenching</b><span>From the well to the house, dug clean</span></div></div>
+      <div class="drow"><span class="ft">Surface</span><div><b>Treatment &amp; plumbing</b><span>Softeners, iron, hydrants, the fixes inside</span></div></div>
+      <div class="aq">The water table · that's where we work</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 STRIKE WATER -->
+<section class="vg c2" id="v2">
+  <div class="tag"><span class="n">02</span><b>Strike Water</b><span>The juiced one — everything moves</span></div>
+  <div class="pipe"></div><div class="drop"></div>
+  <div class="hero">
+    <span class="kick">RS Services · Licensed · Insured</span>
+    <h1><span class="w1">DIG.</span><span class="w2">FIX.</span><span class="w3">FLOW.</span></h1>
+    <a class="cta" href="tel:5672840833">Text Paul</a>
+  </div>
+  <div class="band">
+    <div class="stats">
+      <div class="stat"><b>7</b><span>Services</span></div>
+      <div class="stat"><b>2+</b><span>Counties</span></div>
+      <div class="stat"><b>1</b><span>Guy you call</span></div>
+    </div>
+    <div class="duo"><img src="rss-job-3.jpg" alt="Trenching a water line"><span class="cap">The dig · Ashland Co.</span></div>
+  </div>
+</section>
+
+<!-- 03 JOB TICKET -->
+<section class="vg c3" id="v3">
+  <div class="tag"><span class="n">03</span><b>The Job Ticket</b><span>Paper, stamps, and trust</span></div>
+  <div class="hero">
+    <span class="kick">RS Services · Ashland, Ohio</span>
+    <div class="ticket" data-label="WORK ORDER">
+      <img class="photo" src="rss-job-1.jpg" alt="Install photo">
+      <h1>RS SERVICES</h1>
+      <div class="row"><span class="bx ck"></span>Well pumps &amp; pressure tanks</div>
+      <div class="row"><span class="bx ck"></span>Water lines &amp; trenching</div>
+      <div class="row"><span class="bx ck"></span>Treatment &amp; hydrants</div>
+      <div class="row"><span class="bx"></span>Drain cleaning — not offered</div>
+      <div class="stamp">LIC 9999-PWSC-26-000375</div>
+    </div>
+    <a class="cta" href="#v4">Start a job ticket</a>
+  </div>
+  <div class="band">
+    <div class="ticket" data-label="THE ESTIMATE">
+      <img class="photo l" src="rss-job-4.jpg" alt="Pump replumb photo">
+      <div class="row"><span class="bx ck"></span>Quote first. No surprise numbers.</div>
+      <div class="row"><span class="bx ck"></span>Free estimates &amp; water tests</div>
+      <div style="margin-top:10px;">
+        <span class="stamp gr">CASH</span> <span class="stamp gr">CHECK</span> <span class="stamp gr">CARD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 HANDSHAKE -->
+<section class="vg c4" id="v4">
+  <div class="tag"><span class="n">04</span><b>The Handshake</b><span>First person. It's Paul's site.</span></div>
+  <div class="hero">
+    <div class="face">Paul's photo</div>
+    <span class="kick">RS Services · Ashland, Ohio</span>
+    <h1>I'm Paul. When you call, <em>you get me.</em></h1>
+    <p>Not a call center. Not a crew you've never met. One licensed guy who shows up, finds the problem, and stands behind the fix.</p>
+    <a class="cta" href="tel:5672840833">Call my cell</a>
+  </div>
+  <div class="band">
+    <div class="steps">
+      <div class="step"><span class="num">1</span><div><b>You tell me what the water's doing</b><span>Text a photo if it's easier. I'll tell you what I think before I roll a wheel.</span></div></div>
+      <div class="step"><span class="num">2</span><div><b>I come look, and I quote it straight</b><span>Free estimate. If it's a five-minute fix, it's a five-minute fix.</span></div></div>
+      <div class="step"><span class="num">3</span><div><b>It gets done right, or I'm not done</b><span>My name's on the sticker. That means something out here.</span></div></div>
+    </div>
+    <div class="sig">— Paul James</div>
+  </div>
+</section>
+
+<!-- 05 THE STANDARD -->
+<section class="vg c5" id="v5">
+  <div class="tag"><span class="n">05</span><b>The Standard</b><span>The authority play — he teaches, you trust</span></div>
+  <div class="bar"></div>
+  <div class="hero">
+    <span class="kick">Know your water</span>
+    <h1>The more you know about your well, the better we look.</h1>
+    <a class="cta" href="#v6">Try the water checker</a>
+  </div>
+  <div class="band">
+    <div class="qa">
+      <div class="q"><b>Faucets sputtering air?</b><span>Usually air in the line — a dropping water level or a pump losing prime.</span></div>
+      <div class="q"><b>Orange stains in the tub?</b><span>Iron. It's a treatment question, not a plumbing one. Test first, then fix.</span></div>
+      <div class="q"><b>Pump never shuts off?</b><span>Almost always the tank or the switch — and it's wearing your pump out.</span></div>
+    </div>
+    <div class="creds">
+      <span class="cred"><b>Licensed</b>9999-PWSC-26-000375</span>
+      <span class="cred"><b>Coverage</b>Ashland &amp; Wayne + 1 hr</span>
+      <span class="cred"><b>Free</b>Water test &amp; estimates</span>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FIRST GLASS -->
+<section class="vg c6" id="v6">
+  <div class="tag"><span class="n">06</span><b>First Glass</b><span>One story: the water's journey to your glass</span></div>
+  <div class="hero">
+    <div class="glass"><div class="water"></div></div>
+    <span class="kick">From the aquifer to your kitchen</span>
+    <h1>That's the job.</h1>
+    <p>Follow the water up. Every stop on the way is something we fix.</p>
+    <a class="cta" href="tel:5672840833">Get yours flowing</a>
+  </div>
+  <div class="band">
+    <div class="journey">
+      <div class="stop"><b>The aquifer</b><span>Where your water starts. The well reaches it; the pump lifts it.</span></div>
+      <div class="stop"><b>The pump &amp; tank</b><span>Pressure that holds steady, morning shower to evening dishes.</span></div>
+      <div class="stop"><b>Treatment</b><span>Iron out, sulfur out, softness in. Tested, not guessed.</span></div>
+      <div class="stop"><b>Your glass</b><span>Clear, cold, and boring — exactly how water should be.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 NIGHT CALL -->
+<section class="vg c7" id="v7">
+  <div class="tag"><span class="n">07</span><b>Night Call</b><span>Built for the 9pm no-water panic</span></div>
+  <div class="beam"></div>
+  <div class="hero">
+    <span class="kick">No water right now?</span>
+    <h1>Take a breath. Then call.</h1>
+    <a class="phone" href="tel:5672840833">567-284-0833</a>
+    <div class="sub7">Paul answers. Licensed &amp; insured. Ashland &amp; Wayne Counties.</div>
+  </div>
+  <div class="band">
+    <div class="wait">
+      <div class="w"><b>While you wait: check the breaker</b><span>The well pump has its own. If it tripped, that might be the whole story.</span></div>
+      <div class="w"><b>Look at the pressure gauge</b><span>By the tank. Note the number — it tells me a lot before I arrive.</span></div>
+      <div class="w"><b>Don't keep running taps</b><span>If the pump's struggling, resting it protects it until I get there.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 THE MAP -->
+<section class="vg c8" id="v8">
+  <div class="tag"><span class="n">08</span><b>The Map</b><span>Territory-first — his own ad already leans on it</span></div>
+  <div class="hero">
+    <div class="mapbox">
+      <svg viewBox="0 0 200 160" aria-hidden="true">
+        <path d="M30 24 L96 16 L170 26 L176 84 L160 138 L84 146 L26 128 Z"
+          fill="none" stroke="#3c463c" stroke-width="2"/>
+        <path d="M30 24 L96 16 L170 26 L176 84 L160 138 L84 146 L26 128 Z"
+          fill="rgba(141,182,0,.07)"/>
+        <line x1="98" y1="16" x2="94" y2="146" stroke="#2c352c" stroke-width="1.5" stroke-dasharray="4 5"/>
+        <circle class="pin" cx="72" cy="78" r="7" fill="#a8d21f"/>
+        <circle cx="72" cy="78" r="13" fill="none" stroke="rgba(168,210,31,.4)" stroke-width="2"/>
+        <text x="52" y="60" font-size="10" fill="#a9b5a5" font-family="system-ui">ASHLAND</text>
+        <text x="112" y="60" font-size="10" fill="#a9b5a5" font-family="system-ui">WAYNE</text>
+      </svg>
+    </div>
+    <span class="kick">RS Services · Well &amp; Water</span>
+    <h1>If you're on this map, <span class="a">you're covered.</span></h1>
+    <a class="cta" href="tel:5672840833">Check your address</a>
+  </div>
+  <div class="band">
+    <div class="towns">
+      <span class="town hub">Ashland</span><span class="town">Wooster</span><span class="town">Loudonville</span>
+      <span class="town">Perrysville</span><span class="town">Jeromesville</span><span class="town">Savannah</span>
+      <span class="town">Polk</span><span class="town">+ 1 hour out</span>
+    </div>
+  </div>
+</section>
+
+<!-- 09 THE RIG -->
+<section class="vg c9" id="v9">
+  <div class="tag"><span class="n">09</span><b>The Rig</b><span>The hat logo's energy — steel and green</span></div>
+  <div class="hazard"></div>
+  <div class="hero">
+    <span class="kick">Ashland &amp; Wayne Counties</span>
+    <h1><span class="g">RS</span><span class="s">Services LLC</span></h1>
+    <a class="cta" href="tel:5672840833">Call the shop</a>
+  </div>
+  <div class="band">
+    <div class="rigphoto"><img src="rss-job-2.jpg" alt="Filtration install"><span class="cap">Built to run · not to babysit</span></div>
+  </div>
+  <div class="hazard" style="margin-top:36px;"></div>
+</section>
+
+<div class="vbadge">lookbook · v2 · Aug 27</div>
+</body>
+</html>
