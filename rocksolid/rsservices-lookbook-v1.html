@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="RS Services — nine looks, one business">
+<meta property="og:description" content="Scroll through nine design directions for the RS Services site.">
+<meta property="og:image" content="https://motbuchanan.github.io/comps/rocksolid/rsservices-mark.png">
+<title>RS Services — the lookbook</title>
+<style>
+  *{box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#0b0d10; color:#e8ecef;}
+  .vg{min-height:100svh; position:relative; overflow:hidden; display:flex; flex-direction:column;}
+  .tag{position:sticky; top:0; z-index:30; display:flex; align-items:baseline; gap:10px;
+    padding:10px 16px; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+    background:rgba(8,10,12,.82); color:#cfd6da; backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,.08);}
+  .tag b{font-size:.9rem; letter-spacing:.04em;}
+  .tag .n{color:#8db600; font-weight:800;}
+  .stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:40px 22px 56px; position:relative;}
+  .kick{display:inline-block; border:1px solid; border-radius:999px; padding:6px 14px;
+    font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; margin-bottom:18px;}
+  .cta{display:inline-block; margin-top:24px; padding:14px 26px; border-radius:12px; font-weight:800; font-size:1rem;}
+  .logo-sm{width:44px; height:44px; object-fit:contain;}
+  .navdots{position:fixed; right:8px; top:50%; transform:translateY(-50%); z-index:40; display:flex; flex-direction:column; gap:8px;}
+  .navdots a{width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.28); display:block;}
+  .vbadge{position:fixed; left:10px; bottom:8px; z-index:50; font-size:.7rem; color:#9aa5aa;
+    background:rgba(15,18,21,.85); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:3px 8px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ===== 1 · WATER TABLE ===== */
+  .c1{background:linear-gradient(180deg,#2a2e35 0%, #1a1d22 45%, #0c0e11 100%); color:#eef2ee;}
+  .c1 .grass{position:absolute; top:0; left:0; right:0; height:7px;
+    background:repeating-linear-gradient(80deg,#8db600 0 3px, #6f9000 3px 6px);}
+  .c1 h1{font-size:clamp(2.2rem,9vw,4rem); font-family:Georgia,serif; line-height:1.05;}
+  .c1 h1 .a{color:#a8d21f;}
+  .c1 .kick{color:#a8d21f; border-color:#3c4149;}
+  .c1 .depthchip{margin-top:26px; color:#c9cdbf; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700;}
+  .c1 .aquifer{position:absolute; left:0; right:0; bottom:0; height:64px; overflow:hidden;}
+  .c1 .aquifer::before{content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(141,182,0,0) 0%, rgba(141,182,0,.35) 60%, rgba(141,182,0,.55) 100%);
+    animation:c1glow 4s ease-in-out infinite;}
+  @keyframes c1glow{0%,100%{opacity:.6;}50%{opacity:1;}}
+  .c1 .cta{background:#8db600; color:#141610;}
+
+  /* ===== 2 · STRIKE WATER ===== */
+  .c2{background:#0a0c0e; color:#f0f4ee;}
+  .c2 h1{font-size:clamp(3rem,14vw,6rem); font-weight:900; letter-spacing:-.02em; line-height:.95;}
+  .c2 h1 span{display:block;}
+  .c2 h1 .w1{color:#4b5320;} .c2 h1 .w2{color:#6f9000;} .c2 h1 .w3{color:#a8d21f; text-shadow:0 0 30px rgba(168,210,31,.4);}
+  .c2 .pipe{position:absolute; left:50%; top:0; bottom:0; width:4px; background:#23282c; transform:translateX(-50%);}
+  .c2 .drop{position:absolute; left:50%; transform:translateX(-50%); width:12px; height:12px; border-radius:50%;
+    background:#a8d21f; box-shadow:0 0 16px #a8d21f; animation:c2fall 3s linear infinite;}
+  @keyframes c2fall{from{top:-4%;}to{top:104%;}}
+  .c2 .rock{position:absolute; border-radius:40% 60% 55% 45%; background:#15181b;}
+  .c2 .r1{width:90px;height:70px; left:6%; top:22%; animation:c2drift 9s ease-in-out infinite;}
+  .c2 .r2{width:60px;height:48px; right:8%; top:60%; animation:c2drift 7s ease-in-out infinite reverse;}
+  .c2 .r3{width:40px;height:34px; left:14%; bottom:14%; animation:c2drift 11s ease-in-out infinite;}
+  @keyframes c2drift{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .c2 .kick{color:#a8d21f; border-color:#23282c;}
+  .c2 .cta{background:#a8d21f; color:#0f1208; box-shadow:0 8px 30px rgba(168,210,31,.35);}
+  .c2 .stage{z-index:2;}
+
+  /* ===== 3 · JOB TICKET ===== */
+  .c3{background:#e8dfc8 url('') ; color:#33301f;
+    background-image:linear-gradient(rgba(51,48,31,.05) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(51,48,31,.05) 1px, transparent 1px);
+    background-size:22px 22px;}
+  .c3 .ticket{background:#f7f1de; border:1.5px solid #a89a6a; border-radius:4px; max-width:420px; width:100%;
+    padding:22px 20px 26px; text-align:left; box-shadow:4px 6px 0 rgba(51,48,31,.14); position:relative;}
+  .c3 .ticket::before{content:"WORK ORDER"; position:absolute; top:-11px; left:14px; background:#33301f; color:#f7f1de;
+    font-size:.66rem; letter-spacing:.2em; padding:4px 10px; font-weight:800;}
+  .c3 h1{font-family:"Courier New",monospace; font-size:1.5rem; margin-bottom:6px;}
+  .c3 .row{font-family:"Courier New",monospace; font-size:.88rem; padding:7px 0; border-bottom:1px dashed #a89a6a; display:flex; gap:8px;}
+  .c3 .row .bx{width:15px; height:15px; border:1.5px solid #33301f; flex:0 0 auto; position:relative;}
+  .c3 .row .bx.ck::after{content:"\2713"; position:absolute; top:-5px; left:1px; font-size:1rem; font-weight:900; color:#5c7000;}
+  .c3 .stamp{position:absolute; right:12px; bottom:14px; transform:rotate(-9deg);
+    border:2.5px solid #9a2b1c; color:#9a2b1c; font-family:"Courier New",monospace; font-weight:900;
+    font-size:.68rem; letter-spacing:.1em; padding:5px 9px; border-radius:4px; opacity:.85;}
+  .c3 .photo{position:absolute; top:-34px; right:-10px; width:104px; transform:rotate(6deg);
+    border:6px solid #fff; border-bottom-width:26px; box-shadow:0 6px 14px rgba(51,48,31,.3);}
+  .c3 .photo img{width:100%; display:block;}
+  .c3 .kick{color:#5c7000; border-color:#a89a6a;}
+  .c3 .cta{background:#33301f; color:#f7f1de;}
+
+  /* ===== 4 · THE HANDSHAKE ===== */
+  .c4{background:#23211e; color:#f2ede4;}
+  .c4 .face{width:120px; height:120px; border-radius:50%; border:3px solid #8db600; margin:0 auto 20px;
+    background:#2e2b27; display:flex; align-items:center; justify-content:center; color:#8f887c; font-size:.72rem;}
+  .c4 h1{font-family:Georgia,serif; font-size:clamp(1.8rem,7.5vw,3rem); line-height:1.25; max-width:22ch;}
+  .c4 h1 em{color:#a8d21f; font-style:normal;}
+  .c4 p{margin-top:16px; color:#bdb5a6; font-size:1.05rem; max-width:36ch;}
+  .c4 .kick{color:#a8d21f; border-color:#3c3831;}
+  .c4 .cta{background:transparent; color:#a8d21f; border:2px solid #a8d21f;}
+
+  /* ===== 5 · CLEAR ===== */
+  .c5{background:linear-gradient(180deg,#ffffff, #eef1f2); color:#20262a;}
+  .c5 h1{font-weight:250; font-size:clamp(2rem,8.5vw,3.6rem); letter-spacing:.02em;}
+  .c5 h1 b{font-weight:750; color:#557000;}
+  .c5 .glass-card{margin-top:26px; background:rgba(255,255,255,.55); border:1px solid rgba(120,130,135,.28);
+    backdrop-filter:blur(10px); border-radius:18px; padding:20px 26px; box-shadow:0 18px 50px rgba(90,110,120,.16);
+    font-size:.95rem; color:#4a545a; max-width:360px;}
+  .c5 .dropdot{width:14px; height:20px; margin:0 auto 16px; border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+    background:radial-gradient(circle at 35% 30%, #cfe6a3, #6f9000); animation:c5bob 3s ease-in-out infinite;}
+  @keyframes c5bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .c5 .kick{color:#557000; border-color:#ccd4d0;}
+  .c5 .cta{background:#20262a; color:#fff;}
+
+  /* ===== 6 · THE STANDARD ===== */
+  .c6{background:#f4f5f2; color:#1d2420;}
+  .c6 .bar{height:6px; background:linear-gradient(90deg,#1d2420 0 30%, #8db600 30% 100%);}
+  .c6 h1{font-size:clamp(1.9rem,7.5vw,3.2rem); font-weight:850; letter-spacing:-.01em; max-width:20ch;}
+  .c6 .creds{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px;}
+  .c6 .cred{background:#fff; border:1px solid #d6dad2; border-radius:10px; padding:10px 14px; font-size:.78rem;
+    font-weight:700; color:#3c463e; box-shadow:0 2px 8px rgba(29,36,32,.06);}
+  .c6 .cred b{display:block; color:#557000; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase;}
+  .c6 .kick{color:#557000; border-color:#d6dad2;}
+  .c6 .cta{background:#8db600; color:#141610;}
+
+  /* ===== 7 · FIRST GLASS ===== */
+  .c7{background:#101418; color:#eef3f1;}
+  .c7 .glass{width:110px; height:150px; margin:0 auto 22px; border:4px solid #cfd8d4; border-top:none;
+    border-radius:0 0 22px 22px; position:relative; overflow:hidden;}
+  .c7 .water{position:absolute; left:0; right:0; bottom:0; height:0; background:linear-gradient(180deg,#c6e07a,#8db600);
+    animation:c7fill 5s ease-in-out infinite;}
+  @keyframes c7fill{0%{height:0;} 55%{height:78%;} 75%{height:74%;} 100%{height:78%;}}
+  .c7 h1{font-family:Georgia,serif; font-size:clamp(2rem,8.5vw,3.4rem);}
+  .c7 p{color:#9fb0a8; margin-top:12px;}
+  .c7 .kick{color:#a8d21f; border-color:#2a3238;}
+  .c7 .cta{background:#8db600; color:#101418;}
+
+  /* ===== 8 · NIGHT CALL ===== */
+  .c8{background:#050607; color:#e8f5d8;}
+  .c8 .beam{position:absolute; inset:0; background:radial-gradient(circle 240px at 50% 42%, rgba(168,210,31,.16), transparent 70%);
+    animation:c8sweep 6s ease-in-out infinite;}
+  @keyframes c8sweep{0%,100%{background-position:0 0; opacity:.9;}50%{opacity:1.2;}}
+  .c8 h1{font-size:clamp(1.6rem,7vw,2.6rem); font-weight:800; max-width:18ch;}
+  .c8 .phone{display:block; margin-top:22px; font-size:clamp(2rem,9.5vw,3.4rem); font-weight:900; color:#a8d21f;
+    text-shadow:0 0 24px rgba(168,210,31,.55); letter-spacing:.02em; text-decoration:none;}
+  .c8 .sub8{margin-top:10px; color:#7d8a70; font-size:.9rem;}
+  .c8 .kick{color:#a8d21f; border-color:#1d2314;}
+  .c8 .stage{z-index:2;}
+
+  /* ===== 9 · THE LEDGER ===== */
+  .c9{background:#f3ecd9; color:#2d2a20;}
+  .c9 .ring{width:150px; height:150px; margin:0 auto 18px;}
+  .c9 h1{font-family:Georgia,"Times New Roman",serif; font-size:clamp(1.9rem,8vw,3.2rem); letter-spacing:.04em;}
+  .c9 .rule{width:120px; height:2px; background:#2d2a20; margin:16px auto;}
+  .c9 .est{font-family:Georgia,serif; font-size:.8rem; letter-spacing:.32em; text-transform:uppercase; color:#6e6753;}
+  .c9 p{font-family:Georgia,serif; font-style:italic; color:#5c5744; margin-top:14px; max-width:34ch;}
+  .c9 .kick{color:#6e6753; border-color:#c8bd9e;}
+  .c9 .cta{background:#2d2a20; color:#f3ecd9; font-family:Georgia,serif; font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="navdots" aria-hidden="true">
+  <a href="#v1"></a><a href="#v2"></a><a href="#v3"></a><a href="#v4"></a><a href="#v5"></a>
+  <a href="#v6"></a><a href="#v7"></a><a href="#v8"></a><a href="#v9"></a>
+</div>
+
+<!-- 1 WATER TABLE -->
+<section class="vg c1" id="v1">
+  <div class="tag"><span class="n">01</span><b>The Water Table</b><span>Deep Water's depth, in RS colors</span></div>
+  <div class="grass"></div>
+  <div class="stage">
+    <img class="logo-sm" src="rsservices-mark.png" alt="RS Services logo">
+    <div style="height:14px"></div>
+    <span class="kick">Water Well &amp; Plumbing · Ashland &amp; Wayne Counties</span>
+    <h1>A Job <span class="a">Done Right.</span></h1>
+    <div class="depthchip">&#8595; The water's down there. We know the way.</div>
+    <a class="cta" href="#v2">Get a straight quote</a>
+  </div>
+  <div class="aquifer"></div>
+</section>
+
+<!-- 2 STRIKE WATER -->
+<section class="vg c2" id="v2">
+  <div class="tag"><span class="n">02</span><b>Strike Water</b><span>The juiced one — everything moves</span></div>
+  <div class="pipe"></div><div class="drop"></div>
+  <div class="rock r1"></div><div class="rock r2"></div><div class="rock r3"></div>
+  <div class="stage">
+    <span class="kick">RS Services · Licensed · Insured</span>
+    <h1><span class="w1">DIG.</span><span class="w2">FIX.</span><span class="w3">FLOW.</span></h1>
+    <a class="cta" href="#v3">Text Paul</a>
+  </div>
+</section>
+
+<!-- 3 JOB TICKET -->
+<section class="vg c3" id="v3">
+  <div class="tag"><span class="n">03</span><b>The Job Ticket</b><span>Paper, stamps, and trust</span></div>
+  <div class="stage">
+    <span class="kick">RS Services · Est. Ashland, Ohio</span>
+    <div class="ticket">
+      <img class="photo" src="rss-job-1.jpg" alt="Install photo">
+      <h1>RS SERVICES</h1>
+      <div class="row"><span class="bx ck"></span>Well pumps &amp; pressure tanks</div>
+      <div class="row"><span class="bx ck"></span>Water lines &amp; trenching</div>
+      <div class="row"><span class="bx ck"></span>Treatment &amp; hydrants</div>
+      <div class="row"><span class="bx"></span>Drain cleaning — not offered</div>
+      <div style="height:34px"></div>
+      <div class="stamp">LIC 9999-PWSC-26-000375</div>
+    </div>
+    <a class="cta" href="#v4">Start a job ticket</a>
+  </div>
+</section>
+
+<!-- 4 THE HANDSHAKE -->
+<section class="vg c4" id="v4">
+  <div class="tag"><span class="n">04</span><b>The Handshake</b><span>First person. It's Paul's site.</span></div>
+  <div class="stage">
+    <div class="face">Paul's photo</div>
+    <span class="kick">RS Services · Ashland, Ohio</span>
+    <h1>I'm Paul. When you call, <em>you get me.</em></h1>
+    <p>Not a call center. Not a crew you've never met. One licensed guy who shows up, finds the problem, and stands behind the fix.</p>
+    <a class="cta" href="#v5">Call my cell</a>
+  </div>
+</section>
+
+<!-- 5 CLEAR -->
+<section class="vg c5" id="v5">
+  <div class="tag"><span class="n">05</span><b>Clear</b><span>The premium water-brand look</span></div>
+  <div class="stage">
+    <div class="dropdot"></div>
+    <span class="kick">RS Services</span>
+    <h1>Water the way it's <b>supposed to be.</b></h1>
+    <div class="glass-card">Softeners, iron filters, and treatment systems, installed clean and tuned to what your water actually needs.</div>
+    <a class="cta" href="#v6">Book a free water test</a>
+  </div>
+</section>
+
+<!-- 6 THE STANDARD -->
+<section class="vg c6" id="v6">
+  <div class="tag"><span class="n">06</span><b>The Standard</b><span>The authority play — he teaches, you trust</span></div>
+  <div class="bar"></div>
+  <div class="stage">
+    <span class="kick">Know your water</span>
+    <h1>The more you know about your well, the better we look.</h1>
+    <div class="creds">
+      <span class="cred"><b>Licensed</b>9999-PWSC-26-000375</span>
+      <span class="cred"><b>Coverage</b>Ashland &amp; Wayne + 1 hr</span>
+      <span class="cred"><b>Free</b>Water test &amp; estimates</span>
+    </div>
+    <a class="cta" href="#v7">Try the water checker</a>
+  </div>
+</section>
+
+<!-- 7 FIRST GLASS -->
+<section class="vg c7" id="v7">
+  <div class="tag"><span class="n">07</span><b>First Glass</b><span>One story: the water's journey to your glass</span></div>
+  <div class="stage">
+    <div class="glass"><div class="water"></div></div>
+    <span class="kick">From the aquifer to your kitchen</span>
+    <h1>That's the job.</h1>
+    <p>Follow the water up. Every stop on the way is something we fix.</p>
+    <a class="cta" href="#v8">Follow the water</a>
+  </div>
+</section>
+
+<!-- 8 NIGHT CALL -->
+<section class="vg c8" id="v8">
+  <div class="tag"><span class="n">08</span><b>Night Call</b><span>Built for the 9pm no-water panic</span></div>
+  <div class="beam"></div>
+  <div class="stage">
+    <span class="kick">No water right now?</span>
+    <h1>Take a breath. Then call.</h1>
+    <a class="phone" href="tel:5672840833">567-284-0833</a>
+    <div class="sub8">Paul answers. Licensed &amp; insured. Ashland &amp; Wayne Counties.</div>
+  </div>
+</section>
+
+<!-- 9 THE LEDGER -->
+<section class="vg c9" id="v9">
+  <div class="tag"><span class="n">09</span><b>The Ledger</b><span>Heritage type — the logo becomes a banknote</span></div>
+  <div class="stage">
+    <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+      <g fill="none" stroke="#6e6753" stroke-width="1.6">
+        <path d="M186 100 L100 186 L14 100 L100 14 Z"/>
+        <path d="M184.9 113.5 L86.5 184.9 L15.1 86.5 L113.5 15.1 Z"/>
+        <path d="M181.6 126.6 L73.4 181.6 L18.4 73.4 L126.6 18.4 Z"/>
+        <path d="M176.2 139 L61 176.2 L23.8 61 L139 23.8 Z"/>
+        <path d="M168.8 150.5 L49.5 168.8 L31.2 49.5 L150.5 31.2 Z"/>
+        <path d="M159.4 160.8 L39.2 159.4 L40.6 39.2 L160.8 40.6 Z"/>
+      </g>
+      <text x="100" y="126" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="74" fill="#2d2a20">R</text>
+    </svg>
+    <div class="est">Rock Solid Professional Services</div>
+    <h1>RS Services</h1>
+    <div class="rule"></div>
+    <p>Honest well work, kept the old way: you shake on it, and it gets done right.</p>
+    <a class="cta" href="#v1">Request a call</a>
+  </div>
+</section>
+
+<div class="vbadge">lookbook · v1 · Aug 26</div>
+</body>
+</html>
