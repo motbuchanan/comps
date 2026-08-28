@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="RS Services — what did you think?">
+<meta property="og:description" content="Three minutes. Tap what's true. This shapes your site.">
+<meta property="og:image" content="https://motbuchanan.github.io/comps/rocksolid/rsservices-mark.png">
+<title>RS Services — site feedback</title>
+<style>
+  *{box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent;}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#101215; color:#e8ecef; padding-bottom:40px;}
+  img{max-width:100%;}
+  button{font:inherit; border:none; cursor:pointer; background:none; color:inherit; padding:0;}
+  .wrap{max-width:620px; margin:0 auto; padding:26px 18px;}
+  header{text-align:center; padding:34px 18px 8px;}
+  header img{width:84px; height:84px; object-fit:contain;}
+  h1{font-family:Georgia,serif; font-size:clamp(1.6rem,7vw,2.3rem); margin-top:10px;}
+  h1 .a{color:#a8d21f;}
+  .lead{color:#a7aca2; margin-top:8px; font-size:.95rem;}
+  .q{background:#171a1e; border:1px solid #2c3138; border-radius:18px; padding:18px 16px; margin-top:18px;}
+  .q h2{font-size:1.05rem; margin-bottom:4px;}
+  .q .hint{color:#8d938f; font-size:.82rem; margin-bottom:14px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .ch{border:1px solid #3a3f46; border-radius:999px; padding:10px 15px; font-size:.92rem; color:#cfd6cd;
+    transition:transform .1s ease;}
+  .ch:active{transform:scale(.94);}
+  .ch.on{background:#8db600; border-color:#8db600; color:#141610; font-weight:800;}
+  textarea{width:100%; background:#101215; border:1px solid #3a3f46; border-radius:12px; color:#e8ecef;
+    padding:12px; font:inherit; font-size:.92rem; min-height:74px; resize:vertical; margin-top:10px;}
+  textarea::placeholder{color:#5c6360;}
+  /* look cards */
+  .looks{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .lk{display:block; width:100%; border:2px solid #3a3f46; border-radius:14px; overflow:hidden; text-align:left; position:relative;}
+  .lk.on{border-color:#a8d21f; box-shadow:0 0 0 2px rgba(168,210,31,.25);}
+  .lk .vis{display:block; width:100%; height:92px; position:relative; overflow:hidden;}
+  .lk .nm{display:block; padding:9px 11px; font-weight:800; font-size:.82rem; background:#101215;}
+  .lk .nm span{display:block; font-weight:400; color:#8d938f; font-size:.7rem;}
+  .v-water{background:linear-gradient(180deg,#2a2f30, #14171a 75%, #10343c 100%);}
+  .v-water::before{content:""; position:absolute; top:10px; left:0; right:0; height:4px;
+    background:repeating-linear-gradient(80deg,#8db600 0 3px, #6f9000 3px 6px);}
+  .v-water::after{content:""; position:absolute; left:50%; top:14px; bottom:0; width:3px; background:#4a4f56;}
+  .v-rig{background:#101112; background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 2px, transparent 2px 12px);}
+  .v-rig::before{content:"RS"; position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
+    font-style:italic; font-weight:900; font-size:2rem; color:#a8d21f; text-shadow:2px 2px 0 #3a4a00;}
+  .v-rig::after{content:""; position:absolute; left:0; right:0; bottom:0; height:7px;
+    background:repeating-linear-gradient(45deg,#8db600 0 10px, #101112 10px 20px);}
+  .v-light{background:linear-gradient(180deg,#ffffff,#eef1ee);}
+  .v-light::before{content:"A Job Done Right."; position:absolute; left:50%; top:44%; transform:translate(-50%,-50%);
+    color:#20262a; font-family:Georgia,serif; font-weight:700; font-size:.86rem; white-space:nowrap;}
+  .v-light::after{content:""; position:absolute; left:24%; right:24%; bottom:18px; height:9px; border-radius:99px; background:#8db600;}
+  .v-paper{background:#e8dfc8;
+    background-image:linear-gradient(rgba(51,48,31,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(51,48,31,.06) 1px, transparent 1px); background-size:16px 16px;}
+  .v-paper::before{content:"WORK ORDER"; position:absolute; left:12px; top:12px; background:#33301f; color:#f7f1de;
+    font-size:.55rem; letter-spacing:.18em; padding:3px 7px; font-weight:800;}
+  .v-paper::after{content:"LIC 9999-PWSC"; position:absolute; right:10px; bottom:12px; transform:rotate(-6deg);
+    border:2px solid #9a2b1c; color:#9a2b1c; font-family:"Courier New",monospace; font-weight:900;
+    font-size:.55rem; padding:2px 6px; border-radius:3px;}
+  .v-night{background:#050607;}
+  .v-night::before{content:""; position:absolute; inset:0;
+    background:radial-gradient(circle 70px at 50% 42%, rgba(168,210,31,.2), transparent 70%);}
+  .v-night::after{content:"567-284-0833"; position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
+    color:#a8d21f; font-weight:900; font-size:1rem; text-shadow:0 0 14px rgba(168,210,31,.6);}
+  .v-glass{background:#101418;}
+  .v-glass::before{content:""; position:absolute; left:50%; top:14px; transform:translateX(-50%);
+    width:38px; height:52px; border:2.5px solid #cfd8d4; border-top:none; border-radius:0 0 9px 9px;}
+  .v-glass::after{content:""; position:absolute; left:50%; top:34px; transform:translateX(-50%);
+    width:33px; height:29px; border-radius:0 0 7px 7px;
+    background:linear-gradient(180deg,#dff2f8,#8fc7dd);}
+  .v-hand{background:#23211e;}
+  .v-hand::before{content:""; position:absolute; left:50%; top:14px; transform:translateX(-50%);
+    width:34px; height:34px; border-radius:50%; border:2.5px solid #8db600; background:#2e2b27;}
+  .v-hand::after{content:"I'm Paul."; position:absolute; left:50%; top:66%; transform:translate(-50%,-50%);
+    color:#f2ede4; font-family:Georgia,serif; font-size:.95rem;}
+  /* section rows */
+  .srow{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px dashed #2c3138;}
+  .srow:last-child{border-bottom:none;}
+  .srow .ic{flex:0 0 44px; height:44px; border-radius:10px; border:1px solid #3a3f46; position:relative; overflow:hidden;}
+  .srow .nm2{flex:1; font-size:.9rem; font-weight:700;}
+  .srow .nm2 span{display:block; font-weight:400; color:#8d938f; font-size:.72rem;}
+  .srow .tri{display:flex; gap:5px;}
+  .srow .tri .ch{padding:7px 10px; font-size:.74rem;}
+  .i-map{background:#181c19;}
+  .i-map::before{content:""; position:absolute; inset:8px 9px;
+    border:1.5px solid #5c7a4a; border-radius:3px; background:rgba(141,182,0,.08);}
+  .i-map::after{content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:9px; height:9px; border-radius:50%; background:#a8d21f;}
+  .i-diag{background:#15181a;}
+  .i-diag::before{content:""; position:absolute; left:7px; right:7px; top:50%; height:2px; background:#8db600;}
+  .i-diag::after{content:""; position:absolute; left:9px; top:12px; width:9px; height:20px; background:#2c6a7c; border-radius:2px;}
+  .i-glass{background:#101418;}
+  .i-glass::before{content:""; position:absolute; left:50%; top:8px; transform:translateX(-50%);
+    width:20px; height:28px; border:2px solid #cfd8d4; border-top:none; border-radius:0 0 6px 6px;}
+  .i-glass::after{content:""; position:absolute; left:50%; top:19px; transform:translateX(-50%);
+    width:16px; height:15px; background:#8fc7dd; border-radius:0 0 4px 4px;}
+  .i-drop{background:linear-gradient(180deg,#20252a, #10343c);}
+  .i-drop::before{content:""; position:absolute; left:50%; top:6px; bottom:14px; width:2px; background:#4a4f56; transform:translateX(-50%);}
+  .i-drop::after{content:""; position:absolute; left:50%; bottom:12px; transform:translateX(-50%);
+    width:7px; height:7px; border-radius:50%; background:#bfe3ef; box-shadow:0 0 8px rgba(191,227,239,.8);}
+  .i-photo{background:#171a1d;}
+  .i-photo::before{content:""; position:absolute; inset:7px; border-radius:4px;
+    background:linear-gradient(135deg,#3a5a2a, #2a3a4a);}
+  .i-photo::after{content:"6"; position:absolute; right:9px; bottom:7px; color:#a8d21f; font-weight:900; font-size:.7rem;}
+  /* photo styles minis */
+  .pgrid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .ps{display:block; width:100%; border:2px solid #3a3f46; border-radius:12px; overflow:hidden; text-align:left;}
+  .ps.on{border-color:#a8d21f; box-shadow:0 0 0 2px rgba(168,210,31,.25);}
+  .ps .vis{display:block; width:100%; height:64px; position:relative; background:#101215; overflow:hidden;}
+  .ps .nm{display:block; padding:7px 10px; font-size:.74rem; font-weight:800; background:#101215; color:#cfd6cd;}
+  .p-xray::before{content:""; position:absolute; inset:0; background:#1c1f22;}
+  .p-xray::after{content:""; position:absolute; left:56%; top:46%; transform:translate(-50%,-50%);
+    width:34px; height:34px; border-radius:50%; border:2.5px solid #a8d21f;
+    background:radial-gradient(circle,#3a5a2a 0%, #2a3a4a 100%);}
+  .p-wipe::before{content:""; position:absolute; inset:0;
+    background:linear-gradient(90deg, #4a3a28 0 50%, #3a5a2a 50%);}
+  .p-wipe::after{content:"\2194"; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:22px; height:22px; border-radius:50%; background:#fff; color:#141610;
+    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.8rem;}
+  .p-tour::before{content:""; position:absolute; inset:0; background:linear-gradient(135deg,#2a3a30,#24303c);}
+  .p-tour::after{content:""; position:absolute; left:34%; top:38%; width:12px; height:12px; border-radius:50%;
+    border:2px solid #a8d21f; background:rgba(10,12,10,.6);
+    box-shadow:22px 14px 0 -1px rgba(10,12,10,.6), 22px 14px 0 1px #a8d21f;}
+  .p-cine::before{content:""; position:absolute; inset:0; background:linear-gradient(120deg,#2a3a30,#1c2630);}
+  .p-cine::after{content:"\25B6"; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    color:#a8d21f; font-size:1.1rem;}
+  .p-swipe::before{content:""; position:absolute; left:6px; top:8px; bottom:8px; width:70%;
+    border-radius:8px; background:linear-gradient(135deg,#3a5a2a,#2a3a4a);}
+  .p-swipe::after{content:""; position:absolute; right:-14px; top:8px; bottom:8px; width:30%;
+    border-radius:8px; background:#2a3038;}
+  .p-pol::before{content:""; position:absolute; left:16%; top:9px; width:34px; height:40px; background:#fff;
+    transform:rotate(-5deg); box-shadow:inset 0 0 0 3px #fff, inset 0 -12px 0 #fff;}
+  .p-pol::after{content:""; position:absolute; right:16%; top:12px; width:34px; height:40px; background:#fff;
+    transform:rotate(6deg);}
+  .p-grid::before{content:""; position:absolute; inset:8px;
+    background:linear-gradient(90deg,#3a5a2a 0 48%, transparent 48% 52%, #2a3a4a 52%);}
+  .p-film::before{content:""; position:absolute; left:8px; right:8px; top:7px; height:32px; border-radius:5px;
+    background:linear-gradient(135deg,#3a5a2a,#2a3a4a);}
+  .p-film::after{content:""; position:absolute; left:8px; bottom:7px; width:80%; height:12px;
+    background:repeating-linear-gradient(90deg,#2a3038 0 16px, #101215 16px 20px); border-radius:3px;}
+  .p-deck::before{content:""; position:absolute; left:50%; top:50%; width:40px; height:44px; background:#fff;
+    transform:translate(-50%,-50%) rotate(-4deg); box-shadow:3px 3px 0 #d8d8d2, 6px 6px 0 #b8b8b2;}
+  .p-pager::before{content:""; position:absolute; left:22%; right:22%; top:8px; height:32px; border-radius:5px;
+    background:linear-gradient(135deg,#3a5a2a,#2a3a4a);}
+  .p-pager::after{content:"\2190  2/6  \2192"; position:absolute; left:0; right:0; bottom:6px; text-align:center;
+    color:#8d938f; font-size:.62rem; font-weight:800;}
+  /* words */
+  .cta2{display:block; width:100%; margin-top:26px; background:#a8d21f; color:#141610; font-weight:800;
+    border-radius:14px; padding:16px; font-size:1.05rem;}
+  .toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px); z-index:99;
+    background:#eaffbf; color:#141610; font-weight:700; border-radius:999px; padding:10px 18px; font-size:.9rem;
+    opacity:0; pointer-events:none; transition:all .25s ease;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .vbadge{position:fixed; left:10px; bottom:8px; z-index:50; font-size:.68rem; color:#9aa5aa;
+    background:rgba(15,18,21,.85); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:3px 8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="rsservices-mark.png" alt="RS Services logo">
+  <h1>What did you <span class="a">think?</span></h1>
+  <div class="lead">Three minutes. Tap what's true. There are no wrong answers, this just shapes the next draft.</div>
+</header>
+
+<div class="wrap">
+
+  <div class="q" data-q="gut" data-mode="one">
+    <h2>1 &middot; Gut reaction to the draft site</h2>
+    <div class="hint">First feeling when it opened.</div>
+    <div class="chips">
+      <button class="ch" data-v="Loved it">Loved it</button>
+      <button class="ch" data-v="Liked it">Liked it</button>
+      <button class="ch" data-v="It's OK">It's OK</button>
+      <button class="ch" data-v="Not me yet">Not me yet</button>
+    </div>
+    <textarea data-t="gut-words" placeholder="Say it in your words if you want..."></textarea>
+  </div>
+
+  <div class="q" data-q="look" data-mode="one">
+    <h2>2 &middot; The overall look</h2>
+    <div class="hint">Which direction feels like RS Services? Tap one.</div>
+    <div class="looks">
+      <button class="lk" data-v="Dark earth (Water Table)"><span class="vis v-water"></span><span class="nm">Dark earth<span>The one in your draft</span></span></button>
+      <button class="lk" data-v="Steel &amp; stripes (Rig)"><span class="vis v-rig"></span><span class="nm">Steel &amp; stripes<span>The other look in the builder</span></span></button>
+      <button class="lk" data-v="Lighter &amp; clean"><span class="vis v-light"></span><span class="nm">Lighter &amp; clean<span>White, bright, simple</span></span></button>
+      <button class="lk" data-v="Paper &amp; stamps"><span class="vis v-paper"></span><span class="nm">Paper &amp; stamps<span>Work-order style, warm</span></span></button>
+    </div>
+  </div>
+
+  <div class="q" data-q="bright" data-mode="one">
+    <h2>3 &middot; Dark or light?</h2>
+    <div class="hint">Forget the style for a second. Just the brightness.</div>
+    <div class="chips">
+      <button class="ch" data-v="Dark like the draft">Dark like the draft</button>
+      <button class="ch" data-v="Somewhere in the middle">In the middle</button>
+      <button class="ch" data-v="Light and bright">Light and bright</button>
+    </div>
+  </div>
+
+  <div class="q" data-q="colors" data-mode="one">
+    <h2>4 &middot; Your colors</h2>
+    <div class="hint">The green and black come from your logo.</div>
+    <div class="chips">
+      <button class="ch" data-v="Keep my green &amp; black">Keep my green &amp; black</button>
+      <button class="ch" data-v="Green but brighter overall">Green, but brighter overall</button>
+      <button class="ch" data-v="Mix in some blue for water">Mix in some blue for water</button>
+      <button class="ch" data-v="Try something different">Try something different</button>
+    </div>
+    <textarea data-t="color-words" placeholder="Any colors you love or hate?"></textarea>
+  </div>
+
+  <div class="q">
+    <h2>5 &middot; The pieces of the site</h2>
+    <div class="hint">For each one: keep it, change it, or cut it.</div>
+    <div class="srow" data-q="sec-map" data-mode="one">
+      <span class="ic i-map"></span>
+      <span class="nm2">The territory map<span>Tap your town, pin finds you</span></span>
+      <span class="tri"><button class="ch" data-v="Keep">Keep</button><button class="ch" data-v="Change">Change</button><button class="ch" data-v="Cut">Cut</button></span>
+    </div>
+    <div class="srow" data-q="sec-checker" data-mode="one">
+      <span class="ic i-diag"></span>
+      <span class="nm2">The water checker<span>Tap a symptom, trace the system</span></span>
+      <span class="tri"><button class="ch" data-v="Keep">Keep</button><button class="ch" data-v="Change">Change</button><button class="ch" data-v="Cut">Cut</button></span>
+    </div>
+    <div class="srow" data-q="sec-glass" data-mode="one">
+      <span class="ic i-glass"></span>
+      <span class="nm2">The filling glass<span>Bad water to first clean glass</span></span>
+      <span class="tri"><button class="ch" data-v="Keep">Keep</button><button class="ch" data-v="Change">Change</button><button class="ch" data-v="Cut">Cut</button></span>
+    </div>
+    <div class="srow" data-q="sec-drop" data-mode="one">
+      <span class="ic i-drop"></span>
+      <span class="nm2">The falling droplet<span>Drops down the well, plinks</span></span>
+      <span class="tri"><button class="ch" data-v="Keep">Keep</button><button class="ch" data-v="Change">Change</button><button class="ch" data-v="Cut">Cut</button></span>
+    </div>
+    <div class="srow" data-q="sec-photos" data-mode="one">
+      <span class="ic i-photo"></span>
+      <span class="nm2">Your job photos<span>The proof section</span></span>
+      <span class="tri"><button class="ch" data-v="Keep">Keep</button><button class="ch" data-v="Change">Change</button><button class="ch" data-v="Cut">Cut</button></span>
+    </div>
+  </div>
+
+  <div class="q" data-q="pstyles" data-mode="multi" data-max="2">
+    <h2>6 &middot; Showing off your work</h2>
+    <div class="hint">You saw 10 photo styles in the builder. Tap your top TWO.</div>
+    <div class="pgrid2">
+      <button class="ps" data-v="X-ray reveal"><span class="vis p-xray"></span><span class="nm">X-ray reveal</span></button>
+      <button class="ps" data-v="Before &amp; after wipe"><span class="vis p-wipe"></span><span class="nm">Before &amp; after wipe</span></button>
+      <button class="ps" data-v="Guided tour pins"><span class="vis p-tour"></span><span class="nm">Guided tour</span></button>
+      <button class="ps" data-v="Cinema loop"><span class="vis p-cine"></span><span class="nm">Cinema loop</span></button>
+      <button class="ps" data-v="Spotlight swipe"><span class="vis p-swipe"></span><span class="nm">Spotlight swipe</span></button>
+      <button class="ps" data-v="Polaroid wall"><span class="vis p-pol"></span><span class="nm">Polaroid wall</span></button>
+      <button class="ps" data-v="Clean grid"><span class="vis p-grid"></span><span class="nm">Clean grid</span></button>
+      <button class="ps" data-v="Filmstrip"><span class="vis p-film"></span><span class="nm">Filmstrip</span></button>
+      <button class="ps" data-v="Stack of prints"><span class="vis p-deck"></span><span class="nm">Stack of prints</span></button>
+      <button class="ps" data-v="One at a time"><span class="vis p-pager"></span><span class="nm">One at a time</span></button>
+    </div>
+  </div>
+
+  <div class="q" data-q="others" data-mode="multi" data-max="3">
+    <h2>7 &middot; Other looks we worked up</h2>
+    <div class="hint">These didn't make the draft. Tap any that pull you. Or none.</div>
+    <div class="looks">
+      <button class="lk" data-v="First Glass hero"><span class="vis v-glass"></span><span class="nm">First Glass<span>The site opens on the glass filling</span></span></button>
+      <button class="lk" data-v="Night Call"><span class="vis v-night"></span><span class="nm">Night Call<span>Built for the no-water panic</span></span></button>
+      <button class="lk" data-v="The Handshake"><span class="vis v-hand"></span><span class="nm">The Handshake<span>First person. "I'm Paul."</span></span></button>
+      <button class="lk" data-v="None of these"><span class="vis" style="background:#171a1e; display:flex; align-items:center; justify-content:center; color:#5c6360; font-weight:800;">PASS</span><span class="nm">None of these<span>Stick with the draft direction</span></span></button>
+    </div>
+  </div>
+
+  <div class="q" data-q="words" data-mode="multi" data-max="3">
+    <h2>8 &middot; Words that sound like your business</h2>
+    <div class="hint">Tap up to three.</div>
+    <div class="chips">
+      <button class="ch" data-v="Honest">Honest</button>
+      <button class="ch" data-v="Tough">Tough</button>
+      <button class="ch" data-v="Friendly">Friendly</button>
+      <button class="ch" data-v="Modern">Modern</button>
+      <button class="ch" data-v="Old-school">Old-school</button>
+      <button class="ch" data-v="Clean">Clean</button>
+      <button class="ch" data-v="Rugged">Rugged</button>
+      <button class="ch" data-v="High-tech">High-tech</button>
+      <button class="ch" data-v="Local">Local</button>
+      <button class="ch" data-v="Family">Family</button>
+    </div>
+  </div>
+
+  <div class="q">
+    <h2>9 &middot; Your guarantee, in your words</h2>
+    <div class="hint">You started telling me how you stand behind your work and the text cut off. Finish the thought here, it goes on the site word for word.</div>
+    <textarea data-t="warranty" placeholder="If something I install isn't right..."></textarea>
+  </div>
+
+  <div class="q">
+    <h2>10 &middot; Anything else</h2>
+    <div class="hint">What's missing? What bugged you? What made you grin?</div>
+    <textarea data-t="else" placeholder="Straight talk welcome..."></textarea>
+  </div>
+
+  <button class="cta2" id="copyAns">Copy my answers &amp; text them to Mot</button>
+</div>
+
+<div class="toast" id="toast">Copied &mdash; paste it in a text to Mot</div>
+<div class="vbadge">feedback &middot; v1 &middot; Aug 28</div>
+
+<script>
+"use strict";
+var state={};
+try{ var s=localStorage.getItem("rsfeedback-v1"); if(s) state=JSON.parse(s)||{}; }catch(e){}
+function save(){ try{ localStorage.setItem("rsfeedback-v1", JSON.stringify(state)); }catch(e){} }
+
+function restore(){
+  var qs=document.querySelectorAll("[data-q]");
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i], id=q.getAttribute("data-q"), val=state[id];
+    if(!val) continue;
+    var vals = Array.isArray(val)?val:[val];
+    var btns=q.querySelectorAll("[data-v]");
+    for(var b=0;b<btns.length;b++){
+      if(vals.indexOf(btns[b].getAttribute("data-v"))>=0) btns[b].classList.add("on");
+    }
+  }
+  var ts=document.querySelectorAll("textarea[data-t]");
+  for(var t=0;t<ts.length;t++){
+    var k=ts[t].getAttribute("data-t");
+    if(state["t:"+k]) ts[t].value=state["t:"+k];
+  }
+}
+restore();
+
+document.addEventListener("click", function(e){
+  var btn = e.target.closest ? e.target.closest("[data-v], #copyAns") : null;
+  if(!btn) return;
+  if(btn.id==="copyAns"){ copyAnswers(); return; }
+  var q=btn.closest("[data-q]");
+  var id=q.getAttribute("data-q"), mode=q.getAttribute("data-mode")||"one";
+  var v=btn.getAttribute("data-v");
+  if(mode==="one"){
+    var sibs=q.querySelectorAll("[data-v]");
+    for(var i=0;i<sibs.length;i++) sibs[i].classList.remove("on");
+    btn.classList.add("on");
+    state[id]=v;
+  } else {
+    var max=parseInt(q.getAttribute("data-max")||"9",10);
+    var cur=Array.isArray(state[id])?state[id].slice():[];
+    var idx=cur.indexOf(v);
+    if(idx>=0){ cur.splice(idx,1); btn.classList.remove("on"); }
+    else{
+      if(cur.length>=max){
+        // drop oldest
+        var old=cur.shift();
+        var sibs2=q.querySelectorAll("[data-v]");
+        for(var j=0;j<sibs2.length;j++){ if(sibs2[j].getAttribute("data-v")===old) sibs2[j].classList.remove("on"); }
+      }
+      cur.push(v); btn.classList.add("on");
+    }
+    state[id]=cur;
+  }
+  save();
+});
+
+document.addEventListener("input", function(e){
+  if(e.target && e.target.matches && e.target.matches("textarea[data-t]")){
+    state["t:"+e.target.getAttribute("data-t")]=e.target.value;
+    save();
+  }
+});
+
+var LABELS={gut:"Gut reaction",look:"Overall look",bright:"Dark or light",colors:"Colors",
+ "sec-map":"Territory map","sec-checker":"Water checker","sec-glass":"Filling glass",
+ "sec-drop":"Falling droplet","sec-photos":"Job photos",
+ pstyles:"Top photo styles",others:"Other looks that pull",words:"Business words"};
+var TLABELS={"gut-words":"In his words","color-words":"Color notes",warranty:"GUARANTEE (verbatim)","else":"Anything else"};
+
+function copyAnswers(){
+  var lines=["RS SERVICES \u2014 PAUL'S FEEDBACK"];
+  var order=["gut","look","bright","colors","sec-map","sec-checker","sec-glass","sec-drop","sec-photos","pstyles","others","words"];
+  for(var i=0;i<order.length;i++){
+    var id=order[i], v=state[id];
+    if(v===undefined||v===null||(Array.isArray(v)&&!v.length)) continue;
+    lines.push(LABELS[id]+": "+(Array.isArray(v)?v.join(", "):v));
+  }
+  for(var k in TLABELS){
+    var tv=state["t:"+k];
+    if(tv && tv.trim()) lines.push(TLABELS[k]+": "+tv.trim());
+  }
+  if(lines.length===1) lines.push("(nothing tapped yet)");
+  var txt=lines.join("\n");
+  function done(){ var to=document.getElementById("toast"); to.classList.add("show");
+    setTimeout(function(){to.classList.remove("show");},2200); }
+  function fallback(s){ var ta=document.createElement("textarea"); ta.value=s; document.body.appendChild(ta);
+    ta.select(); try{document.execCommand("copy");}catch(err){} document.body.removeChild(ta); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done,function(){fallback(txt);done();});
+  } else { fallback(txt); done(); }
+}
+</script>
+</body>
+</html>
