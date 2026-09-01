@@ -92,6 +92,19 @@
   footer{text-align:center;color:var(--mut);font-size:.85rem;padding:34px 20px 10px;max-width:52ch;margin:0 auto}
   .ver{display:inline-block;margin-top:14px;font-size:.72rem;color:var(--mut);background:var(--surface);
     border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+  .ideatag{font-family:var(--body);font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--violet);color:#fff;padding:4px 9px;border-radius:999px;vertical-align:middle;margin-left:4px}
+  .vibedemo{background:var(--violet);color:#fff;border-radius:14px;padding:18px;margin-bottom:22px}
+  .demo-lead{font-weight:700;margin-bottom:12px}
+  .vd-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .vd{border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;
+    padding:9px 15px;font-family:var(--body);font-weight:600;font-size:.92rem;cursor:pointer;transition:.14s}
+  .vd:hover{background:rgba(255,255,255,.22)}
+  .vd[aria-pressed="true"]{background:#fff;color:var(--violet)}
+  .vd-out{margin-top:14px;background:rgba(0,0,0,.2);border-radius:10px;padding:14px;font-size:.96rem;
+    min-height:56px;display:flex;align-items:center}
+  .vd-out .sug{font-weight:700}
+  .demo-cap{margin-top:12px;font-size:.82rem;opacity:.85}
   :focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 </style>
 </head>
@@ -100,7 +113,7 @@
 <header>
   <span class="eyebrow">Nails by Lily &middot; Akron, OH</span>
   <h1>Let's build <b>your</b> site.</h1>
-  <p class="sub">Answer whatever you can, skip whatever you can't. It saves as you go, so you can put it down and come back. Nothing sends until you tap the button at the bottom.</p>
+  <p class="sub">This grew since I first sent it &mdash; your "what's your vibe" idea is baked in now (section 3, take a look). Answer whatever you can, skip whatever you can't. It saves as you go, so you can poke at it between clients. Nothing sends until you tap the button at the bottom.</p>
 </header>
 
 <div class="progwrap"><div class="wrap">
@@ -185,7 +198,72 @@
 </section>
 
 <section>
-  <h2><span class="num">3</span> Booking</h2>
+  <h2><span class="num">3</span> Your vibe quiz <span class="ideatag">your idea</span></h2>
+  <p class="intro">You had a great idea: a quick quiz that reads a client's style and points them to the right service. Let's design it. Here's the feel of it first.</p>
+
+  <div class="vibedemo">
+    <p class="demo-lead">Tap a vibe &mdash; roughly how it'd work for your clients:</p>
+    <div class="vd-chips">
+      <button type="button" class="vd" data-svc="a clean classic set, French or a solid color" data-blurb="Effortless, put-together, works anywhere.">Natural &amp; clean</button>
+      <button type="button" class="vd" data-svc="a designed set with color, chrome, a few art nails" data-blurb="You want people to notice.">Baddie / bold</button>
+      <button type="button" class="vd" data-svc="a custom hand-painted or character set" data-blurb="You bring the idea, she paints it.">Themed / character</button>
+      <button type="button" class="vd" data-svc="an edgy set, dark tones, sharp shapes, statement art" data-blurb="A little bit dangerous.">Edgy</button>
+    </div>
+    <div class="vd-out" id="vdout"><span>Pick a vibe above to see what it'd suggest.</span></div>
+    <p class="demo-cap">Just a taste. The real one uses YOUR vibes and YOUR services &mdash; that's what the questions below set up.</p>
+  </div>
+
+  <div class="q"><label>How many "vibes" do you usually see in your clients?</label>
+    <div class="chips" data-label="Number of vibes">
+      <button type="button" class="chip">About 3</button>
+      <button type="button" class="chip">4 or so</button>
+      <button type="button" class="chip">5&ndash;6</button>
+      <button type="button" class="chip">Let me list them below</button>
+    </div></div>
+
+  <div class="q"><label>What would you call your vibe buckets?
+    <span class="hint">Your words. Like "natural, baddie, cutesy, edgy, themed." However you'd describe the types of clients you get.</span></label>
+    <textarea data-label="Vibe buckets" placeholder="Natural, baddie, cutesy, edgy..."></textarea></div>
+
+  <div class="q"><label>What would YOU ask to figure out someone's vibe?
+    <span class="hint">This is the gold. If a new client sat down, what would you ask to zero in on what they want? List a few.</span></label>
+    <textarea data-label="Vibe quiz questions (from Lily)" placeholder="Do you want it to last or to turn heads... favorite colors... length... short or long..."></textarea></div>
+
+  <div class="q"><label>Once it knows their vibe, what should it do?</label>
+    <div class="chips" data-label="Quiz output" data-multi="1">
+      <button type="button" class="chip">Suggest a specific service</button>
+      <button type="button" class="chip">Suggest a service + price range</button>
+      <button type="button" class="chip">Show matching photos of my work</button>
+      <button type="button" class="chip">Send them straight to booking</button>
+    </div></div>
+
+  <div class="q"><label>Should the quiz use pictures?
+    <span class="hint">Clients often can't name what they want, but they know it when they see it.</span></label>
+    <div class="chips" data-label="Quiz uses photos">
+      <button type="button" class="chip">Yes, pics to pick from</button>
+      <button type="button" class="chip">Words only</button>
+      <button type="button" class="chip">Both</button>
+    </div></div>
+
+  <div class="q"><label>Want clients to attach an inspo pic when they book?
+    <span class="hint">You already quote from inspo pics, so the site could grab one up front and send it to you with the request.</span></label>
+    <div class="chips" data-label="Inspo pic at booking">
+      <button type="button" class="chip">Yes, always ask for one</button>
+      <button type="button" class="chip">Optional</button>
+      <button type="button" class="chip">No</button>
+    </div></div>
+
+  <div class="q"><label>New clients and regulars &mdash; same flow or different?
+    <span class="hint">A regular might skip the quiz and just rebook their usual.</span></label>
+    <div class="chips" data-label="New vs returning flow">
+      <button type="button" class="chip">Quiz for new, quick rebook for regulars</button>
+      <button type="button" class="chip">Same for everyone</button>
+      <button type="button" class="chip">Not sure &mdash; advise me</button>
+    </div></div>
+</section>
+
+<section>
+  <h2><span class="num">4</span> Booking</h2>
   <p class="intro">You mentioned you used a booking site before and stopped when things slowed down. This section decides what we set you back up with.</p>
 
   <div class="q"><label>Which one did you use, and what made you stop?
@@ -252,7 +330,7 @@
 </section>
 
 <section>
-  <h2><span class="num">4</span> What goes on the site</h2>
+  <h2><span class="num">5</span> What goes on the site</h2>
   <p class="intro">Tap everything you'd want. Anything you skip, we leave off.</p>
 
   <div class="q"><label>Sections</label>
@@ -265,6 +343,11 @@
       <button type="button" class="chip">Client reviews</button>
       <button type="button" class="chip">Instagram feed</button>
       <button type="button" class="chip">How it works</button>
+      <button type="button" class="chip">Vibe quiz &rarr; service</button>
+      <button type="button" class="chip">Client sends an inspo pic</button>
+      <button type="button" class="chip">Nail shape &amp; length guide</button>
+      <button type="button" class="chip">Waitlist / notify me</button>
+      <button type="button" class="chip">FAQ</button>
       <button type="button" class="chip">Nail care / aftercare</button>
       <button type="button" class="chip">Policies (late, cancel)</button>
       <button type="button" class="chip">Gift certificates</button>
@@ -288,13 +371,28 @@
   <div class="q"><label>Any colors you love or hate?</label>
     <input type="text" data-label="Color preferences" placeholder="Love pink and black. No pastels."></div>
 
+  <div class="q"><label>Pick a few words that feel like your brand.
+    <span class="hint">Helps me nail the look. Tap any that fit.</span></label>
+    <div class="chips" data-label="Brand words" data-multi="1">
+      <button type="button" class="chip">Clean</button>
+      <button type="button" class="chip">Bold</button>
+      <button type="button" class="chip">Cute</button>
+      <button type="button" class="chip">Edgy</button>
+      <button type="button" class="chip">Luxe</button>
+      <button type="button" class="chip">Playful</button>
+      <button type="button" class="chip">Dark</button>
+      <button type="button" class="chip">Colorful</button>
+      <button type="button" class="chip">Girly</button>
+      <button type="button" class="chip">Minimal</button>
+    </div></div>
+
   <div class="q"><label>Web address you want, if you could pick anything
     <span class="hint">Something like nailsbylily.com. I'll check what's actually available.</span></label>
     <input type="text" data-label="Desired domain" placeholder="nailsbylily.com"></div>
 </section>
 
 <section>
-  <h2><span class="num">5</span> Photos, reviews &amp; socials</h2>
+  <h2><span class="num">6</span> Photos, reviews &amp; socials</h2>
   <p class="intro">The site is only as good as what goes in it. This is the part I can't do for you.</p>
 
   <div class="q"><label>Your Facebook page link</label>
@@ -337,8 +435,8 @@
 </section>
 
 <section>
-  <h2><span class="num">6</span> What it costs</h2>
-  <p class="intro">Real numbers, cheapest first. You quit a paid tool once when work slowed down, so I'd rather start you low and let you move up when the bookings justify it, not before.</p>
+  <h2><span class="num">7</span> What it costs</h2>
+  <p class="intro">Real numbers, cheapest first. You quit a paid tool once when work slowed down, so I'd rather start you low and let you move up when the bookings justify it, not before. One thing worth being clear on: the monthly below is <b>only the platform</b>. The custom stuff &mdash; your vibe quiz, the gallery, the booking flow &mdash; I build once and hand to you, and it doesn't add to that number.</p>
 
   <div class="tiers">
 
@@ -420,7 +518,7 @@
 </section>
 
 <section>
-  <h2><span class="num">7</span> After I hand it over</h2>
+  <h2><span class="num">8</span> After I hand it over</h2>
   <p class="intro">Being straight with you about how this works, so there are no surprises.</p>
 
   <div class="note"><b>The deal:</b> I build it, set it up in your accounts, and walk you through editing it. After that it's yours to run. I'm not going to be your website guy forever &mdash; but I'll make sure you can actually do it yourself, and it'll be a platform where changing a price or adding a photo takes about a minute on your phone.</div>
@@ -461,7 +559,7 @@
 
 <footer>
   Nothing here gets sent anywhere until you tap the button. Your answers save on your own phone as you type.
-  <br><span class="ver" id="ver">intake v1.0 &middot; Jul 13</span>
+  <br><span class="ver" id="ver">intake v2.0 &middot; Jul 20</span>
 </footer>
 
 </div>
@@ -614,6 +712,19 @@
 
   document.getElementById("ver").addEventListener("click", function(){
     flash(document.getElementById("ver").textContent);
+  });
+
+  // vibe demo (illustrative only, not saved)
+  var vd = [].slice.call(document.querySelectorAll(".vd"));
+  var vo = document.getElementById("vdout");
+  vd.forEach(function(c){
+    c.addEventListener("click", function(){
+      vd.forEach(function(o){ o.setAttribute("aria-pressed", "false"); });
+      c.setAttribute("aria-pressed", "true");
+      vo.innerHTML = '<span><b>' + c.textContent.trim() +
+        '<\/b> &rarr; I\'d point you to <span class="sug">' + c.dataset.svc +
+        '<\/span>. ' + c.dataset.blurb + '<\/span>';
+    });
   });
 
   sync();
