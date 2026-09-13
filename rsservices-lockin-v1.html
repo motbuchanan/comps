@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>RS Services - Let's Build It</title>
+<style>
+  :root{
+    --green:#9ACD32; --green2:#8db600; --ink:#f4f6f2; --sub:#a9b0a4;
+    --bg:#141619; --card:#1c1f23; --card2:#23272c; --line:#333a33;
+    --hit:#0f1113;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; padding:0 0 40px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px; margin:0 auto; padding:0 16px}
+  header{
+    text-align:center; padding:26px 16px 10px;
+  }
+  header img{width:96px; height:96px; object-fit:contain; display:block; margin:0 auto 6px}
+  .brand{font-weight:800; letter-spacing:.14em; font-size:.82rem; color:var(--green)}
+  h1{
+    font-family:Georgia,"Times New Roman",serif; font-weight:700;
+    font-size:1.9rem; margin:6px 0 4px; line-height:1.15;
+  }
+  .intro{color:var(--sub); font-size:.98rem; max-width:460px; margin:0 auto 6px}
+  .prog{color:var(--sub); font-size:.78rem; letter-spacing:.08em; margin-top:10px}
+
+  .sect{margin:22px 0 6px; font-size:.74rem; letter-spacing:.16em; color:var(--green);
+    font-weight:800; text-transform:uppercase}
+
+  .q{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:16px 15px; margin:12px 0}
+  .q .lbl{font-weight:700; font-size:1.06rem; margin:0 0 4px}
+  .q .desc{color:var(--sub); font-size:.9rem; margin:0 0 12px}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{
+    border:1.5px solid var(--line); background:var(--card2); color:var(--ink);
+    border-radius:999px; padding:10px 15px; font-size:.95rem; font-weight:600;
+    cursor:pointer; user-select:none; transition:.12s;
+  }
+  .chip:active{transform:scale(.97)}
+  .chip.on{background:var(--green); color:#10130c; border-color:var(--green)}
+
+  textarea,input[type=text]{
+    width:100%; background:var(--hit); border:1.5px solid var(--line); color:var(--ink);
+    border-radius:10px; padding:12px; font-size:1rem; font-family:inherit; margin-top:10px;
+    resize:vertical;
+  }
+  textarea{min-height:84px}
+  textarea:focus,input:focus{outline:none; border-color:var(--green)}
+  .mini{font-size:.8rem; color:var(--sub); margin-top:8px}
+
+  .verbatim{border-color:var(--green)}
+  .flag{display:inline-block; background:var(--green); color:#10130c; font-weight:800;
+    font-size:.68rem; letter-spacing:.08em; padding:3px 8px; border-radius:6px; margin-left:8px;
+    vertical-align:middle}
+
+  .hide{display:none}
+
+  .cta{
+    position:sticky; bottom:0; padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,rgba(20,22,25,0) 0%,var(--bg) 34%);
+  }
+  .cta .wrap{padding:0 16px}
+  button.go{
+    width:100%; background:var(--green); color:#10130c; border:none; border-radius:12px;
+    padding:16px; font-size:1.08rem; font-weight:800; cursor:pointer; letter-spacing:.01em;
+  }
+  button.go:active{transform:scale(.99)}
+  .cta .note{text-align:center; color:var(--sub); font-size:.78rem; margin-top:8px}
+
+  .vbadge{text-align:center; color:#5c655a; font-size:.72rem; margin:26px 0 4px; cursor:pointer}
+
+  .toast{
+    position:fixed; left:50%; bottom:96px; transform:translateX(-50%) translateY(20px);
+    background:var(--green); color:#10130c; font-weight:700; padding:12px 18px; border-radius:10px;
+    opacity:0; pointer-events:none; transition:.22s; font-size:.95rem; z-index:50; max-width:88%; text-align:center;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="rsservices-mark.png" alt="RS Services" onerror="this.style.display='none'">
+    <div class="brand">RS SERVICES</div>
+    <h1>Let's build it</h1>
+    <p class="intro">You picked the design. This is the last thing I need before I start. Tap your answers, hit the button at the bottom, and text it to me.</p>
+    <div class="prog" id="prog"></div>
+  </header>
+
+  <div class="sect">First, lock it in</div>
+
+  <div class="q" data-q>
+    <div class="lbl">This is the site, right?</div>
+    <div class="desc">Real photos up top, your badges (licensed, insured, free estimates, free water test), your services, the water-problem checker, your service map, reviews, and your guarantee. A Job Done Right front and center.</div>
+    <div class="chips" data-single="design">
+      <div class="chip" data-v="Yes, build this one">Yes, build this one</div>
+      <div class="chip" data-v="Almost, I have a couple tweaks">Almost, a couple tweaks</div>
+    </div>
+    <textarea id="tweaks" class="hide" placeholder="What would you change?"></textarea>
+  </div>
+
+  <div class="q" data-q>
+    <div class="lbl">It goes live at rocksolidservice.com?</div>
+    <div class="desc">Replacing the current one. Same address your customers already have.</div>
+    <div class="chips" data-single="domain">
+      <div class="chip" data-v="Yes, replace it">Yes, replace it</div>
+      <div class="chip" data-v="Let's talk first">Let's talk first</div>
+    </div>
+  </div>
+
+  <div class="q" data-q>
+    <div class="lbl">Want a pro email to match?</div>
+    <div class="desc">Something like paul@rocksolidservice.com or info@rocksolidservice.com that forwards straight to your Gmail. Looks sharper on the site and your cards.</div>
+    <div class="chips" data-single="email">
+      <div class="chip" data-v="Yes, paul@">Yes, paul@</div>
+      <div class="chip" data-v="Yes, info@">Yes, info@</div>
+      <div class="chip" data-v="Keep my Gmail for now">Keep my Gmail</div>
+    </div>
+  </div>
+
+  <div class="sect">Now, your words</div>
+
+  <div class="q" data-q>
+    <div class="lbl">Your guarantee, word for word <span class="flag">GOES ON THE SITE</span></div>
+    <div class="desc">This goes on the site exactly how you type it. It is the one answer I never got the full version of.</div>
+    <textarea id="warranty" class="verbatim" placeholder="Type your guarantee / warranty here, exactly how you want it to read."></textarea>
+  </div>
+
+  <div class="q" data-q>
+    <div class="lbl">Your reviews</div>
+    <div class="desc">Paste a few of your best ones, or drop your Google link and I will pull them.</div>
+    <textarea id="reviews" placeholder="Paste a few reviews here (name + what they said, if you have it)."></textarea>
+    <input type="text" id="googlelink" placeholder="Your Google listing link (optional)">
+    <div class="chips" data-single="pullreviews" style="margin-top:10px">
+      <div class="chip" data-v="Yes, pull my Google reviews">OK to pull my Google reviews</div>
+    </div>
+  </div>
+
+  <div class="q" data-q>
+    <div class="lbl">When can people reach you?</div>
+    <div class="desc">Tap all that apply.</div>
+    <div class="chips" data-multi="hours">
+      <div class="chip" data-v="Mon-Fri days">Mon-Fri days</div>
+      <div class="chip" data-v="Saturdays">Saturdays</div>
+      <div class="chip" data-v="Sundays">Sundays</div>
+      <div class="chip" data-v="24/7 emergency">24/7 emergency</div>
+      <div class="chip" data-v="By appointment">By appointment</div>
+    </div>
+    <input type="text" id="hourstext" placeholder="Exact hours, if you want them shown (optional)">
+  </div>
+
+  <div class="q" data-q>
+    <div class="lbl">One or two lines about RS Services</div>
+    <div class="desc">How long you have been at it, family owned, what makes you the call. Whatever you would tell a neighbor.</div>
+    <textarea id="about" placeholder="Type it however it comes out. I will clean it up."></textarea>
+  </div>
+
+  <div class="q" data-q>
+    <div class="lbl">Anything else I should put on there?</div>
+    <div class="desc">Optional.</div>
+    <textarea id="other" placeholder="Anything at all."></textarea>
+  </div>
+
+  <div class="vbadge" id="vbadge">lock-in &middot; v1 &middot; Sep 13</div>
+</div>
+
+<div class="cta">
+  <div class="wrap">
+    <button class="go" id="go">Copy my answers &amp; text them to Mot</button>
+    <div class="note">Copies everything to your clipboard. Then just paste it into a text to Mot.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "rslockin-v1";
+  var VERSION = "lock-in v1 - Sep 13 2026";
+
+  // guarded storage
+  var mem = {};
+  function load(){
+    try { var r = localStorage.getItem(KEY); return r ? JSON.parse(r) : {}; }
+    catch(e){ return mem[KEY] || {}; }
+  }
+  function save(o){
+    try { localStorage.setItem(KEY, JSON.stringify(o)); }
+    catch(e){ mem[KEY] = o; }
+  }
+
+  var state = load();
+  if(!state.single) state.single = {};
+  if(!state.multi) state.multi = {};
+  if(!state.text) state.text = {};
+
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+  }
+
+  // ---- single-select chip groups ----
+  var singleGroups = document.querySelectorAll("[data-single]");
+  Array.prototype.forEach.call(singleGroups, function(g){
+    var name = g.getAttribute("data-single");
+    var chips = g.querySelectorAll(".chip");
+    Array.prototype.forEach.call(chips, function(c){
+      var val = c.getAttribute("data-v");
+      if(state.single[name] === val) c.classList.add("on");
+      c.addEventListener("click", function(){
+        // toggle off if same, else switch
+        if(state.single[name] === val){
+          delete state.single[name];
+          c.classList.remove("on");
+        } else {
+          Array.prototype.forEach.call(chips, function(x){ x.classList.remove("on"); });
+          c.classList.add("on");
+          state.single[name] = val;
+        }
+        onChange(name);
+      });
+    });
+  });
+
+  // ---- multi-select chip groups ----
+  var multiGroups = document.querySelectorAll("[data-multi]");
+  Array.prototype.forEach.call(multiGroups, function(g){
+    var name = g.getAttribute("data-multi");
+    if(!state.multi[name]) state.multi[name] = [];
+    var chips = g.querySelectorAll(".chip");
+    Array.prototype.forEach.call(chips, function(c){
+      var val = c.getAttribute("data-v");
+      if(state.multi[name].indexOf(val) > -1) c.classList.add("on");
+      c.addEventListener("click", function(){
+        var arr = state.multi[name];
+        var i = arr.indexOf(val);
+        if(i > -1){ arr.splice(i,1); c.classList.remove("on"); }
+        else { arr.push(val); c.classList.add("on"); }
+        onChange();
+      });
+    });
+  });
+
+  // ---- text fields ----
+  var textIds = ["tweaks","warranty","reviews","googlelink","hourstext","about","other"];
+  textIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(state.text[id]) el.value = state.text[id];
+    el.addEventListener("input", function(){ state.text[id] = el.value; onChange(); });
+  });
+
+  // conditional tweaks box
+  function syncTweaks(){
+    var picked = state.single["design"] === "Almost, I have a couple tweaks";
+    document.getElementById("tweaks").classList.toggle("hide", !picked);
+  }
+
+  function progress(){
+    var done = 0, total = 4;
+    if(state.single["design"]) done++;
+    if(state.single["domain"]) done++;
+    if((state.text["warranty"]||"").trim()) done++;
+    if((state.multi["hours"]||[]).length) done++;
+    var p = document.getElementById("prog");
+    p.textContent = done + " of " + total + " key answers set";
+  }
+
+  function onChange(name){
+    if(name === "design") syncTweaks();
+    save(state);
+    progress();
+  }
+
+  syncTweaks();
+  progress();
+
+  // ---- build the summary ----
+  function line(label, val){
+    if(val === undefined || val === null) return "";
+    if(typeof val === "string" && !val.trim()) return "";
+    if(Array.isArray(val)){ if(!val.length) return ""; val = val.join(", "); }
+    return label + ": " + val + "\n";
+  }
+
+  function buildSummary(){
+    var s = state;
+    var out = "RS SERVICES - BUILD LOCK-IN (from Paul)\n";
+    out += "======================================\n\n";
+
+    out += "-- CONFIRMED --\n";
+    out += line("Design", s.single["design"]) || "Design: (not answered)\n";
+    if(s.single["design"] === "Almost, I have a couple tweaks"){
+      out += line("  Tweaks", s.text["tweaks"]);
+    }
+    out += line("Live at rocksolidservice.com", s.single["domain"]) || "Live at rocksolidservice.com: (not answered)\n";
+    out += line("Pro email", s.single["email"]);
+    out += "\n";
+
+    out += "-- GUARANTEE (put on the site VERBATIM) --\n";
+    out += (s.text["warranty"] && s.text["warranty"].trim()) ? s.text["warranty"].trim() + "\n" : "(not answered)\n";
+    out += "\n";
+
+    out += "-- REVIEWS --\n";
+    var anyRev = false;
+    if(s.text["reviews"] && s.text["reviews"].trim()){ out += "Pasted:\n" + s.text["reviews"].trim() + "\n"; anyRev = true; }
+    if(s.text["googlelink"] && s.text["googlelink"].trim()){ out += "Google link: " + s.text["googlelink"].trim() + "\n"; anyRev = true; }
+    if(s.single["pullreviews"]){ out += "OK to pull Google reviews: yes\n"; anyRev = true; }
+    if(!anyRev) out += "(none provided)\n";
+    out += "\n";
+
+    out += "-- HOURS / REACH --\n";
+    out += line("Available", s.multi["hours"]) || "Available: (not answered)\n";
+    out += line("Exact hours", s.text["hourstext"]);
+    out += "\n";
+
+    out += "-- ABOUT --\n";
+    out += (s.text["about"] && s.text["about"].trim()) ? s.text["about"].trim() + "\n" : "(not answered)\n";
+    out += "\n";
+
+    if(s.text["other"] && s.text["other"].trim()){
+      out += "-- ANYTHING ELSE --\n" + s.text["other"].trim() + "\n";
+    }
+    return out;
+  }
+
+  function copyText(txt, done){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done, function(){ fallback(txt, done); });
+    } else { fallback(txt, done); }
+  }
+  function fallback(txt, done){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = txt; ta.style.position="fixed"; ta.style.top="-1000px";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand("copy"); document.body.removeChild(ta); done();
+    }catch(e){ done(true); }
+  }
+
+  document.getElementById("go").addEventListener("click", function(){
+    var txt = buildSummary();
+    copyText(txt, function(failed){
+      if(failed){ toast("Copy did not work. Screenshot this and send it instead."); }
+      else { toast("Copied. Paste it into a text to Mot."); }
+    });
+  });
+
+  document.getElementById("vbadge").addEventListener("click", function(){ toast(VERSION); });
+})();
+</script>
+</body>
+</html>
