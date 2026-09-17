@@ -47,7 +47,7 @@
   /* hero */
   .hero{position:relative; min-height:78svh; display:flex; align-items:flex-end; overflow:hidden;}
   .hero .bg{position:absolute; inset:0;}
-  .hero .bg img{width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .5s ease;}
+  .hero .bg img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .5s ease;}
   .hero .bg img.on{opacity:1;}
   .hero .scrim{position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(10,12,15,.62) 0%, rgba(10,12,15,.35) 40%, rgba(12,15,18,.92) 100%);}
@@ -217,8 +217,6 @@
 <header class="hero">
   <div class="bg" id="herobg">
     <img src="rss-job-3.jpg" alt="RS Services trenching a water line on the job" class="on" data-h="0">
-    <img src="rss-job-1.jpg" alt="Well pressure tank and softener installed by RS Services" data-h="1">
-    <img src="rss-job-6.jpg" alt="Twin water softener install by RS Services" data-h="2">
   </div>
   <div class="scrim"></div>
   <div class="in"><div class="wrap">
@@ -230,12 +228,6 @@
       <a class="cta cta-g" href="tel:5672840833">Call Paul</a>
       <a class="cta cta-o" href="sms:5672840833">Text a photo</a>
     </div>
-    <div class="heroswitch">
-      <span>Photo</span>
-      <button class="on" data-hero="0" aria-label="On the job"><img src="rss-job-3.jpg" alt=""></button>
-      <button data-hero="1" aria-label="Pressure tank install"><img src="rss-job-1.jpg" alt=""></button>
-      <button data-hero="2" aria-label="Softener install"><img src="rss-job-6.jpg" alt=""></button>
-    </div>
   </div></div>
 </header>
 
@@ -243,7 +235,15 @@
 <div class="pillars"><div class="wrap"><div class="grid">
   <div class="p">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
-    <b>Licensed &amp; Insured</b><span>Ohio PWSC licensed</span>
+    <b>Licensed &amp; Insured</b><span>Fully licensed and insured</span>
+  </div>
+  <div class="p">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M9 13l-2 8 5-3 5 3-2-8"/></svg>
+    <b>Ohio Registered</b><span>Private water systems contractor</span>
+  </div>
+  <div class="p">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3l2.6 6 6.4.6-4.9 4.2 1.5 6.2L12 16.9 6.4 20.2l1.5-6.2L3 9.6l6.4-.6z"/></svg>
+    <b>BBB Accredited</b><span>Accredited business</span>
   </div>
   <div class="p">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
@@ -262,14 +262,14 @@
 <!-- SERVICES -->
 <section class="services"><div class="wrap">
   <h2 class="sec">What we handle</h2>
-  <p class="lead">Seven services. One licensed guy who answers the phone.</p>
+  <p class="lead">Wells, water, and the plumbing that ties them together. One licensed guy who answers the phone.</p>
   <div class="svc">
     <div class="row"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 2v6M8 8h8l-1 6H9z"/><path d="M10 20h4"/></svg></span><div><b>Well pumps &amp; pressure tanks</b><p>Diagnosis, replacement, and upgrades that hold steady pressure.</p></div></div>
     <div class="row"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 12h18M7 12V7M17 12v-2"/><path d="M5 20h14"/></svg></span><div><b>Water well lines &amp; trenching</b><p>From the well to the house, dug clean and buried right.</p></div></div>
-    <div class="row"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3s5 5 5 9a5 5 0 01-10 0c0-4 5-9 5-9z"/></svg></span><div><b>Water treatment &amp; softeners</b><p>Iron out, sulfur out, softness in. Tested, not guessed.</p></div></div>
+    <div class="row"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3s5 5 5 9a5 5 0 01-10 0c0-4 5-9 5-9z"/></svg></span><div><b>Water treatment &amp; softeners</b><p>Iron and manganese removal, softeners, sulfur, and whole-home filtration. Tested, not guessed.</p></div></div>
+    <div class="row"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M7 2h10l-1 5H8z"/><path d="M8 7l1 13h6l1-13"/></svg></span><div><b>Reverse osmosis drinking water</b><p>Clean, great-tasting water straight from the kitchen tap.</p></div></div>
     <div class="row"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 20V9M18 20V9M6 9a6 6 0 0112 0"/></svg></span><div><b>Yard hydrants &amp; plumbing</b><p>Hydrants, repairs, and the fixes inside the house too.</p></div></div>
   </div>
-  <p class="note">Not offered right now: drain cleaning.</p>
 </div></section>
 
 <!-- DIAGNOSTIC -->
@@ -436,7 +436,7 @@
 
 <footer>&copy; RS Services LLC &middot; Rock Solid Professional Services &middot; A Job Done Right.</footer>
 
-<div class="vbadge">reference take &middot; v3 &middot; Sep 15</div>
+<div class="vbadge">reference take &middot; v3.3 &middot; Sep 17</div>
 
 <script>
 "use strict";
@@ -444,17 +444,6 @@ var $=function(s){return document.querySelector(s);};
 
 /* hero photo switcher */
 document.addEventListener("click", function(e){
-  var hb=e.target.closest ? e.target.closest("[data-hero]") : null;
-  if(hb){
-    var i=hb.getAttribute("data-hero");
-    var imgs=document.querySelectorAll("#herobg img");
-    for(var a=0;a<imgs.length;a++) imgs[a].classList.toggle("on", imgs[a].getAttribute("data-h")===i);
-    var btns=document.querySelectorAll("[data-hero]");
-    for(var b=0;b<btns.length;b++) btns[b].classList.remove("on");
-    hb.classList.add("on");
-    return;
-  }
-
   var tw=e.target.closest ? e.target.closest(".town") : null;
   if(tw){ pickTown(tw); return; }
 });
