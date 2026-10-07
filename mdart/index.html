@@ -1,1 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="build" content="0.1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Michael DeLisi | Surface Texturing and Look Development</title>
+<meta name="description" content="Portfolio of Michael DeLisi, surface texturing and look development artist. Creatures, hard surface, breakdowns and demo reel.">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+:root{
+  --ink:#0a0a0a;
+  --ink2:#121212;
+  --line:#2b2b2b;
+  --dim:#8d8d8d;
+  --mid:#bdbdbd;
+  --paper:#ececec;
+  --flag:#e0a030;
+  --serif:"Baskerville","Libre Baskerville","Noto Serif",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --pad:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--serif);font-size:17px;line-height:1.55}
+img{display:block;width:100%;height:auto}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--pad)}
+.label{font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.outline{color:transparent;-webkit-text-stroke:1px var(--paper)}
 
+/* draft markers */
+.tbc{text-decoration:underline dashed var(--flag);text-decoration-thickness:1px;text-underline-offset:4px}
+.note{font-family:var(--sans);font-size:12px;line-height:1.45;color:var(--flag);margin:10px 0 0}
+body.notes-off .tbc{text-decoration:none}
+body.notes-off .note{display:none}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.92);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.mono{width:40px;height:40px;flex:none}
+.bar nav{margin-left:auto;display:flex;gap:12px;overflow-x:auto;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{font-family:var(--sans);font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--mid);white-space:nowrap;padding:10px 0}
+.bar nav a:hover{color:var(--paper)}
+
+/* hero */
+.hero{padding:38px 0 26px}
+.name{position:relative;margin:0;font-weight:400;line-height:.92;font-size:clamp(2.9rem,14vw,10.5rem);letter-spacing:.01em}
+.name span{display:block}
+.name .last{text-align:right}
+.name .slash{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;clip-path:inset(100% 0 0 0);animation:draw 1.1s ease-out .2s forwards}
+@keyframes draw{to{clip-path:inset(0 0 0 0)}}
+.role{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;margin:22px 0 0;font-size:clamp(1.05rem,2.2vw,1.5rem)}
+.role .label{margin-left:auto}
+
+/* reel stand-in */
+.reel{position:relative;display:block;width:100%;margin:26px 0 0;overflow:hidden;background:#000;aspect-ratio:16/9;text-align:left}
+.reel img{position:absolute;inset:0;height:100%;object-fit:cover;transform-origin:62% 42%;animation:push 22s ease-in-out infinite alternate}
+@keyframes push{from{transform:scale(1)}to{transform:scale(1.14) translate(-2%,1.5%)}}
+.reel .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0) 46%);pointer-events:none}
+.reel .play{position:absolute;left:50%;top:50%;width:74px;height:74px;margin:-37px 0 0 -37px;border:1px solid var(--paper);border-radius:50%;background:rgba(10,10,10,.45);pointer-events:none}
+.reel .play:after{content:"";position:absolute;left:29px;top:23px;border-left:22px solid var(--paper);border-top:14px solid transparent;border-bottom:14px solid transparent}
+.reel .cap{position:absolute;left:14px;right:14px;bottom:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;pointer-events:none}
+.reel .cap b{font-weight:400;white-space:nowrap;font-size:clamp(1.1rem,2.6vw,1.9rem)}
+.reel .bar2{position:absolute;left:0;bottom:0;height:2px;width:100%;background:rgba(236,236,236,.18);pointer-events:none}
+.reel .bar2 i{display:block;height:100%;width:34%;background:var(--paper)}
+
+/* sections */
+section{padding:54px 0 0}
+.head{display:flex;align-items:baseline;gap:16px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:26px}
+.head h2{margin:0;font-weight:400;font-size:clamp(1.9rem,5vw,3.4rem);line-height:1}
+.head .label{margin-left:auto;text-align:right}
+.plate{margin:0 0 64px}
+.plate h3{margin:0;font-weight:400;font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1.1}
+.plate p{margin:10px 0 0;color:var(--mid);max-width:56ch}
+.meta{display:grid;gap:18px;margin-top:18px}
+dl.credits{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-family:var(--sans);font-size:13px;align-content:start}
+dl.credits dt{color:var(--dim);letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;padding-top:2px}
+dl.credits dd{margin:0;color:var(--paper)}
+.shot{display:block;width:100%;overflow:hidden;background:var(--ink2);position:relative}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot:after{content:"";position:absolute;inset:0;border:1px solid rgba(236,236,236,0);transition:border-color .2s;pointer-events:none}
+.shot:hover:after{border-color:rgba(236,236,236,.55)}
+
+/* slash wipe */
+.wipe{position:relative;overflow:hidden;aspect-ratio:16/9;background:#000;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none}
+.wipe img{position:absolute;inset:0;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.wipe .clay{filter:grayscale(1) contrast(.82) brightness(1.12)}
+.wipe svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wipe .tag{position:absolute;bottom:10px;font-family:var(--sans);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;background:rgba(10,10,10,.6);padding:5px 8px;pointer-events:none}
+
+.balls{position:absolute;top:50%;display:flex;gap:8px;transform:translate(-50%,-50%);pointer-events:none}
+.ball{width:30px;height:30px;border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,.55),0 3px 10px rgba(0,0,0,.6)}
+.ball.grey{background:radial-gradient(circle at 34% 30%,#d2d2d2,#8a8a8a 46%,#3a3a3a 100%)}
+.ball.chrome{background:radial-gradient(circle at 50% 118%,#0b0b0b 0 34%,rgba(0,0,0,0) 35%),radial-gradient(circle at 36% 26%,#ffffff 0 7%,rgba(255,255,255,0) 9%),linear-gradient(to bottom,#9fb4c4 0%,#e9eef2 44%,#1b1b1b 50%,#6c6258 78%,#2a2622 100%)}
+
+/* reptile mosaic */
+.mosaic{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mosaic .a{grid-column:1/-1;aspect-ratio:16/9}
+.mosaic .b,.mosaic .c{aspect-ratio:1/1}
+.mosaic .d{grid-column:1/-1;aspect-ratio:3/2}
+.mosaic .e{grid-column:1/-1;aspect-ratio:1080/483}
+
+/* pair: bust + mech */
+.pair{display:grid;gap:0}
+.bust .shot{aspect-ratio:655/608}
+.mech .shot.t{aspect-ratio:16/9}
+.mech .shot.n{aspect-ratio:1080/353;margin-top:6px}
+.plane .shot{aspect-ratio:16/9}
+.plane .txt{margin-top:18px}
+
+/* breakdown cards */
+.cards{display:grid;gap:14px}
+.card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:16/10;background:#000;border:1px solid var(--line);text-align:center;padding:16px;width:100%}
+.card:hover{border-color:var(--mid)}
+.card svg{width:clamp(70px,16vw,120px);height:auto;margin-bottom:8px}
+.card .t{font-size:clamp(.95rem,2.2vw,1.25rem);line-height:1.3}
+.card .time{position:absolute;right:12px;top:10px;font-family:var(--sans);font-size:12px;color:var(--mid)}
+.card .go{position:absolute;left:12px;bottom:10px}
+
+/* archive */
+.arch{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.arch .shot{aspect-ratio:3/4}
+.arch figure{margin:0}
+.arch figcaption{font-family:var(--sans);font-size:11px;color:var(--dim);padding:6px 0 10px}
+
+/* about and contact */
+.about{display:grid;gap:26px}
+.about p{margin:0 0 14px;max-width:58ch}
+.about .big{font-size:clamp(1.25rem,2.8vw,1.8rem);line-height:1.35;color:var(--paper)}
+.tools{list-style:none;margin:0;padding:0;font-family:var(--sans);font-size:13px;display:flex;flex-wrap:wrap;gap:8px}
+.tools li{border:1px solid var(--line);padding:6px 10px}
+.contact{padding-bottom:60px}
+.contact .mail{display:inline-block;font-size:clamp(1.25rem,5.4vw,3.2rem);line-height:1.15;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:6px;overflow-wrap:anywhere}
+.contact .mail:hover{border-color:var(--paper)}
+.links{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:22px;font-family:var(--sans);font-size:13px}
+footer{border-top:1px solid var(--line);padding:18px 0 90px;font-family:var(--sans);font-size:12px;color:var(--dim)}
+
+/* dialogs */
+dialog{border:0;padding:0;background:transparent;color:var(--paper);max-width:100vw;max-height:100vh;width:100%}
+dialog::backdrop{background:rgba(0,0,0,.93)}
+.dlg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:100vh;padding:56px 12px 24px}
+.dlg img{width:auto;max-width:100%;max-height:74vh;height:auto}
+.dlg .x{position:fixed;right:12px;top:12px;width:44px;height:44px;border:1px solid var(--line);background:var(--ink);font-family:var(--sans);font-size:20px;line-height:1}
+.dlg .cap{font-family:var(--sans);font-size:13px;color:var(--mid);text-align:center;max-width:70ch}
+.frame{position:relative;width:min(100%,1100px);aspect-ratio:16/9;background:#000;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.frame img{position:absolute;inset:0;width:100%;max-width:none;max-height:none;height:100%;object-fit:cover;opacity:.22}
+.frame div{position:relative;padding:18px;max-width:46ch}
+.frame h4{margin:0 0 8px;font-weight:400;font-size:clamp(1.2rem,3.4vw,2rem)}
+.frame p{margin:0;font-family:var(--sans);font-size:13px;color:var(--mid)}
+
+/* dev badge: strip before the site goes public */
+.dev{position:fixed;left:10px;bottom:10px;z-index:30;display:flex;gap:6px;font-family:var(--sans);font-size:11px}
+.dev button{background:rgba(18,18,18,.94);border:1px solid var(--flag);color:var(--flag);padding:7px 10px;letter-spacing:.06em}
+.toast{position:fixed;left:50%;bottom:58px;transform:translateX(-50%);z-index:40;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:12px;padding:8px 14px;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+
+@media (min-width:860px){
+  :root{--pad:40px}
+  body{font-size:18px}
+  .bar .wrap{height:72px}
+  .mono{width:48px;height:48px}
+  .bar nav{gap:34px}
+  .bar nav a{font-size:11px;letter-spacing:.2em}
+  .hero{padding:64px 0 40px}
+  .name .last{padding-right:2vw}
+  section{padding-top:96px}
+  .plate{margin-bottom:110px}
+  .meta{grid-template-columns:7fr 5fr;gap:40px}
+  .mosaic{grid-template-columns:repeat(12,1fr);gap:8px}
+  .mosaic .a{grid-column:1/9;grid-row:1/3;aspect-ratio:auto}
+  .mosaic .b{grid-column:9/13;grid-row:1;aspect-ratio:16/9}
+  .mosaic .c{grid-column:9/13;grid-row:2;aspect-ratio:16/9}
+  .mosaic .d{grid-column:1/6;grid-row:3;aspect-ratio:auto}
+  .mosaic .e{grid-column:6/13;grid-row:3;aspect-ratio:1080/483}
+  .pair{grid-template-columns:5fr 7fr;gap:56px;align-items:start}
+  .pair .mech{margin-top:120px}
+  .plane{display:grid;grid-template-columns:3fr 9fr;gap:40px;align-items:end}
+  .plane .txt{order:-1;margin-top:0}
+  .plane .meta{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr 1fr;gap:24px}
+  .arch{grid-template-columns:repeat(6,1fr);gap:8px}
+  .about{grid-template-columns:7fr 5fr;gap:60px}
+  .dlg img{max-height:82vh}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reel img{animation:none}
+  .name .slash{animation:none;clip-path:none}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a href="#top" aria-label="Michael DeLisi, home">
+      <svg class="mono" viewBox="0 0 100 100" role="img" aria-label="MD monogram">
+        <rect x="2" y="2" width="96" height="96" fill="none" stroke="#ececec" stroke-width="2.5"/>
+        <text x="30" y="48" text-anchor="middle" font-family="Baskerville, 'Libre Baskerville', 'Noto Serif', Georgia, serif" font-size="42" fill="none" stroke="#ececec" stroke-width="1.3">M</text>
+        <text x="70" y="90" text-anchor="middle" font-family="Baskerville, 'Libre Baskerville', 'Noto Serif', Georgia, serif" font-size="42" fill="none" stroke="#ececec" stroke-width="1.3">D</text>
+        <line x1="20" y1="88" x2="80" y2="14" stroke="#ececec" stroke-width="1.6"/>
+      </svg>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#reel">Reel</a>
+      <a href="#work">Work</a>
+      <a href="#breakdowns">Breakdowns</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap">
+
+  <div class="hero">
+    <h1 class="name outline">
+      <span class="first">Michael</span>
+      <span class="last">DeLisi</span>
+      <svg class="slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line id="heroSlash" x1="42" y1="98" x2="70" y2="2" stroke="#ececec" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      </svg>
+    </h1>
+    <div class="role">
+      <span>Surface Texturing / Look Development</span>
+      <span class="label">SCAD Visual Effects, 2022</span>
+    </div>
+
+    <button class="reel" id="reel" type="button" data-video="Demo Reel" data-poster="md-beast.jpg" aria-label="Play demo reel">
+      <img src="md-beast.jpg" alt="Creature with exposed muscle and tendon walking through a desert, textured by Michael DeLisi">
+      <span class="shade"></span>
+      <span class="play"></span>
+      <span class="cap"><b>Demo Reel</b></span>
+      <span class="bar2"><i></i></span>
+    </button>
+    <p class="note">Video stand-in: this is a still with a slow push, not the reel. Tap it to see the frame the real video drops into.</p>
+  </div>
+
+  <section id="work">
+    <div class="head">
+      <h2>Selected Work</h2>
+      <span class="label">Creatures and hard surface</span>
+    </div>
+
+    <article class="plate">
+      <div class="wipe" id="wipe" role="slider" tabindex="0" aria-label="Drag to compare the clay model with the final look" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+        <img src="md-beast.jpg" alt="Final look: muscle creature in desert light">
+        <img class="clay" id="wipeClay" src="md-beast.jpg" alt="" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line id="wipeLine" x1="59" y1="0" x2="41" y2="100" stroke="#ececec" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="balls" id="wipeBalls"><span class="ball grey"></span><span class="ball chrome"></span></span>
+        <span class="tag" id="tagClay">Clay</span>
+        <span class="tag" id="tagFinal">Final</span>
+      </div>
+      <p class="note">Slider stand-in: the Clay side is a grey filter over the same image. A real untextured render goes there.</p>
+      <div class="meta">
+        <div>
+          <h3 class="tbc">Flayed Beast</h3>
+          <p>Texture and look development on a model by Kurtis Dawe. Exposed muscle, tendon and bone, each with its own surface response, lit in open desert daylight. Drag the slash to compare the model with the finished look.</p>
+        </div>
+        <dl class="credits">
+          <dt>Role</dt><dd>Texture / Lookdev</dd>
+          <dt>Model</dt><dd>Kurtis Dawe</dd>
+          <dt>Mentor</dt><dd class="tbc">Solene Chan-Lam, texture mentorship</dd>
+          <dt>Software</dt><dd class="tbc">To be listed</dd>
+          <dt>Date</dt><dd>May 2024</dd>
+        </dl>
+      </div>
+    </article>
+
+    <article class="plate">
+      <div class="mosaic">
+        <button class="shot a" type="button" data-full="md-reptile.jpg" data-cap="Spined Reptile, full view. Model by Kurtis Dawe."><img src="md-reptile.jpg" alt="Spined reptile creature, side view, ochre and rust scales"></button>
+        <button class="shot b" type="button" data-full="md-reptile-back.jpg" data-cap="Spined Reptile, back and quills."><img src="md-reptile-back.jpg" alt="Back view of the reptile showing quills fanning out"></button>
+        <button class="shot c" type="button" data-full="md-reptile-detail.jpg" data-cap="Spined Reptile, scale color breaks along the shoulder."><img src="md-reptile-detail.jpg" alt="Close view of shoulder scales and spines"></button>
+        <button class="shot d" type="button" data-full="md-reptile-head.jpg" data-cap="Spined Reptile, head. Wet teeth and gums."><img src="md-reptile-head.jpg" alt="Reptile head with open jaws and teeth"></button>
+        <button class="shot e" type="button" data-full="md-reptile-feet.jpg" data-cap="Spined Reptile, feet and claws."><img src="md-reptile-feet.jpg" alt="Reptile feet and claws on a dark floor"></button>
+      </div>
+      <div class="meta">
+        <div>
+          <h3 class="tbc">Spined Reptile</h3>
+          <p>Texture and look development on a model by Kurtis Dawe. Scale color runs from ochre through rust to charcoal, with translucent quills, worn claws, and wet teeth and saliva. Five views, from the full body down to the feet.</p>
+        </div>
+        <dl class="credits">
+          <dt>Role</dt><dd>Texture / Lookdev</dd>
+          <dt>Model</dt><dd>Kurtis Dawe</dd>
+          <dt>Software</dt><dd class="tbc">To be listed</dd>
+          <dt>Date</dt><dd>August 2023</dd>
+        </dl>
+      </div>
+    </article>
+
+    <div class="pair">
+      <article class="plate bust">
+        <button class="shot" type="button" data-full="md-bust.jpg" data-cap="Goblin Bust."><img src="md-bust.jpg" alt="Creature bust with yellow eyes, spined scalp and bared teeth"></button>
+        <div class="meta" style="grid-template-columns:1fr">
+          <div>
+            <h3 class="tbc">Goblin Bust</h3>
+            <p>Creature bust: mottled skin, a spined scalp, yellow eyes and a rough cloth collar. <span class="tbc">Finished during a CGMA course.</span></p>
+          </div>
+          <dl class="credits">
+            <dt>Role</dt><dd>Texture / Lookdev</dd>
+            <dt>Model</dt><dd class="tbc">To confirm</dd>
+            <dt>Date</dt><dd>July 2023</dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="plate mech">
+        <button class="shot t" type="button" data-full="md-mech.jpg" data-cap="Mech, look development render with chrome and grey reference spheres."><img src="md-mech.jpg" alt="Robot in a T pose, pink, teal and orange paint, with chrome and grey reference spheres"></button>
+        <button class="shot n" type="button" data-full="md-mech-night.jpg" data-cap="Mech, night shot."><img src="md-mech-night.jpg" alt="The same robot under a streetlight at night with stars behind"></button>
+        <div class="meta" style="grid-template-columns:1fr">
+          <div>
+            <h3 class="tbc">Mech</h3>
+            <p>Hard-surface look development. Pink, teal and orange paint with chipped edges, shown on a neutral sweep with chrome and grey reference spheres, then placed in a night scene.</p>
+          </div>
+          <dl class="credits">
+            <dt>Role</dt><dd>Texture / Lookdev</dd>
+            <dt>Model</dt><dd class="tbc">To confirm</dd>
+            <dt>Date</dt><dd>April 2023</dd>
+          </dl>
+        </div>
+      </article>
+    </div>
+
+    <article class="plate plane">
+      <button class="shot" type="button" data-full="md-plane.jpg" data-cap="Dive Bomber, dirt and wear pass."><img src="md-plane.jpg" alt="Second World War dive bomber with scratched wings and a faded yellow nose"></button>
+      <div class="txt">
+        <h3 class="tbc">Dive Bomber</h3>
+        <p>Hard-surface texturing with a dirt and wear pass: scratches across the wings, streaking behind the engine, a faded yellow nose and tail band.</p>
+        <div class="meta">
+          <dl class="credits">
+            <dt>Role</dt><dd>Texture / Lookdev</dd>
+            <dt>Model</dt><dd class="tbc">To confirm</dd>
+            <dt>Date</dt><dd>January 2023</dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section id="breakdowns">
+    <div class="head">
+      <h2>Breakdowns</h2>
+      <span class="label">SCAD studio projects, 2022</span>
+    </div>
+    <div class="cards">
+      <button class="card" type="button" data-video="Studio 2 Breakdown" aria-label="Play Studio 2 Breakdown">
+        <span class="time">0:42</span>
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect x="2" y="2" width="96" height="96" fill="none" stroke="#ececec" stroke-width="2"/>
+          <text x="30" y="48" text-anchor="middle" font-family="Baskerville, 'Libre Baskerville', 'Noto Serif', Georgia, serif" font-size="42" fill="none" stroke="#ececec" stroke-width="1.1">M</text>
+          <text x="70" y="90" text-anchor="middle" font-family="Baskerville, 'Libre Baskerville', 'Noto Serif', Georgia, serif" font-size="42" fill="none" stroke="#ececec" stroke-width="1.1">D</text>
+          <line x1="20" y1="88" x2="80" y2="14" stroke="#ececec" stroke-width="1.3"/>
+        </svg>
+        <span class="t">Surface Texturing / Look Development<br>Studio 2 Breakdown</span>
+        <span class="label go">Play</span>
+      </button>
+      <button class="card" type="button" data-video="Studio 1 Breakdown" aria-label="Play Studio 1 Breakdown">
+        <span class="time tbc">0:00</span>
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect x="2" y="2" width="96" height="96" fill="none" stroke="#ececec" stroke-width="2"/>
+          <text x="30" y="48" text-anchor="middle" font-family="Baskerville, 'Libre Baskerville', 'Noto Serif', Georgia, serif" font-size="42" fill="none" stroke="#ececec" stroke-width="1.1">M</text>
+          <text x="70" y="90" text-anchor="middle" font-family="Baskerville, 'Libre Baskerville', 'Noto Serif', Georgia, serif" font-size="42" fill="none" stroke="#ececec" stroke-width="1.1">D</text>
+          <line x1="20" y1="88" x2="80" y2="14" stroke="#ececec" stroke-width="1.3"/>
+        </svg>
+        <span class="t">Surface Texturing / Look Development<br>Studio 1 Breakdown</span>
+        <span class="label go">Play</span>
+      </button>
+    </div>
+    <p class="note">Both cards are rebuilt from his Instagram title cards. Each one opens the same video frame as the reel.</p>
+  </section>
+
+  <section id="archive">
+    <div class="head">
+      <h2>Earlier Studies</h2>
+      <span class="label">Coursework and sketchbook</span>
+    </div>
+    <div class="arch">
+      <figure><button class="shot" type="button" data-full="md-arch-sketch.jpg" data-cap="Character sketch, pencil."><img src="md-arch-sketch.jpg" alt="Pencil sketch of a boy in a cap"></button><figcaption>Character sketch, pencil</figcaption></figure>
+      <figure><button class="shot" type="button" data-full="md-arch-bust.jpg" data-cap="Goblin bust, alternate skin."><img src="md-arch-bust.jpg" alt="Goblin bust with a paler skin treatment"></button><figcaption>Bust, alternate skin</figcaption></figure>
+      <figure><button class="shot" type="button" data-full="md-arch-dragon.jpg" data-cap="Jade dragon, subsurface study."><img src="md-arch-dragon.jpg" alt="Translucent green dragon statue on a sidewalk"></button><figcaption>Jade dragon</figcaption></figure>
+      <figure><button class="shot" type="button" data-full="md-arch-starship.jpg" data-cap="Starfighter, hard surface."><img src="md-arch-starship.jpg" alt="White and red starfighter on landing struts"></button><figcaption>Starfighter</figcaption></figure>
+      <figure><button class="shot" type="button" data-full="md-arch-lego.jpg" data-cap="Toy figure, plastic shader."><img src="md-arch-lego.jpg" alt="Yellow toy brick figure, seated"></button><figcaption>Plastic shader</figcaption></figure>
+      <figure><button class="shot" type="button" data-full="md-arch-cloth.jpg" data-cap="Cloth simulation."><img src="md-arch-cloth.jpg" alt="Mannequin in a pink skirt and top, mid stride"></button><figcaption>Cloth simulation</figcaption></figure>
+    </div>
+    <p class="note">These six are small grid thumbnails, so they are soft. Captions are my read of the images and need his real titles.</p>
+  </section>
+
+  <section id="about">
+    <div class="head">
+      <h2>About</h2>
+      <span class="label">Michael DeLisi</span>
+    </div>
+    <div class="about">
+      <div>
+        <p class="big">I texture and look-dev creatures and hard-surface assets: skin, scale, chipped paint, rust and everything light does when it hits them.</p>
+        <p>I studied Visual Effects at the Savannah College of Art and Design and graduated in 2022. <span class="tbc">Since then I have kept building my eye through mentorships and courses, working on models from artists like Kurtis Dawe.</span></p>
+        <p>I sculpt in ZBrush and still draw with a pencil. <span class="tbc">I am looking for texture and look development work on film, series and game cinematics.</span></p>
+        <p class="note">Draft bio written from his Instagram. He should rewrite it in his own words, and decide whether texturing or sculpting leads.</p>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:12px">Toolset</div>
+        <ul class="tools">
+          <li>ZBrush</li>
+          <li class="tbc">Substance 3D Painter</li>
+          <li class="tbc">Mari</li>
+          <li class="tbc">Maya</li>
+          <li class="tbc">Arnold</li>
+          <li class="tbc">Nuke</li>
+        </ul>
+        <p class="note">Only ZBrush is confirmed. The rest are typical lookdev tools as placeholders.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="head">
+      <h2>Contact</h2>
+      <span class="label tbc">Open to work</span>
+    </div>
+    <a class="mail tbc" href="mailto:michael.delisi1999@gmail.com">michael.delisi1999@gmail.com</a>
+    <div class="links">
+      <a href="https://www.instagram.com/michael.delisi/" target="_blank" rel="noopener">Instagram</a>
+      <a class="tbc" href="#contact">Resume (PDF)</a>
+      <a class="tbc" href="#contact">LinkedIn</a>
+      <a class="tbc" href="#contact">ArtStation</a>
+    </div>
+    <p class="note">Email is read off his reel title card. Resume, LinkedIn and ArtStation are empty slots until he sends links.</p>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 Michael DeLisi. Creature models by Kurtis Dawe where credited. All work shown with credit to its collaborators.
+    <!-- build 0.1, 2026-10-07 -->
+  </div>
+</footer>
+
+<dialog id="lightbox" aria-label="Image viewer">
+  <div class="dlg" id="lbBody">
+    <button class="x" type="button" data-close aria-label="Close">&times;</button>
+    <img id="lbImg" src="" alt="">
+    <div class="cap" id="lbCap"></div>
+  </div>
+</dialog>
+
+<dialog id="player" aria-label="Video player">
+  <div class="dlg" id="plBody">
+    <button class="x" type="button" data-close aria-label="Close">&times;</button>
+    <div class="frame">
+      <img id="plPoster" src="md-beast.jpg" alt="">
+      <div>
+        <h4 id="plTitle">Demo Reel</h4>
+        <p>Video slot. Michael's Vimeo or YouTube link drops into this frame and plays here, full width, with sound.</p>
+      </div>
+    </div>
+    <div class="cap">Stand-in only. No video is loaded yet.</div>
+  </div>
+</dialog>
+
+<!-- DEV BADGE: remove this block and the .dev/.toast CSS before the site goes public -->
+<div class="dev" id="dev">
+  <button type="button" id="verBtn">draft v0.1 &middot; Oct 7 2026</button>
+  <button type="button" id="notesBtn" aria-pressed="true">notes: on</button>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  "use strict";
+  var BUILD = (document.querySelector('meta[name="build"]') || {}).content || "0.1";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* toast + dev badge */
+  var toastEl = document.getElementById("toast"), toastT = 0;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("on");
+    clearTimeout(toastT);
+    toastT = setTimeout(function(){ toastEl.classList.remove("on"); }, 1800);
+  }
+  document.getElementById("verBtn").addEventListener("click", function(){
+    toast("draft v" + BUILD + " loaded");
+  });
+  var notesBtn = document.getElementById("notesBtn");
+  notesBtn.addEventListener("click", function(){
+    var off = document.body.classList.toggle("notes-off");
+    notesBtn.textContent = off ? "notes: off" : "notes: on";
+    notesBtn.setAttribute("aria-pressed", off ? "false" : "true");
+  });
+
+  /* slash wipe */
+  var wipe = document.getElementById("wipe");
+  var clay = document.getElementById("wipeClay");
+  var line = document.getElementById("wipeLine");
+  var balls = document.getElementById("wipeBalls");
+  var tagClay = document.getElementById("tagClay");
+  var tagFinal = document.getElementById("tagFinal");
+  var SK = 9, pos = 50, touched = false, dragging = false;
+  function setWipe(p){
+    pos = Math.max(0, Math.min(100, p));
+    var a = pos + SK, b = pos - SK;
+    clay.style.clipPath = "polygon(0% 0%, " + a + "% 0%, " + b + "% 100%, 0% 100%)";
+    clay.style.webkitClipPath = clay.style.clipPath;
+    line.setAttribute("x1", a); line.setAttribute("x2", b);
+    balls.style.left = pos + "%";
+    tagClay.style.right = "calc(" + (100 - b) + "% + 10px)";
+    tagFinal.style.left = "calc(" + b + "% + 10px)";
+    wipe.setAttribute("aria-valuenow", Math.round(pos));
+  }
+  function fromEvent(e){
+    var r = wipe.getBoundingClientRect();
+    setWipe((e.clientX - r.left) / r.width * 100);
+  }
+  wipe.addEventListener("pointerdown", function(e){
+    touched = true; dragging = true;
+    try { wipe.setPointerCapture(e.pointerId); } catch (err) {}
+    fromEvent(e);
+  });
+  wipe.addEventListener("pointermove", function(e){ if (dragging) fromEvent(e); });
+  function endDrag(){ dragging = false; }
+  wipe.addEventListener("pointerup", endDrag);
+  wipe.addEventListener("pointercancel", endDrag);
+  wipe.addEventListener("keydown", function(e){
+    if (e.key === "ArrowLeft"){ touched = true; setWipe(pos - 4); e.preventDefault(); }
+    if (e.key === "ArrowRight"){ touched = true; setWipe(pos + 4); e.preventDefault(); }
+  });
+  setWipe(50);
+  if (!reduce && "IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      var t0 = null, from = 96, to = 50, dur = 1300;
+      function step(t){
+        if (touched) return;
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / dur);
+        var ease = 1 - Math.pow(1 - k, 3);
+        setWipe(from + (to - from) * ease);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }, { threshold: 0.45 });
+    io.observe(wipe);
+  }
+
+  /* lightbox */
+  var lb = document.getElementById("lightbox");
+  var lbImg = document.getElementById("lbImg");
+  var lbCap = document.getElementById("lbCap");
+  function openDlg(d){
+    if (d.showModal) d.showModal(); else d.setAttribute("open", "");
+  }
+  function closeDlg(d){
+    if (d.close) d.close(); else d.removeAttribute("open");
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-full]"), function(b){
+    b.addEventListener("click", function(){
+      lbImg.src = b.getAttribute("data-full");
+      lbImg.alt = b.getAttribute("data-cap") || "";
+      lbCap.textContent = b.getAttribute("data-cap") || "";
+      openDlg(lb);
+    });
+  });
+
+  /* video stand-in player */
+  var pl = document.getElementById("player");
+  var plTitle = document.getElementById("plTitle");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-video]"), function(b){
+    b.addEventListener("click", function(){
+      plTitle.textContent = b.getAttribute("data-video");
+      openDlg(pl);
+    });
+  });
+
+  /* close: X button, or a tap on the dark area around the content */
+  [lb, pl].forEach(function(d){
+    d.addEventListener("click", function(e){
+      var t = e.target;
+      if (t.hasAttribute("data-close") || t === d || t.classList.contains("dlg") || t === lbImg) closeDlg(d);
+    });
+  });
+})();
+</script>
+</body>
+</html>
